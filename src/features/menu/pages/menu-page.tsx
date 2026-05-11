@@ -1,17 +1,20 @@
 
 import { useState } from 'react'
-import { menuCategories, mockMenu, type MenuCategory } from '../data/mock-menu'
+import { menuCategories, mockMenu, type MenuCategory, type MenuItem } from '../data/mock-menu'
 import { formatPrice } from '@/utils/format-price'
 import { cn } from '@/lib/utils'
+import MenuItemDrawer from '../components/menu-item-drawer'
 
 export default function MenuPage() {
   const [active, setActive] = useState<MenuCategory | 'all'>('all')
+  const [selected, setSelected] = useState<MenuItem | null>(null)
 
   const items =
     active === 'all' ? mockMenu : mockMenu.filter((item) => item.category === active)
 
   return (
     <div className="min-h-screen bg-background">
+      <MenuItemDrawer item={selected} onClose={() => setSelected(null)} />
       {/* Hero */}
       <section className="border-b border-border px-6 py-16 text-center">
         <p className="mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground">
@@ -62,23 +65,27 @@ export default function MenuPage() {
                     </h2>
                     <div className="h-px flex-1 bg-border" />
                   </div>
-                  <ItemGrid items={catItems} />
+                  <ItemGrid items={catItems} onSelect={setSelected} />
                 </section>
               )
             })
         ) : (
-          <ItemGrid items={items} />
+          <ItemGrid items={items} onSelect={setSelected} />
         )}
       </main>
     </div>
   )
 }
 
-function ItemGrid({ items }: { items: typeof mockMenu }) {
+function ItemGrid({ items, onSelect }: { items: typeof mockMenu; onSelect: (item: MenuItem) => void }) {
   return (
     <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
-        <div key={item.id} className="group relative bg-background p-6 transition-colors hover:bg-muted/40">
+        <button
+          key={item.id}
+          onClick={() => onSelect(item)}
+          className="group relative bg-background p-6 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+        >
           {/* Image */}
           <div className="mb-4 overflow-hidden">
             <img
@@ -105,7 +112,10 @@ function ItemGrid({ items }: { items: typeof mockMenu }) {
           <p className="mt-3 text-sm font-semibold text-foreground">
             {formatPrice(item.price)}
           </p>
-        </div>
+          <p className="mt-1 text-[0.6rem] font-semibold tracking-widest uppercase text-muted-foreground">
+            {item.sizes.length} size{item.sizes.length > 1 ? 's' : ''} available
+          </p>
+        </button>
       ))}
     </div>
   )

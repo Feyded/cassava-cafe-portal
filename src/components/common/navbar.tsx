@@ -1,12 +1,10 @@
-import { Coffee, ShoppingBag } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
+import { Coffee } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
-  { label: 'Menu', href: '/products' },
-  { label: 'About', href: '#about' },
-  { label: 'Visit Us', href: '#visit' },
-]
+  { label: "Menu", href: "menu" },
+  { label: "Visit Us", href: "visit" },
+];
 
 export default function Navbar() {
   return (
@@ -31,12 +29,7 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-
-        <Button variant="ghost" size="icon">
-          <ShoppingBag className="size-4" />
-          <span className="sr-only">Shopping bag</span>
-        </Button>
       </nav>
     </header>
-  )
+  );
 }
