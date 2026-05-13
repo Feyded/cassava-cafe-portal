@@ -22,7 +22,7 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <Link
-              to="/products"
+              to="/menu"
               className={cn(buttonVariants({ size: 'lg' }), 'gap-2')}
             >
               Explore Menu

@@ -3,6 +3,7 @@ import AdminProductsPage from "@/features/admin/products/pages/admin-products-pa
 import LoginPage from "@/features/auth/pages/login-page";
 import HomePage from "@/features/home/pages/home-page";
 import MenuPage from "@/features/menu/pages/menu-page";
+import VisitPage from "@/features/visit/pages/visit-page";
 import { createBrowserRouter } from "react-router-dom";
 import PublicLayout from "../layouts/public-layout";
 
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "/", element: <HomePage /> },
           { path: "/menu", element: <MenuPage /> },
+          { path: "/visit", element: <VisitPage /> },
           { path: "/login", element: <LoginPage /> },
         ],
       },
