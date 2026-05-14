@@ -14,7 +14,7 @@ export function useStoreInfo(): UseStoreInfoResult {
     const timer = setTimeout(() => {
       setData(storeInfo);
       setIsLoading(false);
-    }, 1000);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);

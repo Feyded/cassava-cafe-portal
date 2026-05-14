@@ -18,15 +18,11 @@ export default function VisitPage() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Find us
           </p>
-          {isLoading ? (
-            <Skeleton className="h-10 w-64" />
-          ) : (
             <h1 className="font-heading text-3xl font-semibold leading-snug md:text-4xl">
               Come visit us.
               <br />
               We saved you a seat.
             </h1>
-          )}
         </div>
       </section>
 
