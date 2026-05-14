@@ -23,8 +23,6 @@ export const router = createBrowserRouter([
           { path: "/login", element: <LoginPage /> },
         ],
       },
-
-      //ADMIN ROUTES
       {
         path: "/admin",
         children: [
