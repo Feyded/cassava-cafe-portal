@@ -28,12 +28,12 @@ export default function HeroSection() {
               Explore Menu
               <ArrowRight className="size-4" />
             </Link>
-            <a
-              href="#about"
+            <Link
+              to="/visit"
               className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
             >
-              Our Story
-            </a>
+              Visit Us
+            </Link>
           </div>
         </div>
 
