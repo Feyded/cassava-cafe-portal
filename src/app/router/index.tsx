@@ -7,13 +7,11 @@ import MenuPage from "@/features/menu/pages/menu-page";
 import VisitPage from "@/features/visit/pages/visit-page";
 import { createBrowserRouter } from "react-router-dom";
 import PublicLayout from "../layouts/public-layout";
+import AdminLayout from "../layouts/admin-layout";
 
 export const router = createBrowserRouter([
   {
     children: [
-      {
-        children: [{ path: "*", element: <NotFoundPage /> }],
-      },
       {
         element: <PublicLayout />,
         children: [
@@ -25,11 +23,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin",
+        element: <AdminLayout />,
         children: [
           { path: "dashboard", element: <AdminDashboardPage /> },
           { path: "products", element: <AdminProductsPage /> },
         ],
       },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);
