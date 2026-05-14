@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator'
 
 const stats = [
-  { value: '2019', label: 'Est.' },
+  { value: '2024', label: 'Est.' },
   { value: '12+', label: 'Origins sourced' },
   { value: 'Daily', label: 'Baked in-house' },
 ]
@@ -21,12 +21,11 @@ export default function AboutSection() {
               served with care.
             </h2>
             <p className="mb-4 leading-relaxed text-muted-foreground">
-              Cassava Café was born from a simple belief — that great coffee and honest
-              food should be accessible to everyone. We work directly with farmers
-              across Ethiopia, Colombia, and Indonesia to bring you beans with a story.
+              Cassava Café was born from a simple belief that great coffee and honest
+              food should be accessible to everyone.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              Every pastry is baked in-house before dawn. Our menu shifts with the
+              Every pastry is baked in house before dawn. Our menu shifts with the
               seasons to reflect what's fresh, local, and worth celebrating.
             </p>
           </div>

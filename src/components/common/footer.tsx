@@ -7,7 +7,7 @@ const footerGroups = [
     label: 'Navigate',
     links: [
       { label: 'Home', href: '/' },
-      { label: 'Menu', href: '/products' },
+      { label: 'Menu', href: '/menu' },
     ],
   },
   {

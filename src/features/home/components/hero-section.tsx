@@ -17,7 +17,7 @@ export default function HeroSection() {
             slow down.
           </h1>
           <p className="mb-10 max-w-md leading-relaxed text-muted-foreground">
-            We source the finest single-origin beans and bake everything in-house.
+            We source the finest single origin beans and bake everything in-house.
             Come for the coffee, stay for the quiet.
           </p>
           <div className="flex flex-wrap items-center gap-4">

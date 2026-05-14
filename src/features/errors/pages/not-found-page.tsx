@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Coffee, Home } from "lucide-react";
+import { Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function NotFoundPage() {
