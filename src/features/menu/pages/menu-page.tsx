@@ -94,7 +94,7 @@ export default function MenuPage() {
 
 function ItemGrid({ items }: { items: any[] }) {
   return (
-    <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
         <button
           key={item.id}
