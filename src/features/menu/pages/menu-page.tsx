@@ -1,16 +1,25 @@
-
-import { useState } from 'react'
-import { menuCategories, mockMenu, type MenuCategory, type MenuItem } from '../data/mock-menu'
-import { formatPrice } from '@/utils/format-price'
-import { cn } from '@/lib/utils'
-import MenuItemDrawer from '../components/menu-item-drawer'
+import { useState } from "react";
+import {
+  menuCategories,
+  mockMenu,
+  type MenuCategory,
+  type MenuItem,
+} from "../data/mock-menu";
+import { formatPrice } from "@/utils/format-price";
+import { cn } from "@/lib/utils";
+import MenuItemDrawer from "../components/menu-item-drawer";
+import useGetProductsQuery from "../queries/use-get-products-query";
 
 export default function MenuPage() {
-  const [active, setActive] = useState<MenuCategory | 'all'>('all')
-  const [selected, setSelected] = useState<MenuItem | null>(null)
+  const [active, setActive] = useState<MenuCategory | "all">("all");
+  const [selected, setSelected] = useState<MenuItem | null>(null);
+
+  const products = useGetProductsQuery({ limit: 100, category_id: null });
 
   const items =
-    active === 'all' ? mockMenu : mockMenu.filter((item) => item.category === active)
+    active === "all"
+      ? mockMenu
+      : mockMenu.filter((item) => item.category === active);
 
   return (
     <div className="min-h-screen bg-background">
@@ -37,10 +46,10 @@ export default function MenuPage() {
                 key={cat.value}
                 onClick={() => setActive(cat.value)}
                 className={cn(
-                  'shrink-0 border-b-2 px-4 py-4 text-xs font-semibold tracking-widest uppercase transition-colors',
+                  "shrink-0 border-b-2 px-4 py-4 text-xs font-semibold tracking-widest uppercase transition-colors",
                   active === cat.value
-                    ? 'border-foreground text-foreground'
-                    : 'border-transparent text-muted-foreground hover:text-foreground',
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground",
                 )}
               >
                 {cat.label}
@@ -52,11 +61,11 @@ export default function MenuPage() {
 
       {/* Grid */}
       <main className="mx-auto max-w-6xl px-6 py-12">
-        {active === 'all' ? (
+        {active === "all" ? (
           menuCategories
-            .filter((c) => c.value !== 'all')
+            .filter((c) => c.value !== "all")
             .map((cat) => {
-              const catItems = mockMenu.filter((i) => i.category === cat.value)
+              const catItems = mockMenu.filter((i) => i.category === cat.value);
               return (
                 <section key={cat.value} className="mb-16">
                   <div className="mb-6 flex items-center gap-4">
@@ -67,17 +76,23 @@ export default function MenuPage() {
                   </div>
                   <ItemGrid items={catItems} onSelect={setSelected} />
                 </section>
-              )
+              );
             })
         ) : (
           <ItemGrid items={items} onSelect={setSelected} />
         )}
       </main>
     </div>
-  )
+  );
 }
 
-function ItemGrid({ items, onSelect }: { items: typeof mockMenu; onSelect: (item: MenuItem) => void }) {
+function ItemGrid({
+  items,
+  onSelect,
+}: {
+  items: typeof mockMenu;
+  onSelect: (item: MenuItem) => void;
+}) {
   return (
     <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
@@ -113,11 +128,10 @@ function ItemGrid({ items, onSelect }: { items: typeof mockMenu; onSelect: (item
             {formatPrice(item.price)}
           </p>
           <p className="mt-1 text-[0.6rem] font-semibold tracking-widest uppercase text-muted-foreground">
-            {item.sizes.length} size{item.sizes.length > 1 ? 's' : ''} available
+            {item.sizes.length} size{item.sizes.length > 1 ? "s" : ""} available
           </p>
         </button>
       ))}
     </div>
-  )
+  );
 }
-
