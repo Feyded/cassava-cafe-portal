@@ -1,11 +1,16 @@
 import { api } from "@/services/api/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useGetProductsQuery() {
+type GetProductsParams = {
+  limit?: number;
+  category_id?: number | null;
+};
+
+export default function useGetProductsQuery(params: GetProductsParams) {
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", params],
     queryFn: async () => {
-      const { data } = await api.get("/products");
+      const { data } = await api.get("/products", { params });
       return data;
     },
   });
