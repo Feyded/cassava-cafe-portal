@@ -8,14 +8,19 @@ import VisitPage from "@/features/visit/pages/visit-page";
 import { createBrowserRouter } from "react-router-dom";
 import PublicLayout from "../layouts/public-layout";
 import AdminLayout from "../layouts/admin-layout";
+import { GuestOnlyRoute } from "../guards/GuestOnlyRoute";
+import { ProtectedRoute } from "../guards/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
     children: [
       {
+        element: <GuestOnlyRoute />,
+        children: [{ path: "/login", element: <LoginPage /> }],
+      },
+      {
         element: <PublicLayout />,
         children: [
-          { path: "/login", element: <LoginPage /> },
           { path: "/", element: <HomePage /> },
           { path: "/menu", element: <MenuPage /> },
           { path: "/visit", element: <VisitPage /> },
@@ -23,10 +28,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <AdminLayout />,
+        element: <ProtectedRoute />,
         children: [
-          { path: "dashboard", element: <AdminDashboardPage /> },
-          { path: "products", element: <AdminProductsPage /> },
+          {
+            element: <AdminLayout />,
+            children: [
+              { path: "dashboard", element: <AdminDashboardPage /> },
+              { path: "products", element: <AdminProductsPage /> },
+            ],
+          },
         ],
       },
       { path: "*", element: <NotFoundPage /> },
