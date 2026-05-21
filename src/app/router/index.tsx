@@ -15,10 +15,10 @@ export const router = createBrowserRouter([
       {
         element: <PublicLayout />,
         children: [
+          { path: "/login", element: <LoginPage /> },
           { path: "/", element: <HomePage /> },
           { path: "/menu", element: <MenuPage /> },
           { path: "/visit", element: <VisitPage /> },
-          { path: "/login", element: <LoginPage /> },
         ],
       },
       {

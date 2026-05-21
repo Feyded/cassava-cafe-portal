@@ -20,7 +20,7 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="border-b border-border bg-[linear-gradient(180deg,theme(colors.secondary/.6),transparent)] px-6 py-16 text-center">
+      <section className="border-b border-border bg-[linear-gradient(180deg,var(--color-secondary),transparent)]/60 px-6 py-16 text-center">
         <p className="mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground">
           Cassava Café
         </p>
