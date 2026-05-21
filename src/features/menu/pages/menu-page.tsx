@@ -92,11 +92,7 @@ export default function MenuPage() {
   );
 }
 
-function ItemGrid({
-  items,
-}: {
-  items: any[];
-}) {
+function ItemGrid({ items }: { items: any[] }) {
   return (
     <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
