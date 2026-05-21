@@ -1,29 +1,18 @@
 import { useState } from "react";
-import {
-  menuCategories,
-  mockMenu,
-  type MenuCategory,
-  type MenuItem,
-} from "../data/mock-menu";
+import { menuCategories } from "../data/mock-menu";
 import { formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
-import MenuItemDrawer from "../components/menu-item-drawer";
 import useGetProductsQuery from "../queries/use-get-products-query";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MenuPage() {
-  const [active, setActive] = useState<MenuCategory | "all">("all");
-  const [selected, setSelected] = useState<MenuItem | null>(null);
+  const [active, setActive] = useState<number | null>(null);
 
-  const products = useGetProductsQuery({ limit: 100, category_id: null });
-
-  const items =
-    active === "all"
-      ? mockMenu
-      : mockMenu.filter((item) => item.category === active);
+  const products = useGetProductsQuery({ limit: 100, category_id: active });
 
   return (
     <div className="min-h-screen bg-background">
-      <MenuItemDrawer item={selected} onClose={() => setSelected(null)} />
       {/* Hero */}
       <section className="border-b border-border px-6 py-16 text-center">
         <p className="mb-2 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground">
@@ -61,11 +50,28 @@ export default function MenuPage() {
 
       {/* Grid */}
       <main className="mx-auto max-w-6xl px-6 py-12">
-        {active === "all" ? (
+        {products.isFetching ? (
+          <div className="flex gap-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Card key={i} className="w-full">
+                <CardHeader>
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-4 w-1/2" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="aspect-video w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : active === null ? (
           menuCategories
-            .filter((c) => c.value !== "all")
+            .filter((c) => c.value !== null)
             .map((cat) => {
-              const catItems = mockMenu.filter((i) => i.category === cat.value);
+              const catItems = products.data.data.filter(
+                ({ category_id }: { category_id: number }) =>
+                  category_id === cat.value,
+              );
               return (
                 <section key={cat.value} className="mb-16">
                   <div className="mb-6 flex items-center gap-4">
@@ -74,12 +80,12 @@ export default function MenuPage() {
                     </h2>
                     <div className="h-px flex-1 bg-border" />
                   </div>
-                  <ItemGrid items={catItems} onSelect={setSelected} />
+                  <ItemGrid items={catItems} />
                 </section>
               );
             })
         ) : (
-          <ItemGrid items={items} onSelect={setSelected} />
+          <ItemGrid items={products.data.data} />
         )}
       </main>
     </div>
@@ -88,23 +94,20 @@ export default function MenuPage() {
 
 function ItemGrid({
   items,
-  onSelect,
 }: {
-  items: typeof mockMenu;
-  onSelect: (item: MenuItem) => void;
+  items: any[];
 }) {
   return (
     <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
         <button
           key={item.id}
-          onClick={() => onSelect(item)}
           className="group relative bg-background p-6 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
         >
           {/* Image */}
           <div className="mb-4 overflow-hidden">
             <img
-              src={item.image}
+              src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&h=400&fit=crop"
               alt={item.name}
               className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
@@ -125,10 +128,15 @@ function ItemGrid({
             {item.description}
           </p>
           <p className="mt-3 text-sm font-semibold text-foreground">
-            {formatPrice(item.price)}
+            {item.variants[0].price === item.variants.at(-1)?.price
+              ? formatPrice(item.variants[0].price)
+              : `${formatPrice(item.variants[0].price)} - ${formatPrice(
+                  item.variants.at(-1)?.price,
+                )}`}
           </p>
           <p className="mt-1 text-[0.6rem] font-semibold tracking-widest uppercase text-muted-foreground">
-            {item.sizes.length} size{item.sizes.length > 1 ? "s" : ""} available
+            {item.variants.length} size{item.variants.length > 1 ? "s" : ""}{" "}
+            available
           </p>
         </button>
       ))}
