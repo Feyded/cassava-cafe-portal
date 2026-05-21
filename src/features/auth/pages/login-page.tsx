@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useNavigate } from "react-router-dom";
 
 const highlights = [
   "Track orders and product availability in one place.",
@@ -31,6 +32,7 @@ const schema = z.object({
 
 export default function LoginPage() {
   const login = useLoginMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -47,7 +49,8 @@ export default function LoginPage() {
   const handleLogin = async (payload: { email: string; password: string }) => {
     try {
       const res = await login.mutateAsync(payload);
-      console.log(res);
+      localStorage.setItem("auth_token", res.token);
+      navigate("/admin/dashboard");
     } catch (error) {
       console.log(error);
     }
