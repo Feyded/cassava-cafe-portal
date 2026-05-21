@@ -85,7 +85,7 @@ export default function Navbar() {
           {me.isLoading ? null : me.data ? (
             <li key="Logout">
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
