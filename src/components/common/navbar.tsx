@@ -57,7 +57,7 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="start">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link to="/admin/dashboard">Dashboard</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -97,7 +97,7 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="start">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link to="/admin/dashboard">Dashboard</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
