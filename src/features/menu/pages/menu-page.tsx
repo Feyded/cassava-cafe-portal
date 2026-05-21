@@ -51,7 +51,7 @@ export default function MenuPage() {
       {/* Grid */}
       <main className="mx-auto max-w-6xl px-6 py-12">
         {products.isFetching ? (
-          <div className="flex gap-2">
+          <div className="flex">
             {Array.from({ length: 3 }).map((_, i) => (
               <Card key={i} className="w-full">
                 <CardHeader>
