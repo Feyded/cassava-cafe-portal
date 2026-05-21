@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Coffee, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertCircleIcon, Coffee, ShieldCheck, Sparkles } from "lucide-react";
 import useLoginMutation from "../queries/use-login-mutation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const highlights = [
   "Track orders and product availability in one place.",
@@ -135,6 +136,16 @@ export default function LoginPage() {
                   </p>
                 )}
               </div>
+
+              {login.isError && (
+                <Alert variant="destructive">
+                  <AlertCircleIcon />
+                  <AlertTitle>Login failed</AlertTitle>
+                  <AlertDescription>
+                    Please check your email and password and try again.
+                  </AlertDescription>
+                </Alert>
+              )}
 
               <Button
                 disabled={login.isPending}
