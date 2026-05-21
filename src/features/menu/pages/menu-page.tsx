@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { menuCategories } from "../data/mock-menu";
+import { menuCategories } from "../data/menu";
 import { formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
 import useGetProductsQuery from "../queries/use-get-products-query";
