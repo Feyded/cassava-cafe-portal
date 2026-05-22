@@ -18,6 +18,9 @@ This is a modern cafe management, showcase the history of the cafe, view the men
 - Tailwind CSS only
 - shadcn/ui components when appropriate
 - No external UI libraries
+- Use zod and React Hook Form for forms and validation
+- Use Tanstack Query for data fetching and caching
+- Use React Router for routing
 
 ## Architecture Rules
 
