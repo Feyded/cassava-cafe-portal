@@ -1,9 +1,13 @@
-import { useFeaturedProducts } from '../hooks/use-featured-products'
-import ProductCard from './product-card'
-import ProductCardSkeleton from './product-card-skeleton'
+import useGetProductsQuery from "@/features/menu/queries/use-get-products-query";
+import ProductCard from "./product-card";
+import ProductCardSkeleton from "./product-card-skeleton";
+import type { Product } from "@/features/menu/types/product";
 
 export default function FeaturedProducts() {
-  const { data, isLoading } = useFeaturedProducts()
+  const products = useGetProductsQuery({
+    limit: 6,
+    category_id: null,
+  });
 
   return (
     <section className="py-20 md:py-28">
@@ -18,15 +22,15 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {isLoading
+          {products.isFetching
             ? Array.from({ length: 6 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))
-            : data.map((product) => (
+            : products.data?.data.map((product: Product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

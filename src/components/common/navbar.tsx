@@ -31,9 +31,9 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="items-center gap-8 flex">
           {navLinks.map((link) => (
-            <li key={link.label}>
+            <li className="hidden md:block" key={link.label}>
               <Link
                 to={link.href}
                 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
@@ -46,46 +46,6 @@ export default function Navbar() {
             <li key="Logout">
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <Avatar className="cursor-pointer">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                      className="grayscale"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-40" align="start">
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                      <Link to="/admin/dashboard">Dashboard</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      variant="destructive"
-                      onClick={() => logout.mutate()}
-                    >
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </li>
-          ) : (
-            <li key="Login">
-              <Link
-                to="/login"
-                className="text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Login
-              </Link>
-            </li>
-          )}
-        </ul>
-        <ul className="flex md:hidden">
-          {me.isLoading ? null : me.data ? (
-            <li key="Logout">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
