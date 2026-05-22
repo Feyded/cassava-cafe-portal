@@ -1,25 +1,10 @@
-import { formatPrice } from "@/utils/format-price";
-import type { MenuProduct } from "../types/product";
+import { getPriceLabel } from "../hooks/get-price-label";
+import type { Product} from "../types/product";
 
 type MenuProductGridProps = {
-  items: MenuProduct[];
-  onSelect: (product: MenuProduct) => void;
+  items: Product[];
+  onSelect: (product: Product) => void;
 };
-
-function getPriceLabel(variants: MenuProduct["variants"]) {
-  if (variants.length === 0) {
-    return "Price unavailable";
-  }
-
-  const firstPrice = variants[0].price;
-  const lastPrice = variants.at(-1)?.price ?? firstPrice;
-
-  if (firstPrice === lastPrice) {
-    return formatPrice(firstPrice);
-  }
-
-  return `${formatPrice(firstPrice)} - ${formatPrice(lastPrice)}`;
-}
 
 export default function MenuProductGrid({
   items,
@@ -45,13 +30,6 @@ export default function MenuProductGrid({
             />
           </div>
 
-          {item.bestseller && (
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-secondary-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              Bestseller
-            </span>
-          )}
-
           <div className="space-y-2">
             <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
               {item.name}
@@ -67,7 +45,8 @@ export default function MenuProductGrid({
                 {getPriceLabel(item.variants)}
               </p>
               <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-muted-foreground">
-                {item.variants.length} variant{item.variants.length === 1 ? "" : "s"}
+                {item.variants.length} variant
+                {item.variants.length === 1 ? "" : "s"}
               </p>
             </div>
           </div>

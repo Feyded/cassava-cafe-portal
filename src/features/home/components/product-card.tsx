@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getPriceLabel } from "@/features/menu/hooks/get-price-label";
 import type { Product } from "@/features/menu/types/product";
-import { formatPrice } from "@/utils/format-price";
 interface ProductCardProps {
   product: Product;
 }
@@ -31,9 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardContent>
       <CardFooter className="border-t border-border">
         <span className="font-heading text-base font-semibold">
-          {formatPrice(
-            product.variants ? parseFloat(product.variants[0].price) : 0,
-          )}
+          {getPriceLabel(product.variants)}
         </span>
       </CardFooter>
     </Card>

@@ -6,11 +6,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import MenuProductGrid from "../components/menu-product-grid";
 import ProductDetailsDrawer from "../components/product-details-drawer";
-import type { MenuProduct } from "../types/product";
+import type { Product } from "../types/product";
 
 export default function MenuPage() {
   const [active, setActive] = useState<number | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<MenuProduct | null>(
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(
     null,
   );
 
@@ -78,7 +78,7 @@ export default function MenuPage() {
             .filter((c) => c.value !== null)
             .map((cat) => {
               const catItems = productItems.filter(
-                ({ category_id }) => category_id === cat.value,
+                ({ category_id }: { category_id: number }) => category_id === cat.value,
               );
               return (
                 <section key={cat.value} className="mb-16">

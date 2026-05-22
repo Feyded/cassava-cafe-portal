@@ -7,7 +7,7 @@ export type Product = {
   category_id: number;
   created_at: string;
   updated_at: string;
-  variants: Variant[] | null;
+  variants: Variant[];
   category: Category;
 };
 
@@ -15,7 +15,7 @@ export type Variant = {
   id: number;
   product_id: number;
   name: string;
-  price: string;
+  price: number;
   is_active: boolean;
   created_at: string;
   updated_at: string;
