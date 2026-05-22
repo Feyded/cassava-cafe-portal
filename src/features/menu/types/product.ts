@@ -1,19 +1,32 @@
-export type ProductVariant = {
-  id: number;
-  name: string;
-  price: number;
-};
-
-export type MenuProduct = {
+export type Product = {
   id: number;
   name: string;
   description: string;
-  image?: string | null;
-  bestseller?: boolean;
+  image: string;
+  is_available: boolean;
   category_id: number;
-  variants: ProductVariant[];
+  created_at: string;
+  updated_at: string;
+  variants: Variant[] | null;
+  category: Category;
 };
 
-export type GetProductsResponse = {
-  data: MenuProduct[];
+export type Variant = {
+  id: number;
+  product_id: number;
+  name: string;
+  price: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 };
+
+export type Category = {
+  id: number;
+  name: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+
