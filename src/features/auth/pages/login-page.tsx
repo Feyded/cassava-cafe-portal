@@ -8,13 +8,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircleIcon, Coffee, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  AlertCircleIcon,
+  Coffee,
+  EyeIcon,
+  EyeOffIcon,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import useLoginMutation from "../queries/use-login-mutation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const highlights = [
   "Track orders and product availability in one place.",
@@ -31,6 +39,8 @@ const schema = z.object({
 });
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const login = useLoginMutation();
   const navigate = useNavigate();
 
@@ -130,13 +140,18 @@ export default function LoginPage() {
 
               <div className="space-y-3">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  {...register("password")}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    {...register("password")}
+                  />
+                  <Button onClick={() => setShowPassword((prev) => !prev)} variant="ghost" className="absolute inset-y-0 right-0 px-3">
+                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </Button>
+                </div>
                 {errors.password && (
                   <p className="text-sm text-red-500">
                     {errors.password.message}
