@@ -44,6 +44,19 @@ export default function AdminLayout() {
             <LayoutDashboard className="w-5 h-5" />
             Dashboard
           </NavLink>
+          <NavLink
+            to="/admin/inventory-categories"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
+                isActive
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`
+            }
+          >
+            <LayoutDashboard className="w-5 h-5" />
+            Inventory Categories
+          </NavLink>
 
           <NavLink
             to="/admin/products"

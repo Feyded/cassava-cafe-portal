@@ -1,6 +1,6 @@
 import { api } from "@/services/api/axios";
 import { useQuery } from "@tanstack/react-query";
-import { InventoryCategory } from "../../types/Category";
+import type { InventoryCategory } from "../../types/Category";
 
 type GetInventoryCategoriesParams = {
   search?: string;
