@@ -110,7 +110,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto w-full relative">
+        <main className="flex-1 overflow-y-auto w-full relative p-6">
           <Outlet />
         </main>
       </div>

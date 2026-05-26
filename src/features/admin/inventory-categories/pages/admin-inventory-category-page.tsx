@@ -52,7 +52,7 @@ export default function InventoryCategoriesPage() {
   ];
 
   return (
-    <div className="p-6 space-y-4">
+    <div>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Inventory Categories</h1>
         <Button
