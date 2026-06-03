@@ -12,15 +12,6 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { VariantCategories } from "../data/variants";
 import {
   NativeSelect,
@@ -33,8 +24,8 @@ type ProductModalProps = {
 };
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().min(1, "Description is required"),
+  name: z.string().min(1, "Name is required").max(60),
+  description: z.string().min(1, "Description is required").max(255),
   category_id: z.coerce.number().refine((value) => value !== 0, {
     message: "Category is required",
   }),
