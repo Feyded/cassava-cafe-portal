@@ -148,7 +148,11 @@ export default function LoginPage() {
                     autoComplete="current-password"
                     {...register("password")}
                   />
-                  <Button onClick={() => setShowPassword((prev) => !prev)} variant="ghost" className="absolute inset-y-0 right-0 px-3">
+                  <Button
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    variant="ghost"
+                    className="absolute inset-y-0 right-0 px-3"
+                  >
                     {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                   </Button>
                 </div>
