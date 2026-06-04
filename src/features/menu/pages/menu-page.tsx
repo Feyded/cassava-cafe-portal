@@ -41,7 +41,7 @@ export default function MenuPage() {
                 key={cat.value}
                 onClick={() => setActive(cat.value)}
                 className={cn(
-                  "shrink-0 border-b-2 px-4 py-4 text-xs font-semibold tracking-widest uppercase transition-colors",
+                  "shrink-0 border-b-2 px-4 py-4 text-xs font-semibold tracking-widest uppercase transition-colors cursor-pointer",
                   active === cat.value
                     ? "border-foreground text-foreground"
                     : "border-transparent text-muted-foreground hover:text-foreground",
