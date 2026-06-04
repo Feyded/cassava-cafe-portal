@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 import { ArrowLeft, ArrowRight, Loader } from "lucide-react";
 import { Button } from "./button";
-import { NativeSelect, NativeSelectOption } from "./native-select";
 import {
   Select,
   SelectContent,
