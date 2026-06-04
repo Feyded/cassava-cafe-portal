@@ -19,7 +19,6 @@ export const createColumns = ({ onEdit }: Props): ColumnDef<Product>[] => [
           <AvatarImage
             src={formatFileUrl(row.original.image_path)}
             alt={row.original.name}
-            className="grayscale"
           />
           <AvatarFallback>{row.original.name.charAt(0)}</AvatarFallback>
         </Avatar>
