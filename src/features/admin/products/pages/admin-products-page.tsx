@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import useGetProductsQuery from "@/features/admin/products/queries/use-get-products-query";
 import { DataTable } from "@/components/ui/data-table";
 import { createColumns } from "../components/columns";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ProductModal from "../components/product-modal";
+import type { Product } from "@/features/menu/types/product";
 
 export default function AdminProductPage() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -19,7 +20,7 @@ export default function AdminProductPage() {
     limit: limit,
   });
 
-  const handleEdit = (product: any) => {
+  const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setModalOpen(true);
   };
@@ -29,7 +30,10 @@ export default function AdminProductPage() {
     setModalOpen(true);
   };
 
-  const columns = createColumns({ onEdit: handleEdit });
+  const columns = useMemo(
+    () => createColumns({ onEdit: handleEdit }),
+    [handleEdit],
+  );
 
   return (
     <div className="container mx-auto space-y-8">

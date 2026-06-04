@@ -2,16 +2,15 @@ import { api } from "@/services/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateProductPayload } from "../../types/product";
 
+type UpdateProductArgs = {
+  id: number;
+  payload: CreateProductPayload;
+};
+
 export default function useUpdateProductMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({
-      id,
-      payload,
-    }: {
-      id: number;
-      payload: CreateProductPayload;
-    }) => {
+    mutationFn: async ({ id, payload }: UpdateProductArgs) => {
       const formData = new FormData();
 
       formData.append("name", payload.name);
