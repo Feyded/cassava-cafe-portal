@@ -18,7 +18,7 @@ export default function MenuProductGrid({
           key={item.id}
           type="button"
           onClick={() => onSelect(item)}
-          className="group relative overflow-hidden rounded-3xl border border-border/80 bg-card p-4 text-left shadow-sm transition hover:border-foreground/15 hover:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
+          className="group cursor-pointer relative overflow-hidden rounded-3xl border border-border/80 bg-card p-4 text-left shadow-sm transition hover:border-foreground/15 hover:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:p-5"
         >
           <div className="mb-4 overflow-hidden rounded-2xl bg-muted">
             <img
