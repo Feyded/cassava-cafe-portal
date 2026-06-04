@@ -48,6 +48,13 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    onLimitChange(Number(e.target.value));
+    onPageChange(1);
+  };
+
   return (
     <div className="overflow-hidden rounded-md border">
       <Table>
@@ -102,7 +109,7 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center gap-2">
           <NativeSelect
             value={limit}
-            onChange={(e) => onLimitChange(Number(e.target.value))}
+            onChange={handleItemsPerPageChange}
           >
             {limitOptions.map((option) => (
               <NativeSelectOption key={option} value={option}>
@@ -111,7 +118,11 @@ export function DataTable<TData, TValue>({
             ))}
           </NativeSelect>
           {data.length} of {total}
-          <Button onClick={() => onPageChange(page - 1)} variant="ghost">
+          <Button
+            disabled={page === 1}
+            onClick={() => onPageChange(page - 1)}
+            variant="ghost"
+          >
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <Button
