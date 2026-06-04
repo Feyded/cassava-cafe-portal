@@ -18,6 +18,13 @@ import {
 import { ArrowLeft, ArrowRight, Loader } from "lucide-react";
 import { Button } from "./button";
 import { NativeSelect, NativeSelectOption } from "./native-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,10 +55,8 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleItemsPerPageChange = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    onLimitChange(Number(e.target.value));
+  const handleItemsPerPageChange = (value: number) => {
+    onLimitChange(value);
     onPageChange(1);
   };
 
@@ -106,32 +111,64 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       <div>
-        <div className="flex items-center gap-2">
-          <NativeSelect
-            value={limit}
-            onChange={handleItemsPerPageChange}
-          >
-            {limitOptions.map((option) => (
-              <NativeSelectOption key={option} value={option}>
-                {option}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
-          {data.length} of {total}
-          <Button
-            disabled={page === 1}
-            onClick={() => onPageChange(page - 1)}
-            variant="ghost"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <Button
-            disabled={page * limit >= total}
-            onClick={() => onPageChange(page + 1)}
-            variant="ghost"
-          >
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+        <div className="flex items-center justify-between px-2 py-4">
+          <div className="text-sm text-muted-foreground">
+            Showing <span className="font-medium">{data.length}</span> of{" "}
+            <span className="font-medium">{total}</span> records
+          </div>
+
+          <div className="flex items-center gap-6 lg:gap-8">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-muted-foreground whitespace-nowrap">
+                Rows per page
+              </p>
+              <Select
+                value={String(limit)}
+                onValueChange={(value) =>
+                  handleItemsPerPageChange(Number(value))
+                }
+              >
+                <SelectTrigger className="h-8 w-[70px]">
+                  <SelectValue placeholder={limit} />
+                </SelectTrigger>
+                <SelectContent side="top">
+                  {limitOptions.map((option) => (
+                    <SelectItem key={option} value={String(option)}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Page Navigation Indicator & Buttons */}
+            <div className="flex items-center gap-4">
+              <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                Page {page} of {Math.ceil(total / limit) || 1}
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  className="h-8 w-8 p-0"
+                  disabled={page <= 1}
+                  onClick={() => onPageChange(page - 1)}
+                >
+                  <span className="sr-only">Go to previous page</span>
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="h-8 w-8 p-0"
+                  disabled={page * limit >= total}
+                  onClick={() => onPageChange(page + 1)}
+                >
+                  <span className="sr-only">Go to next page</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
