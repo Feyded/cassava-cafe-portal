@@ -23,7 +23,7 @@ export default function useGetProductsQuery(params: GetProductsParams) {
   return useQuery({
     queryKey: ["admin-products", params],
     queryFn: async () => {
-      const { data } = await api.get<PaginatedProductsResponse>("/products", {
+      const { data } = await api.get<PaginatedProductsResponse>("/admin/products", {
         params,
       });
       return data;

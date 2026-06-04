@@ -13,7 +13,7 @@ export default function useCreateProductMutation() {
       formData.append("category_id", String(payload.categoryId));
       formData.append("image", payload.image);
 
-      const { data } = await api.post("/products", formData, {
+      const { data } = await api.post("/admin/products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
