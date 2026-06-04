@@ -15,18 +15,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader } from "lucide-react";
+import { Button } from "./button";
+import { NativeSelect, NativeSelectOption } from "./native-select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   loading?: boolean;
+  total?: number;
+  page?: number;
+  limit?: number;
+  limitOptions?: number[];
+  onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   loading,
+  total = 0,
+  page = 1,
+  limit = 10,
+  limitOptions = [10, 20, 50, 100],
+  onPageChange,
+  onLimitChange,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -84,6 +98,31 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <div>
+        <div className="flex items-center gap-2">
+          <NativeSelect
+            value={limit}
+            onChange={(e) => onLimitChange(Number(e.target.value))}
+          >
+            {limitOptions.map((option) => (
+              <NativeSelectOption key={option} value={option}>
+                {option}
+              </NativeSelectOption>
+            ))}
+          </NativeSelect>
+          {data.length} of {total}
+          <Button onClick={() => onPageChange(page - 1)} variant="ghost">
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          <Button
+            disabled={page * limit >= total}
+            onClick={() => onPageChange(page + 1)}
+            variant="ghost"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

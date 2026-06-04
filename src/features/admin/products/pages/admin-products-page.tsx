@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from "react";
+import { useState } from "react";
 import useGetProductsQuery from "@/features/admin/products/queries/use-get-products-query";
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "../components/columns";
@@ -37,6 +37,11 @@ export default function AdminProductPage() {
         columns={columns}
         data={productsQuery.data?.data ?? []}
         loading={productsQuery.isFetching}
+        total={productsQuery.data?.total}
+        page={page}
+        limit={limit}
+        onPageChange={setPage}
+        onLimitChange={setLimit}
       />
 
       <ProductModal open={modalOpen} onClose={() => setModalOpen(false)} />
