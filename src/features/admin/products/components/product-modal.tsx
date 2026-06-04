@@ -13,15 +13,19 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { VariantCategories } from "../data/variants";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select";
+
 import useCreateProductMutation from "../queries/use-create-product-mutation";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import useUpdateProductMutation from "../queries/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type ProductModalProps = {
   open: boolean;
@@ -160,13 +164,31 @@ export default function ProductModal({
             </div>
             <div className="space-y-2">
               <Label>Category</Label>
-              <NativeSelect className="w-full" {...register("categoryId")}>
-                {Object.values(VariantCategories).map((category) => (
-                  <NativeSelectOption key={category.id} value={category.id}>
-                    {category.label}
-                  </NativeSelectOption>
-                ))}
-              </NativeSelect>
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={field.value ? String(field.value) : ""}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                  >
+                    <SelectTrigger className="w-full"   >
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {Object.values(VariantCategories).map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={String(category.id)}
+                        >
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.categoryId && (
                 <p className="text-sm text-red-500">
                   {errors.categoryId.message}
