@@ -3,7 +3,11 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const columns: ColumnDef<Product>[] = [
+type Props = {
+  onEdit: (product: Product) => void;
+};
+
+export const createColumns = ({ onEdit }: Props): ColumnDef<Product>[] => [
   {
     accessorKey: "name",
     header: "Product",
@@ -41,9 +45,13 @@ export const columns: ColumnDef<Product>[] = [
   {
     id: "action",
     header: "Action",
-    cell: () => (
+    cell: ({ row }) => (
       <div className="flex gap-2">
-        <Button variant="outline" size="sm">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onEdit(row.original)}
+        >
           Edit
         </Button>
       </div>

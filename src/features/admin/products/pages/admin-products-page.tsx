@@ -1,13 +1,14 @@
 import { useState } from "react";
 import useGetProductsQuery from "@/features/admin/products/queries/use-get-products-query";
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "../components/columns";
+import { createColumns } from "../components/columns";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ProductModal from "../components/product-modal";
 
 export default function AdminProductPage() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -18,6 +19,18 @@ export default function AdminProductPage() {
     limit: limit,
   });
 
+  const handleEdit = (product: any) => {
+    setEditingProduct(product);
+    setModalOpen(true);
+  };
+
+  const handleOpen = () => {
+    setEditingProduct(null);
+    setModalOpen(true);
+  };
+
+  const columns = createColumns({ onEdit: handleEdit });
+
   return (
     <div className="container mx-auto space-y-8">
       <div className="flex items-center justify-between">
@@ -27,7 +40,7 @@ export default function AdminProductPage() {
             Review your menu catalog, current availability, and variant pricing.
           </p>
         </div>
-        <Button onClick={() => setModalOpen(true)}>
+        <Button onClick={handleOpen}>
           <Plus className="w-4 h-4 mr-2" />
           Add Product
         </Button>
@@ -44,7 +57,11 @@ export default function AdminProductPage() {
         onLimitChange={setLimit}
       />
 
-      <ProductModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <ProductModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        editingProduct={editingProduct}
+      />
     </div>
   );
 }

@@ -1,27 +1,36 @@
 import { api } from "@/services/api/axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateProductPayload } from "../../types/product";
 
-export default function useCreateProductMutation() {
+export default function useUpdateProductMutation() {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["create-product"],
-    mutationFn: async (payload: CreateProductPayload) => {
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: CreateProductPayload;
+    }) => {
       const formData = new FormData();
 
       formData.append("name", payload.name);
       formData.append("description", payload.description);
       formData.append("category_id", String(payload.categoryId));
-      
+
       if (payload.image) {
         formData.append("image", payload.image);
       }
 
-      const { data } = await api.post("/admin/products", formData, {
+      const { data } = await api.patch(`/admin/products/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
     },
   });
 }

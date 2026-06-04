@@ -19,10 +19,13 @@ import {
 } from "@/components/ui/native-select";
 import useCreateProductMutation from "../queries/use-create-product-mutation";
 import { toast } from "sonner";
+import { useEffect } from "react";
+import useUpdateProductMutation from "../queries/use-update-product-mutation";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
+  editingProduct: any | null;
 };
 
 const schema = z.object({
@@ -33,16 +36,23 @@ const schema = z.object({
   }),
   image: z
     .instanceof(File, { message: "Image is required" })
-    .refine((file) => file.type.startsWith("image/"), {
+    .optional()
+    .refine((file) => !file || file.type.startsWith("image/"), {
       message: "Only image files are allowed",
     })
-    .refine((file) => file.size <= 5 * 1024 * 1024, {
+    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
       message: "Image must be less than 5MB",
     }),
 });
 
-export default function ProductModal({ open, onClose }: ProductModalProps) {
+export default function ProductModal({
+  open,
+  onClose,
+  editingProduct,
+}: ProductModalProps) {
   const createProductMutation = useCreateProductMutation();
+  const updateProductMutation = useUpdateProductMutation();
+  const isEdit = Boolean(editingProduct);
 
   const {
     register,
@@ -52,24 +62,42 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      categoryId: 0,
+      name: editingProduct?.name ?? "",
+      description: editingProduct?.description ?? "",
+      categoryId: editingProduct?.categoryId ?? 0,
       image: undefined,
-      //   variants: [{ name: "", price: 0 }],
     },
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: any) => {
-    try {
-      await createProductMutation.mutateAsync(data);
-      toast.success("Product created successfully");
-      handleClose();
-    } catch (error: any) {
-      const message =
-        error.response?.data?.message || "Failed to create product";
-      toast.error(message);
+  const onSubmit = (data: any) => {
+    if (isEdit) {
+      updateProductMutation.mutate(
+        { id: editingProduct.id, payload: data },
+        {
+          onSuccess: () => {
+            toast.success("Product updated successfully");
+            handleClose();
+          },
+          onError: (error: any) => {
+            const message =
+              error.response?.data?.message || "Failed to update product";
+            toast.error(message);
+          },
+        },
+      );
+    } else {
+      createProductMutation.mutate(data, {
+        onSuccess: () => {
+          toast.success("Product created successfully");
+          handleClose();
+        },
+        onError: (error: any) => {
+          const message =
+            error.response?.data?.message || "Failed to create product";
+          toast.error(message);
+        },
+      });
     }
   };
 
@@ -77,6 +105,24 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
     onClose();
     reset();
   };
+
+  useEffect(() => {
+    if (editingProduct) {
+      reset({
+        name: editingProduct.name,
+        description: editingProduct.description,
+        categoryId: editingProduct.categoryId,
+        image: undefined,
+      });
+    } else {
+      reset({
+        name: "",
+        description: "",
+        categoryId: 0,
+        image: undefined,
+      });
+    }
+  }, [editingProduct, reset]);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -146,7 +192,7 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={createProductMutation.isPending}>
+            <Button type="submit" loading={createProductMutation.isPending || updateProductMutation.isPending}>
               Save changes
             </Button>
           </DialogFooter>
