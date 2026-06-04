@@ -3,7 +3,8 @@ export interface CreateProductPayload {
   price: number;
   categoryId: number;
   description: string;
-  image: File;
+  isAvailable: boolean;
+  image?: File | undefined;
   variants: CreateProductVariantPayload[];
 }
 

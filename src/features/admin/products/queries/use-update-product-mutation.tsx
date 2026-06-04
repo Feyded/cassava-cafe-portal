@@ -16,6 +16,7 @@ export default function useUpdateProductMutation() {
       formData.append("name", payload.name);
       formData.append("description", payload.description);
       formData.append("category_id", String(payload.categoryId));
+      formData.append("is_available", payload.isAvailable ? "1" : "0");
 
       if (payload.image) {
         formData.append("image", payload.image);

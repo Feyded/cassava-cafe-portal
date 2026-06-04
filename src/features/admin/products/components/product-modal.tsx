@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { VariantCategories } from "../data/variants";
@@ -21,6 +21,7 @@ import useCreateProductMutation from "../queries/use-create-product-mutation";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import useUpdateProductMutation from "../queries/use-update-product-mutation";
+import { Switch } from "@/components/ui/switch";
 
 type ProductModalProps = {
   open: boolean;
@@ -34,6 +35,7 @@ const schema = z.object({
   categoryId: z.coerce.number().refine((value) => value !== 0, {
     message: "Category is required",
   }),
+  isAvailable: z.coerce.boolean(),
   image: z
     .instanceof(File, { message: "Image is required" })
     .optional()
@@ -59,12 +61,14 @@ export default function ProductModal({
     handleSubmit,
     setValue,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     defaultValues: {
       name: editingProduct?.name ?? "",
       description: editingProduct?.description ?? "",
-      categoryId: editingProduct?.categoryId ?? 0,
+      categoryId: editingProduct?.category_id ?? 0,
+      isAvailable: editingProduct?.is_available ?? true,
       image: undefined,
     },
     resolver: zodResolver(schema),
@@ -111,7 +115,8 @@ export default function ProductModal({
       reset({
         name: editingProduct.name,
         description: editingProduct.description,
-        categoryId: editingProduct.categoryId,
+        categoryId: editingProduct.category_id,
+        isAvailable: editingProduct.is_available,
         image: undefined,
       });
     } else {
@@ -119,6 +124,7 @@ export default function ProductModal({
         name: "",
         description: "",
         categoryId: 0,
+        isAvailable: true,
         image: undefined,
       });
     }
@@ -168,6 +174,27 @@ export default function ProductModal({
               )}
             </div>
             <div className="space-y-2">
+              <Label htmlFor="is-available">Availability</Label>
+              <Controller
+                name="isAvailable"
+                control={control}
+                render={({ field }) => (
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      id="is-available"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </div>
+                )}
+              />
+              {errors.isAvailable && (
+                <p className="text-sm text-red-500">
+                  {errors.isAvailable.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="image">Image</Label>
               <Input
                 id="image"
@@ -192,7 +219,13 @@ export default function ProductModal({
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" loading={createProductMutation.isPending || updateProductMutation.isPending}>
+            <Button
+              type="submit"
+              loading={
+                createProductMutation.isPending ||
+                updateProductMutation.isPending
+              }
+            >
               Save changes
             </Button>
           </DialogFooter>
