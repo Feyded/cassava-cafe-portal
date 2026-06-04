@@ -35,6 +35,9 @@ const schema = z.object({
     .instanceof(File, { message: "Image is required" })
     .refine((file) => file.type.startsWith("image/"), {
       message: "Only image files are allowed",
+    })
+    .refine((file) => file.size <= 5 * 1024 * 1024, {
+      message: "Image must be less than 5MB",
     }),
 });
 
@@ -128,7 +131,7 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
                   const file = e.target.files?.[0];
 
                   if (!file) return;
-
+                  setValue("image", undefined as any);
                   setValue("image", file, {
                     shouldValidate: true,
                   });
