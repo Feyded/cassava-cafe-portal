@@ -17,6 +17,8 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from "@/components/ui/native-select";
+import useCreateProductMutation from "../queries/use-create-product-mutation";
+import { toast } from "sonner";
 
 type ProductModalProps = {
   open: boolean;
@@ -26,29 +28,46 @@ type ProductModalProps = {
 const schema = z.object({
   name: z.string().min(1, "Name is required").max(60),
   description: z.string().min(1, "Description is required").max(255),
-  category_id: z.coerce.number().refine((value) => value !== 0, {
+  categoryId: z.coerce.number().refine((value) => value !== 0, {
     message: "Category is required",
   }),
+  image: z
+    .instanceof(File, { message: "Image is required" })
+    .refine((file) => file.type.startsWith("image/"), {
+      message: "Only image files are allowed",
+    }),
 });
 
 export default function ProductModal({ open, onClose }: ProductModalProps) {
+  const createProductMutation = useCreateProductMutation();
+
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
       name: "",
       description: "",
-      category_id: 0,
+      categoryId: 0,
+      image: undefined,
       //   variants: [{ name: "", price: 0 }],
     },
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    try {
+      await createProductMutation.mutateAsync(data);
+      toast.success("Product created successfully");
+      handleClose();
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || "Failed to create product";
+      toast.error(message);
+    }
   };
 
   const handleClose = () => {
@@ -86,17 +105,37 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
             </div>
             <div className="space-y-2">
               <Label>Category</Label>
-              <NativeSelect className="w-full" {...register("category_id")}>
+              <NativeSelect className="w-full" {...register("categoryId")}>
                 {Object.values(VariantCategories).map((category) => (
                   <NativeSelectOption key={category.id} value={category.id}>
                     {category.label}
                   </NativeSelectOption>
                 ))}
               </NativeSelect>
-              {errors.category_id && (
+              {errors.categoryId && (
                 <p className="text-sm text-red-500">
-                  {errors.category_id.message}
+                  {errors.categoryId.message}
                 </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="image">Image</Label>
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+
+                  if (!file) return;
+
+                  setValue("image", file, {
+                    shouldValidate: true,
+                  });
+                }}
+              />
+              {errors.image && (
+                <p className="text-sm text-red-500">{errors.image.message}</p>
               )}
             </div>
           </div>
@@ -104,7 +143,9 @@ export default function ProductModal({ open, onClose }: ProductModalProps) {
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" loading={createProductMutation.isPending}>
+              Save changes
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
