@@ -182,7 +182,7 @@ export default function ProductModal({
                   <div className="flex items-center gap-2">
                     <Switch
                       id="is-available"
-                      checked={field.value}
+                      checked={field.value as boolean}
                       onCheckedChange={field.onChange}
                     />
                   </div>
