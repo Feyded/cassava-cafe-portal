@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { envConfig } from "@/env";
+import { formatFileUrl } from "@/utils/format-file-url";
 
 type Props = {
   onEdit: (product: Product) => void;
@@ -17,11 +17,7 @@ export const createColumns = ({ onEdit }: Props): ColumnDef<Product>[] => [
       <div className="flex items-start gap-2">
         <Avatar>
           <AvatarImage
-            src={
-              envConfig.VITE_API_BASE_URL.split("/api")[0] +
-              "/storage/" +
-              row.original.image_path
-            }
+            src={formatFileUrl(row.original.image_path)}
             alt={row.original.name}
             className="grayscale"
           />

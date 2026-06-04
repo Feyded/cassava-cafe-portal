@@ -1,3 +1,4 @@
+import { formatFileUrl } from "@/utils/format-file-url";
 import { getPriceLabel } from "../hooks/get-price-label";
 import type { Product} from "../types/product";
 
@@ -22,8 +23,9 @@ export default function MenuProductGrid({
           <div className="mb-4 overflow-hidden rounded-2xl bg-muted">
             <img
               src={
-                item.image ??
-                "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&h=400&fit=crop"
+                item.image_path
+                  ? formatFileUrl(item.image_path)
+                  : "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=600&h=400&fit=crop"
               }
               alt={item.name}
               className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"

@@ -2,15 +2,16 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
-import type { MenuProduct } from "../types/product";
+import type { Product, Variant } from "../types/product";
+import { formatFileUrl } from "@/utils/format-file-url";
 
 type ProductDetailsDrawerProps = {
-  product: MenuProduct | null;
+  product: Product | null;
   open: boolean;
   onClose: () => void;
 };
 
-function getStartingPrice(product: MenuProduct) {
+function getStartingPrice(product: Product) {
   const firstVariant = product.variants[0];
 
   if (!firstVariant) {
@@ -91,8 +92,9 @@ export default function ProductDetailsDrawer({
               <div className="overflow-hidden rounded-[1.75rem] bg-muted">
                 <img
                   src={
-                    product.image ??
-                    "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900&h=600&fit=crop"
+                    product.image_path
+                      ? formatFileUrl(product.image_path)
+                      : "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900&h=600&fit=crop"
                   }
                   alt={product.name}
                   className="h-56 w-full object-cover sm:h-64"
@@ -101,12 +103,6 @@ export default function ProductDetailsDrawer({
 
               <div className="mt-6 space-y-5">
                 <div className="flex flex-wrap items-center gap-3">
-                  {product.bestseller && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-secondary-foreground">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                      Bestseller
-                    </span>
-                  )}
                   <p className="text-sm font-semibold text-foreground">
                     {getStartingPrice(product)}
                   </p>
@@ -132,7 +128,7 @@ export default function ProductDetailsDrawer({
                   </div>
 
                   <div className="space-y-2">
-                    {product.variants.map((variant) => (
+                    {product.variants.map((variant: Variant) => (
                       <div
                         key={variant.id}
                         className="flex items-center justify-between rounded-2xl border border-border/70 bg-card px-4 py-3"
