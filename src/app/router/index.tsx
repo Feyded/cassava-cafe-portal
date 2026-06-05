@@ -1,5 +1,5 @@
 import AdminDashboardPage from "@/features/admin/dashboard/pages/admin-dashboard-page";
-import AdminProductsPage from "@/features/admin/products/pages/admin-products-page";
+import ProductsPage from "@/features/admin/products/pages/products-page";
 import LoginPage from "@/features/auth/pages/login-page";
 import NotFoundPage from "@/features/errors/pages/not-found-page";
 import HomePage from "@/features/home/pages/home-page";
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
             element: <AdminLayout />,
             children: [
               { path: "dashboard", element: <AdminDashboardPage /> },
-              { path: "products", element: <AdminProductsPage /> },
+              { path: "products", element: <ProductsPage /> },
               { path: "inventory-categories", element: <AdminInventoryCategoryPage /> },
             ],
           },
