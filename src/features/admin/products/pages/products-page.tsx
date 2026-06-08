@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 import ProductModal from "../components/product-modal";
 import type { Product } from "@/features/menu/types/product";
 
-export default function ProductPage() {
+export default function ProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");

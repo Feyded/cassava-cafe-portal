@@ -11,6 +11,7 @@ import AdminLayout from "../layouts/admin-layout";
 import { GuestOnlyRoute } from "../guards/GuestOnlyRoute";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import AdminInventoryCategoryPage from "@/features/admin/inventory-categories/pages/admin-inventory-category-page";
+import ProductDetailsPage from "@/features/admin/products/pages/product-details";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
             children: [
               { path: "dashboard", element: <AdminDashboardPage /> },
               { path: "products", element: <ProductsPage /> },
+              { path: "products/:id", element: <ProductDetailsPage /> },
               { path: "inventory-categories", element: <AdminInventoryCategoryPage /> },
             ],
           },
