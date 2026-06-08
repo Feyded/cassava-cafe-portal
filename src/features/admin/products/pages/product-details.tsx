@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { formatFileUrl } from "@/utils/format-file-url";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
@@ -45,7 +46,15 @@ export default function ProductDetailsPage() {
   return (
     <div>
       {product.isFetching ? (
-        <p>Loading product details...</p>
+        <Card className="w-full mb-2 border-border/70">
+          <CardHeader>
+            <Skeleton className="h-24 w-full" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-4 w-2/3 mb-2" />
+            <Skeleton className="h-4 w-1/2" />
+          </CardContent>
+        </Card>
       ) : (
         <Card className="overflow-hidden mb-5">
           <div className="flex flex-col sm:flex-row">
@@ -53,7 +62,11 @@ export default function ProductDetailsPage() {
             {product.data?.image_path && (
               <div className="sm:ml-2 relative rounded-md w-full sm:w-48 h-48 sm:h-auto bg-muted flex-shrink-0">
                 <img
-                  src={formatFileUrl(product.data.image_path)}
+                  src={
+                    product.data.image_path
+                      ? formatFileUrl(product.data.image_path)
+                      : ""
+                  }
                   alt={product.data.name || "Product image"}
                   className="w-full h-full object-cover"
                 />
@@ -70,7 +83,9 @@ export default function ProductDetailsPage() {
 
                   {/* Availability Badge */}
                   <Badge
-                    variant={product.data?.isAvailable ? "default" : "destructive"}
+                    variant={
+                      product.data?.isAvailable ? "default" : "destructive"
+                    }
                   >
                     {product.data?.isAvailable ? "Available" : "Unavailable"}
                   </Badge>
