@@ -10,10 +10,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { formatFileUrl } from "@/utils/format-file-url";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
@@ -43,6 +44,53 @@ export default function ProductDetailsPage() {
 
   return (
     <div>
+      {product.isFetching ? (
+        <p>Loading product details...</p>
+      ) : (
+        <Card className="overflow-hidden mb-5">
+          <div className="flex flex-col sm:flex-row">
+            {/* Product Image */}
+            {product.data?.image_path && (
+              <div className="sm:ml-2 relative rounded-md w-full sm:w-48 h-48 sm:h-auto bg-muted flex-shrink-0">
+                <img
+                  src={formatFileUrl(product.data.image_path)}
+                  alt={product.data.name || "Product image"}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+
+            {/* Product Info */}
+            <div className="flex-1 p-6">
+              <CardHeader className="p-0 gap-1">
+                <div className="flex items-center justify-between gap-4">
+                  <CardTitle className="text-2xl font-bold">
+                    {product.data?.name ?? "Loading product..."}
+                  </CardTitle>
+
+                  {/* Availability Badge */}
+                  <Badge
+                    variant={product.data?.isAvailable ? "default" : "destructive"}
+                  >
+                    {product.data?.isAvailable ? "Available" : "Unavailable"}
+                  </Badge>
+                </div>
+
+                <CardDescription className="text-sm text-muted-foreground mt-1">
+                  {/* {product.data?.category ?? "Product Details"} */}
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="p-0 mt-4">
+                <p className="text-sm text-card-foreground leading-relaxed">
+                  {product.data?.description ??
+                    "No description available for this product."}
+                </p>
+              </CardContent>
+            </div>
+          </div>
+        </Card>
+      )}
       <DataTable
         columns={columns}
         data={productVariants.data?.data ?? []}

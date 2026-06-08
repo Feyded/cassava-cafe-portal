@@ -116,7 +116,7 @@ export function DataTable<TData, TValue>({
             <span className="font-medium">{total}</span> records
           </div>
 
-          <div className="flex items-center gap-6 lg:gap-8">
+          <div className="grid sm:flex items-center gap-6 lg:gap-8">
             <div className="flex items-center gap-2">
               <p className="text-sm font-medium text-muted-foreground whitespace-nowrap">
                 Rows per page
