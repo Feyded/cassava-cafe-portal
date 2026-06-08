@@ -6,21 +6,16 @@ import { useParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Variant } from "@/features/menu/types/product";
 import { formatPrice } from "@/utils/format-price";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { formatFileUrl } from "@/utils/format-file-url";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import VariantModal from "../components/variant-modal";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [editingVariant, setEditingVariant] = useState<Variant | null>(null);
+  const [openModal, setOpenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -43,6 +38,15 @@ export default function ProductDetailsPage() {
       cell: ({ row }) => formatPrice(row.original.price),
     },
     {
+      accessorKey: "is_active",
+      header: "Availability",
+      cell: ({ row }) => (
+        <Badge variant={row.original.is_active ? "success" : "destructive"}>
+          {row.original.is_active ? "Active" : "Inactive"}
+        </Badge>
+      ),
+    },
+    {
       id: "action",
       header: "Action",
       cell: ({ row }) => (
@@ -50,7 +54,7 @@ export default function ProductDetailsPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => alert(row.original)}
+            onClick={() => handleEditVariant(row.original)}
           >
             Edit
           </Button>
@@ -59,69 +63,23 @@ export default function ProductDetailsPage() {
     },
   ];
 
+  const handleAddVariant = () => {
+    setEditingVariant(null);
+    setOpenModal(true);
+  };
+
+  const handleEditVariant = (variant: Variant) => {
+    setEditingVariant(variant);
+    setOpenModal(true);
+  };
+
   return (
     <div>
-      {product.isFetching ? (
-        <Card className="w-full mb-2 border-border/70">
-          <CardHeader>
-            <Skeleton className="h-24 w-full" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-4 w-2/3 mb-2" />
-            <Skeleton className="h-4 w-1/2" />
-          </CardContent>
-        </Card>
-      ) : (
-        <Card className="overflow-hidden mb-5">
-          <div className="flex flex-col sm:flex-row">
-            {/* Product Image */}
-            {product.data?.image_path && (
-              <div className="sm:ml-2 relative rounded-md w-full sm:w-48 h-48 sm:h-auto bg-muted flex-shrink-0">
-                <img
-                  src={
-                    product.data.image_path
-                      ? formatFileUrl(product.data.image_path)
-                      : ""
-                  }
-                  alt={product.data.name || "Product image"}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
+      <Button className="mb-4" onClick={handleAddVariant}>
+        <Plus className="w-4 h-4 mr-2" />
+        Add Variant
+      </Button>
 
-            {/* Product Info */}
-            <div className="flex-1 p-6">
-              <CardHeader className="p-0 gap-1">
-                <div className="flex items-center justify-between gap-4">
-                  <CardTitle className="text-2xl font-bold">
-                    {product.data?.name ?? "Loading product..."}
-                  </CardTitle>
-
-                  {/* Availability Badge */}
-                  <Badge
-                    variant={
-                      product.data?.isAvailable ? "default" : "destructive"
-                    }
-                  >
-                    {product.data?.isAvailable ? "Available" : "Unavailable"}
-                  </Badge>
-                </div>
-
-                <CardDescription className="text-sm text-muted-foreground mt-1">
-                  {/* {product.data?.category ?? "Product Details"} */}
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent className="p-0 mt-4">
-                <p className="text-sm text-card-foreground leading-relaxed">
-                  {product.data?.description ??
-                    "No description available for this product."}
-                </p>
-              </CardContent>
-            </div>
-          </div>
-        </Card>
-      )}
       <DataTable
         columns={columns}
         data={productVariants.data?.data ?? []}
@@ -131,6 +89,12 @@ export default function ProductDetailsPage() {
         onPageChange={setPage}
         onLimitChange={setLimit}
         limit={limit}
+      />
+
+      <VariantModal
+        editingVariant={editingVariant}
+        open={openModal}
+        onClose={() => setOpenModal(false)}
       />
     </div>
   );

@@ -15,7 +15,7 @@ export type Variant = {
   id: number;
   product_id: number;
   name: string;
-  price: number;
+  price: string;
   is_active: boolean;
   created_at: string;
   updated_at: string;

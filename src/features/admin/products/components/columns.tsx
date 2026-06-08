@@ -68,7 +68,7 @@ export const createColumns = ({ onEdit }: Props): ColumnDef<Product>[] => [
         </Button>
         <Link to={`/admin/products/${row.original.id}`}>
           <Button variant="outline" size="sm">
-            View Details
+            View Variants
           </Button>
         </Link>
       </div>
