@@ -12,18 +12,18 @@ import { Label } from "@/components/ui/label";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import useCreateProductMutation from "../queries/use-create-product-mutation";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import useUpdateProductMutation from "../queries/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
 import type { Variant } from "@/features/menu/types/product";
-
+import useCreateVariantMutation from "../queries/use-create-variant-mutation";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
   editingVariant: Variant | null;
+  productId: string;
 };
 
 const schema = z.object({
@@ -36,8 +36,9 @@ export default function VariantModal({
   open,
   onClose,
   editingVariant,
+  productId,
 }: ProductModalProps) {
-  const createProductMutation = useCreateProductMutation();
+  const createVariantMutation = useCreateVariantMutation(productId);
   const updateProductMutation = useUpdateProductMutation();
   const isEdit = Boolean(editingVariant);
 
@@ -59,7 +60,7 @@ export default function VariantModal({
   const onSubmit = (data: any) => {
     if (isEdit) {
       updateProductMutation.mutate(
-        { id: editingVariant.id, payload: data },
+        { id: editingVariant?.id!, payload: data },
         {
           onSuccess: () => {
             toast.success("Variant updated successfully");
@@ -73,7 +74,7 @@ export default function VariantModal({
         },
       );
     } else {
-      createProductMutation.mutate(data, {
+      createVariantMutation.mutate(data, {
         onSuccess: () => {
           toast.success("Variant created successfully");
           handleClose();
@@ -163,7 +164,7 @@ export default function VariantModal({
             <Button
               type="submit"
               loading={
-                createProductMutation.isPending ||
+                createVariantMutation.isPending ||
                 updateProductMutation.isPending
               }
             >

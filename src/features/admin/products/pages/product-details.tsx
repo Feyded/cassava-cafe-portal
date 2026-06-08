@@ -92,6 +92,7 @@ export default function ProductDetailsPage() {
       />
 
       <VariantModal
+        productId={id!}
         editingVariant={editingVariant}
         open={openModal}
         onClose={() => setOpenModal(false)}
