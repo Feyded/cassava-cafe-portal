@@ -16,6 +16,7 @@ import {
 import { formatFileUrl } from "@/utils/format-file-url";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
@@ -40,6 +41,21 @@ export default function ProductDetailsPage() {
       accessorKey: "price",
       header: "Price",
       cell: ({ row }) => formatPrice(row.original.price),
+    },
+    {
+      id: "action",
+      header: "Action",
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => alert(row.original)}
+          >
+            Edit
+          </Button>
+        </div>
+      ),
     },
   ];
 
