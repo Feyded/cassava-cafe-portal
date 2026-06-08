@@ -14,10 +14,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import useUpdateProductMutation from "../queries/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
 import type { Variant } from "@/features/menu/types/product";
 import useCreateVariantMutation from "../queries/use-create-variant-mutation";
+import useUpdateVariantMutation from "../queries/use-update-variant-mutation";
 
 type ProductModalProps = {
   open: boolean;
@@ -39,7 +39,7 @@ export default function VariantModal({
   productId,
 }: ProductModalProps) {
   const createVariantMutation = useCreateVariantMutation(productId);
-  const updateProductMutation = useUpdateProductMutation();
+  const updateVariantMutation = useUpdateVariantMutation(productId);
   const isEdit = Boolean(editingVariant);
 
   const {
@@ -59,8 +59,8 @@ export default function VariantModal({
 
   const onSubmit = (data: any) => {
     if (isEdit) {
-      updateProductMutation.mutate(
-        { id: editingVariant?.id!, payload: data },
+      updateVariantMutation.mutate(
+        { id: editingVariant?.id!, ...data },
         {
           onSuccess: () => {
             toast.success("Variant updated successfully");
@@ -165,7 +165,7 @@ export default function VariantModal({
               type="submit"
               loading={
                 createVariantMutation.isPending ||
-                updateProductMutation.isPending
+                updateVariantMutation.isPending
               }
             >
               Save changes
