@@ -11,6 +11,7 @@ import AdminLayout from "../layouts/admin-layout";
 import { GuestOnlyRoute } from "../guards/GuestOnlyRoute";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import ProductDetailsPage from "@/features/admin/products/pages/product-details";
+import PosPage from "@/features/pos/pages/pos-page";
 
 export const router = createBrowserRouter([
   {
@@ -29,14 +30,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <ProtectedRoute />,
+        element: <ProtectedRoute role={["admin"]} />,
         children: [
           {
             element: <AdminLayout />,
             children: [
+              { path: "pos", element: <PosPage /> },
               { path: "dashboard", element: <AdminDashboardPage /> },
               { path: "products", element: <ProductsPage /> },
               { path: "products/:id", element: <ProductDetailsPage /> },
+            ],
+          },
+        ],
+      },
+      {
+        path: "/cashier",
+        element: <ProtectedRoute role={["cashier"]} />,
+        children: [
+          {
+            element: <AdminLayout />,
+            children: [
+              { path: "pos", element: <PosPage /> },
             ],
           },
         ],

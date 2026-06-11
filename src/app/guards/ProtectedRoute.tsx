@@ -1,7 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useMeQuery from "@/features/me/queries/use-me-query";
 
-export const ProtectedRoute = () => {
+type ProtectedRouteProps = {
+  role: string[];
+};
+
+export const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
   const token = localStorage.getItem("auth_token");
   const user = useMeQuery();
 
@@ -13,7 +17,7 @@ export const ProtectedRoute = () => {
     return <Navigate to="/login" replace />;
   }
 
-  if (user.data.role !== "admin") {
+  if (!role.includes(user.data.role)) {
     return <Navigate to="/menu" replace />;
   }
 
