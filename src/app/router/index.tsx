@@ -48,7 +48,6 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute role={["cashier"]} />,
         children: [
           {
-            element: <AdminLayout />,
             children: [
               { path: "pos", element: <PosPage /> },
             ],
