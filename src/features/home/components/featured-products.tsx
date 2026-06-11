@@ -5,6 +5,7 @@ import type { Product } from "@/features/menu/types/product";
 
 export default function FeaturedProducts() {
   const products = useGetProductsQuery({
+    page: 1,
     limit: 6,
     category_id: null,
   });

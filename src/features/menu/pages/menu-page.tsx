@@ -14,7 +14,7 @@ export default function MenuPage() {
     null,
   );
 
-  const products = useGetProductsQuery({ limit: 100, category_id: active });
+  const products = useGetProductsQuery({ page: 1, limit: 100, category_id: active });
   const productItems = products.data?.data ?? [];
 
   return (

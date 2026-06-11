@@ -2,7 +2,8 @@ import { api } from "@/services/api/axios";
 import { useQuery } from "@tanstack/react-query";
 
 type GetProductsParams = {
-  limit?: number;
+  page: number;
+  limit: number;
   category_id?: number | null;
 };
 
