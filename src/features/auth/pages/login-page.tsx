@@ -60,11 +60,18 @@ export default function LoginPage() {
     try {
       const res = await login.mutateAsync(payload);
       localStorage.setItem("auth_token", res.token);
+
       if (res.user.role === "user") {
         navigate("/menu");
-      } else {
-        navigate("/admin/dashboard");
+        return;
       }
+
+      if (res.user.role === "cashier") {
+        navigate("/cashier/pos");
+        return;
+      }
+
+      navigate("/admin/dashboard");
     } catch (error) {
       console.log(error);
     }
