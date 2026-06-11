@@ -28,9 +28,9 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: number;
   loading?: boolean;
-  total?: number;
-  page?: number;
+  total: number;
   limit?: number;
   limitOptions?: number[];
   onPageChange: (page: number) => void;
@@ -39,10 +39,10 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-  loading,
-  total = 0,
-  page = 1,
+  data = [],
+  loading = false,
+  total,
+  page,
   limit = 10,
   limitOptions = [10, 20, 50, 100],
   onPageChange,

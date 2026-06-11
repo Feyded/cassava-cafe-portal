@@ -54,7 +54,7 @@ export default function ProductsPage() {
         columns={columns}
         data={productsQuery.data?.data ?? []}
         loading={productsQuery.isFetching}
-        total={productsQuery.data?.total}
+        total={productsQuery.data?.total ?? 0}
         page={page}
         limit={limit}
         onPageChange={setPage}
