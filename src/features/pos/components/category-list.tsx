@@ -8,7 +8,6 @@ type CategoryListProps = {
 };
 
 function CategoryList({ selectedCategory, onSelect }: CategoryListProps) {
-  console.log("Rendering CategoryList with selectedCategory:");
   return (
     <div className="w-40 bg-white border-r border-slate-200 flex flex-col justify-between p-4 gap-4">
       <div>
