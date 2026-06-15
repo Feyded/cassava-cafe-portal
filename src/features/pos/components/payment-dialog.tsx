@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, ReceiptText, CheckCircle2 } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
+import { Button } from "@/components/ui/button";
 
 interface PaymentDialogProps {
   isOpen: boolean;
@@ -186,27 +187,27 @@ export default function PaymentDialog({
         {/* Action Footer */}
         <div className="p-6 border-t border-gray-100 bg-gray-50/50">
           {step === "payment" ? (
-            <button
+            <Button
               onClick={handleProcessPayment}
               disabled={
                 isProcessing ||
                 (paymentMethod === "cash" && !isAmountSufficient)
               }
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-600/10 active:transform active:scale-[0.99] transition-all flex items-center justify-center min-h-[56px]"
+              className="w-full py-4 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-600/10 active:transform active:scale-[0.99] transition-all flex items-center justify-center min-h-[56px]"
             >
               {isProcessing ? (
                 <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 `Confirm ${formatPrice(totalAmount)} Payment`
               )}
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={handleCompleteFlow}
               className="w-full py-4 bg-gray-900 hover:bg-black text-white font-bold text-lg rounded-xl shadow-md transition-colors"
             >
               Start New Order
-            </button>
+            </Button>
           )}
         </div>
       </div>

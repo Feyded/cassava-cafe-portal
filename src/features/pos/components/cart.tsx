@@ -8,6 +8,7 @@ import {
   Trash2,
 } from "lucide-react";
 import type { CartItem } from "../types/cart-item";
+import { Button } from "@/components/ui/button";
 
 interface CartProps {
   items: CartItem[];
@@ -119,14 +120,14 @@ export default function Cart({
         </div>
 
         {/* Pay Now Button Trigger */}
-        <button
+        <Button
           disabled={items.length === 0}
           onClick={onPay}
-          className="w-full bg-primary hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-100 transition-all active:scale-[0.99]"
+          className="w-full rounded-md"
         >
           <CreditCard className="h-5 w-5" />
           Pay Now
-        </button>
+        </Button>
       </div>
     </div>
   );
