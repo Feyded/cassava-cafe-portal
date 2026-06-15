@@ -115,7 +115,7 @@ export default function POSPage() {
       received_amount: amountReceived,
       items: cart,
     };
-    
+
     checkoutMutation.mutate(payload, {
       onSuccess: () => {
         setCart([]);
@@ -338,6 +338,7 @@ export default function POSPage() {
         onClose={() => setIsPaymentOpen(false)}
         totalAmount={total}
         onConfirm={handleConfirmPayment}
+        isProcessing={checkoutMutation.isPending}
       />
     </div>
   );

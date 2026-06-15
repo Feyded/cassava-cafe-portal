@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {
-  CreditCard,
-  Banknote,
-  QrCode,
-  X,
-  ReceiptText,
-  CheckCircle2,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, ReceiptText, CheckCircle2 } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 
 interface PaymentDialogProps {
   isOpen: boolean;
   onClose: () => void;
   totalAmount: number;
-  onConfirm: (amountReceived: number) => void; // Clears cart and resets state in parent
+  onConfirm: (amountReceived: number) => void;
+  isProcessing: boolean;
 }
 
 type PaymentMethod = "cash" | "card" | "qr";
@@ -24,11 +18,11 @@ export default function PaymentDialog({
   onClose,
   totalAmount,
   onConfirm,
+  isProcessing,
 }: PaymentDialogProps) {
   const [step, setStep] = useState<CheckoutStep>("payment");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash");
   const [amountReceived, setAmountReceived] = useState<string>("");
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   // Automatically set exact amount when cash is selected
   useEffect(() => {
@@ -61,14 +55,8 @@ export default function PaymentDialog({
 
   const handleProcessPayment = () => {
     if (!isAmountSufficient) return;
-
-    setIsProcessing(true);
-
-    // Simulate API call / payment gateway integration
-    setTimeout(() => {
-      setIsProcessing(false);
-      setStep("success");
-    }, 1500);
+    onConfirm(cashReceivedNum);
+    setStep("success");
   };
 
   const handleCompleteFlow = () => {
@@ -199,7 +187,7 @@ export default function PaymentDialog({
         <div className="p-6 border-t border-gray-100 bg-gray-50/50">
           {step === "payment" ? (
             <button
-              onClick={() => onConfirm(cashReceivedNum)}
+              onClick={handleProcessPayment}
               disabled={
                 isProcessing ||
                 (paymentMethod === "cash" && !isAmountSufficient)
