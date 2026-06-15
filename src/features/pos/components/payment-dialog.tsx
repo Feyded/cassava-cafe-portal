@@ -13,7 +13,7 @@ interface PaymentDialogProps {
   isOpen: boolean;
   onClose: () => void;
   totalAmount: number;
-  onPaymentSuccess: () => void; // Clears cart and resets state in parent
+  onConfirm: (amountReceived: number) => void; // Clears cart and resets state in parent
 }
 
 type PaymentMethod = "cash" | "card" | "qr";
@@ -23,7 +23,7 @@ export default function PaymentDialog({
   isOpen,
   onClose,
   totalAmount,
-  onPaymentSuccess,
+  onConfirm,
 }: PaymentDialogProps) {
   const [step, setStep] = useState<CheckoutStep>("payment");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash");
@@ -72,7 +72,7 @@ export default function PaymentDialog({
   };
 
   const handleCompleteFlow = () => {
-    onPaymentSuccess();
+    onConfirm(cashReceivedNum);
     onClose();
   };
 
@@ -199,7 +199,7 @@ export default function PaymentDialog({
         <div className="p-6 border-t border-gray-100 bg-gray-50/50">
           {step === "payment" ? (
             <button
-              onClick={handleProcessPayment}
+              onClick={() => onConfirm(cashReceivedNum)}
               disabled={
                 isProcessing ||
                 (paymentMethod === "cash" && !isAmountSufficient)

@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import type { CartItem } from "../types/cart-item";
 import { CATEGORIES } from "../data/categories";
 import PaymentDialog from "../components/payment-dialog";
+import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
 
 export default function POSPage() {
   const [openSheet, setOpenSheet] = useState(false);
@@ -35,6 +36,8 @@ export default function POSPage() {
     limit: 100,
     category_id: activeCategory,
   });
+
+  const checkoutMutation = useCreateCheckoutMutation();
 
   const addToCart = (product: Product) => {
     const productInfo = {
@@ -105,6 +108,23 @@ export default function POSPage() {
       ),
     );
     setOpenSheet(false);
+  };
+
+  const handleConfirmPayment = (amountReceived: number) => {
+    const payload = {
+      received_amount: amountReceived,
+      items: cart,
+    };
+    checkoutMutation.mutate(payload, {
+      onSuccess: () => {
+        setCart([]);
+        setIsPaymentOpen(false);
+      },
+      onError: (error) => {
+        console.error("Checkout failed:", error);
+        alert("Payment failed. Please try again.");
+      },
+    });
   };
 
   // Calculations
@@ -316,10 +336,7 @@ export default function POSPage() {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         totalAmount={total}
-        onPaymentSuccess={() => {
-          setCart([]);
-          setIsPaymentOpen(false);
-        }}
+        onConfirm={handleConfirmPayment}
       />
     </div>
   );
