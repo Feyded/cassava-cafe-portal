@@ -126,7 +126,7 @@ export default function PaymentDialog({
                         onClick={() => setAmountReceived(amt.toFixed(2))}
                         className="flex-1 min-w-[70px] py-2.5 px-3 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-800 font-bold rounded-lg text-sm transition-colors text-center border border-gray-200/60"
                       >
-                        {amt === totalAmount ? "Exact" : `$${amt}`}
+                        {amt === totalAmount ? "Exact" : `${formatPrice(amt)}`}
                       </button>
                     ))}
                   </div>
