@@ -11,6 +11,16 @@ import { formatPrice } from "@/utils/format-price";
 import useGetProductsQuery from "@/features/menu/queries/use-get-products-query";
 import type { Product } from "@/features/menu/types/product";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const CATEGORIES = [
   { id: 1, name: "Snacks" },
@@ -34,7 +44,9 @@ type CartItem = {
 };
 
 export default function POSPage() {
+  const [openSheet, setOpenSheet] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
+  const [editingItem, setEditingItem] = useState<CartItem | null>(null);
   const [cart, setCart] = useState<CartItem[] | []>([]);
 
   const productsQuery = useGetProductsQuery({
@@ -90,12 +102,17 @@ export default function POSPage() {
     }
   };
 
+  const handleVariantChange = (item: CartItem) => {
+    setEditingItem(item);
+    setOpenSheet(true);
+  };
+
   // Calculations
   const subtotal = cart.reduce(
     (sum, item) => sum + Number(item.price) * item.quantity,
     0,
   );
-  const total = subtotal ;
+  const total = subtotal;
 
   return (
     <div className="flex h-screen w-full bg-slate-50 text-slate-900 overflow-hidden font-sans">
@@ -220,6 +237,16 @@ export default function POSPage() {
                   <h4 className="font-medium text-sm text-slate-800 truncate">
                     {item.product_name}
                   </h4>
+                {/* SHOW MODAL TO CHANGE VARIANT */}
+                  <button
+                    onClick={() => handleVariantChange(item)}
+                    className="text-xs text-primary hover:underline mt-0.5"
+                  >
+                    {item.variant_name}
+                    <span className="ml-1 text-slate-400">
+                      (Change)
+                    </span>
+                  </button>
                   <p className="text-xs text-primary font-semibold mt-0.5">
                     {formatPrice(Number(item.price) * item.quantity)}
                   </p>
@@ -273,6 +300,18 @@ export default function POSPage() {
           </button>
         </div>
       </div>
+
+      <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Change Variant</SheetTitle>
+            <SheetDescription>
+              Select a different variant for{" "}
+              <span className="font-semibold">{editingItem?.product_name}</span>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
