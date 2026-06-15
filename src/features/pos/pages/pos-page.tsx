@@ -19,31 +19,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-
-const CATEGORIES = [
-  { id: 1, name: "Snacks" },
-  { id: 2, name: "Refreshers" },
-  { id: 3, name: "Fruit Tea" },
-  { id: 4, name: "Hot Coffee" },
-  { id: 5, name: "Iced Coffee" },
-  { id: 6, name: "Smoothies" },
-  { id: 7, name: "Yoghurt Series" },
-  { id: 8, name: "Frappe" },
-];
-
-type CartItem = {
-  product_id: number;
-  variant_id: number;
-  product_name: string;
-  variant_name: string;
-  category: string;
-  price: string;
-  quantity: number;
-  variants: Product["variants"];
-};
+import type { CartItem } from "../types/cart-item";
+import { CATEGORIES } from "../data/categories";
+import PaymentDialog from "../components/payment-dialog";
 
 export default function POSPage() {
   const [openSheet, setOpenSheet] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
   const [editingItem, setEditingItem] = useState<CartItem | null>(null);
   const [cart, setCart] = useState<CartItem[] | []>([]);
@@ -294,7 +276,7 @@ export default function POSPage() {
           {/* Pay Now Button Trigger */}
           <button
             disabled={cart.length === 0}
-            onClick={() => alert(`Processing payment of ${formatPrice(total)}`)}
+            onClick={() => setIsPaymentOpen(true)}
             className="w-full bg-primary hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-100 transition-all active:scale-[0.99]"
           >
             <CreditCard className="h-5 w-5" />
@@ -329,6 +311,16 @@ export default function POSPage() {
           </div>
         </SheetContent>
       </Sheet>
+
+      <PaymentDialog
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        totalAmount={total}
+        onPaymentSuccess={() => {
+          setCart([]);
+          setIsPaymentOpen(false);
+        }}
+      />
     </div>
   );
 }
