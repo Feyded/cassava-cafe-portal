@@ -20,9 +20,9 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import type { CartItem } from "../types/cart-item";
-import { CATEGORIES } from "../data/categories";
 import PaymentDialog from "../components/payment-dialog";
 import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
+import CategoryList from "../components/category-list";
 
 export default function POSPage() {
   const [openSheet, setOpenSheet] = useState(false);
@@ -137,39 +137,10 @@ export default function POSPage() {
 
   return (
     <div className="flex h-screen w-full bg-slate-50 text-slate-900 overflow-hidden font-sans">
-      {/* COLUMN 1: CATEGORIES (Width: 1/6 or fixed sidebar) */}
-      <div className="w-40 bg-white border-r border-slate-200 flex flex-col justify-between p-4 gap-4">
-        <div>
-          <div className="flex items-center gap-2 px-2 py-3 mb-4 border-b border-slate-100">
-            <ShoppingCart className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg tracking-tight">Categories</span>
-          </div>
-          <div className="space-y-1">
-            {CATEGORIES.map((cat) => {
-              // const Icon = cat.icon;
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    isActive
-                      ? "bg-primary text-white shadow-md shadow-indigo-100"
-                      : "text-slate-600 hover:bg-slate-100"
-                  }`}
-                >
-                  {/* <Icon className="h-5 w-5" /> */}
-                  {cat.name}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="bg-slate-100 p-3 rounded-xl text-xs text-slate-500 text-center">
-          Cashier: Alex
-        </div>
-      </div>
+      <CategoryList
+        selectedCategory={activeCategory}
+        onSelect={setActiveCategory}
+      />
 
       {/* COLUMN 2: PRODUCTS (Flexible middle space) */}
       <div className="flex-1 overflow-y-auto p-6">
