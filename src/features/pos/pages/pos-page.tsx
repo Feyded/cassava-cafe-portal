@@ -115,6 +115,7 @@ export default function POSPage() {
       received_amount: amountReceived,
       items: cart,
     };
+    
     checkoutMutation.mutate(payload, {
       onSuccess: () => {
         setCart([]);
