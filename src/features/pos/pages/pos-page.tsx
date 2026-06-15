@@ -11,16 +11,14 @@ import { formatPrice } from "@/utils/format-price";
 import useGetProductsQuery from "@/features/menu/queries/use-get-products-query";
 import type { Product } from "@/features/menu/types/product";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const CATEGORIES = [
   { id: 1, name: "Snacks" },
@@ -38,6 +36,7 @@ type CartItem = {
   variant_id: number;
   product_name: string;
   variant_name: string;
+  category: string;
   price: string;
   quantity: number;
   variants: Product["variants"];
@@ -63,6 +62,7 @@ export default function POSPage() {
       variant_name: product.variants[0].name,
       price: product.variants[0].price,
       quantity: 1,
+      category: product.category.name,
       variants: product.variants,
     };
 
@@ -102,9 +102,27 @@ export default function POSPage() {
     }
   };
 
-  const handleVariantChange = (item: CartItem) => {
+  const handleEditItem = (item: CartItem) => {
     setEditingItem(item);
     setOpenSheet(true);
+  };
+
+  const handleVariantChange = (item: CartItem, variant_id: number) => {
+    const variant = item.variants.find((v) => v.id === variant_id);
+    if (!variant) return;
+    setCart((currentCart) =>
+      currentCart.map((cartItem) =>
+        cartItem.variant_id === item.variant_id
+          ? {
+              ...cartItem,
+              variant_id,
+              variant_name: variant.name,
+              price: variant.price,
+            }
+          : cartItem,
+      ),
+    );
+    setOpenSheet(false);
   };
 
   // Calculations
@@ -151,49 +169,38 @@ export default function POSPage() {
       </div>
 
       {/* COLUMN 2: PRODUCTS (Flexible middle space) */}
-      <div className="flex-1 flex flex-col min-w-0 bg-slate-50">
-        {/* Header */}
-        <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
-          {/* <h1 className="text-xl font-bold text-slate-800 capitalize">
-            {activeCategory === "all"
-              ? "All Products"
-              : `${activeCategory} menu`}
-          </h1> */}
-          <div className="text-sm text-slate-500">
-            {/* {filteredProducts.length} Items available */}
-          </div>
-        </div>
-
-        {/* Product Grid Grid */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {productsQuery.isFetching ? (
-              <Skeleton className="h-40 w-full rounded-xl col-span-full" />
-            ) : (
-              productsQuery.data.data?.map((product: Product) => (
-                <button
-                  key={product.id}
-                  onClick={() => addToCart(product)}
-                  className="group flex flex-col bg-white border border-slate-200 rounded-2xl p-4 text-left shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200 active:scale-[0.98]"
-                >
-                  {/* <div className="w-full h-32 bg-slate-50 rounded-xl flex items-center justify-center text-4xl mb-3 group-hover:scale-105 transition-transform duration-200">
+      <div className="flex-1 overflow-y-auto p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {productsQuery.isFetching ? (
+            <>
+              {Array.from({ length: 8 }).map((_, idx) => (
+                <Skeleton key={idx} className="h-40 w-full rounded-xl" />
+              ))}
+            </>
+          ) : (
+            productsQuery.data.data?.map((product: Product) => (
+              <button
+                key={product.id}
+                onClick={() => addToCart(product)}
+                className="group flex flex-col bg-white border border-slate-200 rounded-2xl p-4 text-left shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200 active:scale-[0.98]"
+              >
+                {/* <div className="w-full h-32 bg-slate-50 rounded-xl flex items-center justify-center text-4xl mb-3 group-hover:scale-105 transition-transform duration-200">
                     {formatFileUrl(product.image_path)}
                   </div> */}
-                  <h3 className="font-semibold text-slate-800 line-clamp-1 mb-1">
-                    {product.name}
-                  </h3>
-                  <div className="mt-auto flex items-center justify-between w-full pt-2">
-                    <span className="text-primary font-bold">
-                      {formatPrice(product.variants[0].price)}
-                    </span>
-                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md capitalize">
-                      {product.category.name}
-                    </span>
-                  </div>
-                </button>
-              ))
-            )}
-          </div>
+                <h3 className="font-semibold text-slate-800 line-clamp-1 mb-1">
+                  {product.name}
+                </h3>
+                <div className="mt-auto flex items-center justify-between w-full pt-2">
+                  <span className="text-primary font-bold">
+                    {formatPrice(product.variants[0].price)}
+                  </span>
+                  <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md capitalize">
+                    {product.category.name}
+                  </span>
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </div>
 
@@ -237,15 +244,13 @@ export default function POSPage() {
                   <h4 className="font-medium text-sm text-slate-800 truncate">
                     {item.product_name}
                   </h4>
-                {/* SHOW MODAL TO CHANGE VARIANT */}
+                  {/* SHOW MODAL TO CHANGE VARIANT */}
                   <button
-                    onClick={() => handleVariantChange(item)}
+                    onClick={() => handleEditItem(item)}
                     className="text-xs text-primary hover:underline mt-0.5"
                   >
                     {item.variant_name}
-                    <span className="ml-1 text-slate-400">
-                      (Change)
-                    </span>
+                    <span className="ml-1 text-slate-400">(Change)</span>
                   </button>
                   <p className="text-xs text-primary font-semibold mt-0.5">
                     {formatPrice(Number(item.price) * item.quantity)}
@@ -310,6 +315,21 @@ export default function POSPage() {
               <span className="font-semibold">{editingItem?.product_name}</span>
             </SheetDescription>
           </SheetHeader>
+          <div className="px-4 grid gap-3 mt-4">
+            {editingItem?.variants.map((variant) => (
+              <Button
+                key={variant.id}
+                variant={
+                  variant.id === editingItem.variant_id ? "default" : "outline"
+                }
+                className="w-full justify-between rounded-md"
+                onClick={() => handleVariantChange(editingItem, variant.id)}
+              >
+                {variant.name}
+                <span className="text-sm ">{formatPrice(variant.price)}</span>
+              </Button>
+            ))}
+          </div>
         </SheetContent>
       </Sheet>
     </div>
