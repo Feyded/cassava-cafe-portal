@@ -170,7 +170,7 @@ export default function POSPage() {
 
       {/* COLUMN 2: PRODUCTS (Flexible middle space) */}
       <div className="flex-1 overflow-y-auto p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {productsQuery.isFetching ? (
             <>
               {Array.from({ length: 8 }).map((_, idx) => (
@@ -184,9 +184,6 @@ export default function POSPage() {
                 onClick={() => addToCart(product)}
                 className="group flex flex-col bg-white border border-slate-200 rounded-2xl p-4 text-left shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200 active:scale-[0.98]"
               >
-                {/* <div className="w-full h-32 bg-slate-50 rounded-xl flex items-center justify-center text-4xl mb-3 group-hover:scale-105 transition-transform duration-200">
-                    {formatFileUrl(product.image_path)}
-                  </div> */}
                 <h3 className="font-semibold text-slate-800 line-clamp-1 mb-1">
                   {product.name}
                 </h3>
