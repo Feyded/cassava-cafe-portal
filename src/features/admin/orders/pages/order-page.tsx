@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useGetOrdersQuery from "../queries/use-get-orders-query";
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "../component/columns";
+import { getColumns } from "../component/columns";
 import ReceiptDialog from "../component/receipt-modal";
 import type { Order } from "../types/order";
 
@@ -33,7 +33,7 @@ export default function OrderPage() {
       </div>
 
       <DataTable
-        columns={columns}
+        columns={getColumns({ onViewReceipt: handleViewReceipt })}
         data={ordersQuery.data?.data ?? []}
         loading={ordersQuery.isFetching}
         total={ordersQuery.data?.total ?? 0}

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import type { Order } from "../types/order";
 import { formatPrice } from "@/utils/format-price";
+import { formatDate } from "@/utils/format-date";
 
 interface ReceiptDialogProps {
   isOpen: boolean;
@@ -48,7 +49,7 @@ export default function ReceiptDialog({
             <div>
               <span className="text-muted-foreground block text-xs">Date</span>
               <span className="font-medium text-foreground">
-                {order.created_at}
+                {formatDate(order.created_at)}
               </span>
             </div>
             <div>
@@ -61,12 +62,11 @@ export default function ReceiptDialog({
             </div>
             <div className="col-span-2">
               <span className="text-muted-foreground block text-xs">
-                Billed To
+                Cashier
               </span>
               <span className="font-medium text-foreground block">
-                Customer name
+                {order.creator.first_name} {order.creator.last_name}
               </span>
-              <span className="text-xs text-muted-foreground">order email</span>
             </div>
           </div>
 
@@ -130,7 +130,7 @@ export default function ReceiptDialog({
           <Button
             variant="outline"
             onClick={handlePrint}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto mr-2"
           >
             <Printer className="mr-2 h-4 w-4" />
             Print Receipt

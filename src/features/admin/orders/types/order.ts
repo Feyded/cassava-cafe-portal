@@ -11,6 +11,7 @@ export type Order = {
   updated_at: string;
   items: OrderItems[];
   payment: Payment;
+  creator: Creator;
 };
 
 type OrderItems = {
@@ -34,6 +35,18 @@ type Payment = {
   received_amount: string;
   change_amount: string;
   status: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type Creator = {
+  id: number;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  email: string;
+  email_verified_at: string | null;
+  role: string;
   created_at: string;
   updated_at: string;
 };

@@ -5,7 +5,13 @@ import { formatDate } from "@/utils/format-date";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export const columns: ColumnDef<Order>[] = [
+type ColumnsProps = {
+  onViewReceipt: (order: Order) => void;
+};
+
+export const getColumns = ({
+  onViewReceipt,
+}: ColumnsProps): ColumnDef<Order>[] => [
   {
     accessorKey: "order_number",
     header: "Order ID",
@@ -44,9 +50,8 @@ export const columns: ColumnDef<Order>[] = [
   },
   {
     header: "Actions",
-    //function
     cell: ({ row }) => (
-      <Button size="sm" onClick={() => alert(row.original)}>
+      <Button size="sm" onClick={() => onViewReceipt(row.original)}>
         View Receipt
       </Button>
     ),
