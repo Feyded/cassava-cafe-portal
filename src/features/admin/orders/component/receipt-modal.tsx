@@ -38,7 +38,7 @@ export default function ReceiptDialog({
             <CheckCircle2 className="h-6 w-6" />
           </div>
           <DialogTitle className="text-xl font-bold tracking-tight">
-            Order Confirmed
+            Order Receipt
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground uppercase tracking-wider">
             Order ID: #{order.order_number}
