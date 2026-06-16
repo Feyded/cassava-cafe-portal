@@ -14,7 +14,7 @@ export const getColumns = ({
 }: ColumnsProps): ColumnDef<Order>[] => [
   {
     accessorKey: "order_number",
-    header: "Order ID",
+    header: "Order Number",
   },
   {
     accessorKey: "status",

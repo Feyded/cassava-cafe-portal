@@ -100,12 +100,20 @@ export default function ReceiptDialog({
           </div>
 
           <Separator className="my-2" />
-
+          {/* ADD THE CHANGE AMOUNT AND RECEIVED AMOUNT TO THE FINANCIAL TOTALS */}
           {/* Financial Totals */}
           <div className="space-y-1.5 text-sm">
             <div className="flex justify-between text-muted-foreground">
               <span>Subtotal</span>
               <span>{formatPrice(order.subtotal)}</span>
+            </div>
+            <div className="flex justify-between text-muted-foreground">
+              <span>Received Amount</span>
+              <span>{formatPrice(order.payment.received_amount)}</span>
+            </div>
+            <div className="flex justify-between text-muted-foreground">
+              <span>Change Amount</span>
+              <span>{formatPrice(order.payment.change_amount)}</span>
             </div>
             {/* {order.discount_type ? (
               <div className="flex justify-between text-emerald-600 dark:text-emerald-500">

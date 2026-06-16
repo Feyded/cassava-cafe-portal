@@ -5,6 +5,7 @@ type GetOrdersParams = {
   limit?: number;
   page?: number;
   status?: string;
+  search?: string;
 };
 
 export default function useGetOrdersQuery(params: GetOrdersParams) {
