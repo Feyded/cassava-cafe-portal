@@ -95,6 +95,7 @@ export default function POSPage() {
     setOpenSheet(false);
   };
 
+  //MAKE IT MUTATEASYNC AND USE TRY CATCH
   const handleConfirmPayment = (amountReceived: number) => {
     const payload = {
       received_amount: amountReceived,

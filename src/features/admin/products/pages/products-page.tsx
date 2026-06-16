@@ -36,7 +36,7 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="container mx-auto space-y-8">
+    <div className=" mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tight">Products</h1>

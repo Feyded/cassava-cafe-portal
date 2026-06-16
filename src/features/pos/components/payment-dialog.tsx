@@ -187,20 +187,28 @@ export default function PaymentDialog({
         {/* Action Footer */}
         <div className="p-6 border-t border-gray-100 bg-gray-50/50">
           {step === "payment" ? (
-            <Button
-              onClick={handleProcessPayment}
-              disabled={
-                isProcessing ||
-                (paymentMethod === "cash" && !isAmountSufficient)
-              }
-              className="w-full py-4 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-600/10 active:transform active:scale-[0.99] transition-all flex items-center justify-center min-h-[56px]"
-            >
-              {isProcessing ? (
-                <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                `Confirm ${formatPrice(totalAmount)} Payment`
-              )}
-            </Button>
+            <>
+              <Button
+                onClick={handleProcessPayment}
+                disabled={
+                  isProcessing ||
+                  (paymentMethod === "cash" && !isAmountSufficient)
+                }
+                className="w-full py-4 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-600/10 active:transform active:scale-[0.99] transition-all flex items-center justify-center min-h-[56px]"
+              >
+                {isProcessing ? (
+                  <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  `Confirm ${formatPrice(totalAmount)} Payment`
+                )}
+              </Button>
+              <Button
+                className="w-full py-4 mt-2 bg-slate-400 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold text-lg rounded-xl shadow-lg shadow-blue-600/10 active:transform active:scale-[0.99] transition-all flex items-center justify-center min-h-[56px]"
+                onClick={onClose}
+              >
+                Modify Order
+              </Button>
+            </>
           ) : (
             <Button
               onClick={handleCompleteFlow}
