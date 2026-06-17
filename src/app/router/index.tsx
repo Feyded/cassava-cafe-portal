@@ -13,6 +13,7 @@ import { ProtectedRoute } from "../guards/ProtectedRoute";
 import ProductDetailsPage from "@/features/admin/products/pages/product-details";
 import PosPage from "@/features/pos/pages/pos-page";
 import OrderPage from "@/features/admin/orders/pages/order-page";
+import UsersPage from "@/features/admin/users/pages/users-page";
 
 export const router = createBrowserRouter([
   {
@@ -41,18 +42,17 @@ export const router = createBrowserRouter([
               { path: "products", element: <ProductsPage /> },
               { path: "products/:id", element: <ProductDetailsPage /> },
               { path: "orders", element: <OrderPage /> },
+              { path: "users", element: <UsersPage /> },
             ],
           },
         ],
       },
       {
         path: "/cashier",
-        element: <ProtectedRoute role={["cashier"]} />,
+        element: <ProtectedRoute role={["cashier", "admin"]} />,
         children: [
           {
-            children: [
-              { path: "pos", element: <PosPage /> },
-            ],
+            children: [{ path: "pos", element: <PosPage /> }],
           },
         ],
       },
