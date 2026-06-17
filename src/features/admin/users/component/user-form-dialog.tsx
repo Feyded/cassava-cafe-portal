@@ -20,11 +20,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCreateUsersQuery from "../queries/use-create-user-mutation";
 import useUpdateUsersMutation from "../queries/use-update-user-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 interface UserFormDialogProps {
   isOpen: boolean;
@@ -49,6 +50,7 @@ export default function UserFormDialog({
   onClose,
   user,
 }: UserFormDialogProps) {
+  const [showPassword, setShowPassword] = useState(false);
   const createUserMutation = useCreateUsersQuery();
   const updateUserMutation = useUpdateUsersMutation();
   const {
@@ -98,6 +100,7 @@ export default function UserFormDialog({
         await createUserMutation.mutateAsync(payload);
       }
 
+      toast.success(user ? "User updated successfully!" : "User created successfully!");
       onClose();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -177,17 +180,27 @@ export default function UserFormDialog({
               {/* Password */}
               <div className="flex flex-col gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  placeholder="********"
-                  type="password"
-                  {...register("password")}
-                />
-                {errors.password && (
-                  <p className="text-sm text-red-500">
-                    {errors.password.message}
-                  </p>
-                )}
+                <div className="relative">
+                  <Input
+                    id="password"
+                    placeholder="********"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
+                  <Button
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    variant="ghost"
+                    className="absolute inset-y-0 right-0 px-3"
+                    type="button"
+                  >
+                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </Button>
+                </div>
               </div>
             </>
           )}
