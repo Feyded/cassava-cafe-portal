@@ -1,11 +1,11 @@
 import { api } from "@/services/api/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useGetProductsQuery() {
+export default function useGetDashboardQuery() {
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["admin-dashboard"],
     queryFn: async () => {
-      const { data } = await api.get("/products");
+      const { data } = await api.get("/admin/dashboard");
       return data;
     },
   });

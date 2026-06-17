@@ -1,67 +1,92 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, Tags, CheckCircle, XCircle } from "lucide-react";
-
-// Mock data for the dashboard stats
-const dashboardStats = {
-  totalProducts: 42,
-  totalCategories: 6,
-  availableProducts: 35,
-  unavailableProducts: 7,
-};
+import { Package, CheckCircle, DollarSign } from "lucide-react";
+import useGetDashboardQuery from "../queries/use-get-dashboard-query";
+import { Skeleton } from "@/components/ui/skeleton";
+import { formatPrice } from "@/utils/format-price";
 
 export default function AdminDashboardPage() {
+  const dashboardQuery = useGetDashboardQuery();
   return (
     <div className="container mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
-          Overview of your cafe's menu and inventory.
+          Overview of your cafe's performance.
         </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
+            <CardTitle className="text-sm font-medium">Orders</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardStats.totalProducts}</div>
-            <p className="text-xs text-muted-foreground mt-1">Items in menu</p>
+            {dashboardQuery.isFetching ? (
+              <Skeleton className="h-6 w-12" />
+            ) : (
+              <div className="text-2xl font-bold">
+                {dashboardQuery.data?.total_orders ?? 0}
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">Orders today</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <Tags className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardStats.totalCategories}</div>
-            <p className="text-xs text-muted-foreground mt-1">Menu sections</p>
+            {dashboardQuery.isFetching ? (
+              <Skeleton className="h-6 w-12" />
+            ) : (
+              <div className="text-2xl font-bold">
+                {formatPrice(dashboardQuery.data?.total_sales ?? 0)}
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">Sales today</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Available</CardTitle>
+            <CardTitle className="text-sm font-medium">Items Sold</CardTitle>
             <CheckCircle className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardStats.availableProducts}</div>
-            <p className="text-xs text-muted-foreground mt-1">Ready for order</p>
+            {dashboardQuery.isFetching ? (
+              <Skeleton className="h-6 w-12" />
+            ) : (
+              <div className="text-2xl font-bold">
+                {dashboardQuery.data?.total_items_sold ?? 0}
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">
+              Items sold today
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Unavailable</CardTitle>
-            <XCircle className="h-4 w-4 text-destructive" />
+            <CardTitle className="text-sm font-medium">
+              Average Order Value
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{dashboardStats.unavailableProducts}</div>
-            <p className="text-xs text-muted-foreground mt-1">Out of stock</p>
+            {dashboardQuery.isFetching ? (
+              <Skeleton className="h-6 w-12" />
+            ) : (
+              <div className="text-2xl font-bold">
+                {formatPrice(dashboardQuery.data?.average_order_value ?? 0)}
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">
+              Average order value today
+            </p>
           </CardContent>
         </Card>
       </div>
