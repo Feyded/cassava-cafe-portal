@@ -40,8 +40,9 @@ const schema = z.object({
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const login = useLoginMutation();
+  const loginMutation = useLoginMutation();
   const navigate = useNavigate();
 
   const {
@@ -58,7 +59,7 @@ export default function LoginPage() {
 
   const handleLogin = async (payload: { email: string; password: string }) => {
     try {
-      const res = await login.mutateAsync(payload);
+      const res = await loginMutation.mutateAsync(payload);
       localStorage.setItem("auth_token", res.token);
 
       if (res.user.role === "user") {
@@ -73,7 +74,9 @@ export default function LoginPage() {
 
       navigate("/admin/dashboard");
     } catch (error) {
-      console.log(error);
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+      setErrorMessage(message);
     }
   };
 
@@ -159,6 +162,7 @@ export default function LoginPage() {
                     onClick={() => setShowPassword((prev) => !prev)}
                     variant="ghost"
                     className="absolute inset-y-0 right-0 px-3"
+                    type="button"
                   >
                     {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                   </Button>
@@ -170,18 +174,16 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {login.isError && (
+              {loginMutation.isError && (
                 <Alert variant="destructive">
                   <AlertCircleIcon />
                   <AlertTitle>Login failed</AlertTitle>
-                  <AlertDescription>
-                    Please check your email and password and try again.
-                  </AlertDescription>
+                  <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
               )}
 
               <Button
-                loading={login.isPending}
+                loading={loginMutation.isPending}
                 className="w-full"
                 size="lg"
                 type="submit"
