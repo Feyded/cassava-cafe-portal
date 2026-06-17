@@ -16,6 +16,19 @@ const navLinks = [
   { label: "Visit Us", href: "visit" },
 ];
 
+const userLinks = [
+  {
+    label: "Dashboard",
+    href: "/admin/dashboard",
+    roles: ["admin"],
+  },
+  {
+    label: "Pos",
+    href: "/cashier/pos",
+    roles: ["cashier", "admin"],
+  },
+];
+
 export default function Navbar() {
   const me = useMeQuery();
 
@@ -57,9 +70,14 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="start">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
-                      <Link to="/admin/dashboard">Dashboard</Link>
-                    </DropdownMenuItem>
+                    {userLinks.map(
+                      (link) =>
+                        link.roles.includes(me.data?.role) && (
+                          <DropdownMenuItem asChild key={link.label}>
+                            <Link to={link.href}>{link.label}</Link>
+                          </DropdownMenuItem>
+                        ),
+                    )}
                     <DropdownMenuItem
                       variant="destructive"
                       onClick={() => logout.mutate()}
