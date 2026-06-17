@@ -23,6 +23,10 @@ export const getColumns = ({
     header: "Role",
   },
   {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
     accessorKey: "is_active",
     header: "Status",
     cell: ({ row }) => (

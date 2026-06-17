@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import UserFormDialog from "../component/user-form-dialog";
 import useGetUsersQuery from "../queries/use-get-users-query";
 import { Button } from "@/components/ui/button";
+import { Plus, Search } from "lucide-react";
 
 export default function UsersPage() {
   const [page, setPage] = useState(1);
@@ -58,8 +59,25 @@ export default function UsersPage() {
           </p>
         </div>
       </div>
-      <Button onClick={() => setDialogOpen(true)}>Create User</Button>
-      <Input placeholder="Search user..." onChange={handleSearchChange} />
+
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        {/* Search Input */}
+        <div className="relative w-full sm:max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search user by name..."
+            onChange={handleSearchChange}
+            className="pl-9 h-10 w-full bg-background"
+          />
+        </div>
+
+        <Button
+          className="w-full sm:w-auto h-10 gap-2 font-medium shadow-sm px-4"
+          onClick={() => setDialogOpen(true)}
+        >
+          <Plus className="h-4 w-4" /> Add User
+        </Button>
+      </div>
 
       <DataTable
         columns={columns}
