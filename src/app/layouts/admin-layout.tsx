@@ -12,6 +12,13 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const navbarItems = [
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin/dashboard" },
+  { name: "Users", icon: Users, path: "/admin/users" },
+  { name: "Products", icon: Package, path: "/admin/products" },
+  { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
+];
+
 export default function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -33,58 +40,22 @@ export default function AdminLayout() {
         </div>
 
         <nav className="flex-1 px-4 space-y-2 overflow-y-auto min-w-[16rem]">
-          <NavLink
-            to="/admin/dashboard"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
-                isActive
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`
-            }
-          >
-            <LayoutDashboard className="w-5 h-5" />
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="/admin/users"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
-                isActive
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`
-            }
-          >
-            <Users className="w-5 h-5" />
-            Users
-          </NavLink>
-          <NavLink
-            to="/admin/products"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
-                isActive
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`
-            }
-          >
-            <Package className="w-5 h-5" />
-            Products
-          </NavLink>
-          <NavLink
-            to="/admin/orders"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
-                isActive
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`
-            }
-          >
-            <ShoppingCart className="w-5 h-5" />
-            Orders
-          </NavLink>
+          {navbarItems.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors ${
+                  isActive
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`
+              }
+            >
+              <item.icon className="w-5 h-5" />
+              {item.name}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="p-4 mt-auto border-t border-border shrink-0 min-w-[16rem]">
