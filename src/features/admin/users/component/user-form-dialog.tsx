@@ -32,25 +32,17 @@ interface UserFormDialogProps {
   user: User | null;
 }
 
-const updateUserSchema = z.object({
-  first_name: z.string().min(1, "First name is required").max(60),
+const schema = z.object({
+  first_name: z.string().min(1).max(60),
   middle_name: z.string().max(60).optional(),
-  last_name: z.string().min(1, "Last name is required").max(60),
-  role: z.string().min(1, "Role is required").max(60),
-  email: z
-    .string()
-    .email()
-    .min(6, "Email must be at least 6 characters")
-    .max(100),
-  is_active: z.coerce.boolean(),
+  last_name: z.string().min(1).max(60),
+  role: z.string().min(1).max(60),
+  email: z.string().email().min(6).max(100),
+  is_active: z.boolean(),
+  password: z.string().optional(),
 });
 
-const createUserSchema = updateUserSchema.extend({
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .max(100),
-});
+type FormValues = z.infer<typeof schema>;
 
 export default function UserFormDialog({
   isOpen,
@@ -59,8 +51,6 @@ export default function UserFormDialog({
 }: UserFormDialogProps) {
   const createUserMutation = useCreateUsersQuery();
   const updateUserMutation = useUpdateUsersMutation();
-  const schema = user ? updateUserSchema : createUserSchema;
-  type FormValues = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
@@ -97,7 +87,15 @@ export default function UserFormDialog({
       if (user) {
         await updateUserMutation.mutateAsync({ id: user.id, payload: data });
       } else {
-        await createUserMutation.mutateAsync(data);
+        if (data.password === undefined) {
+          toast.error("Password is required when creating a new user.");
+          return;
+        }
+        const payload = {
+          ...data,
+          password: data.password,
+        };
+        await createUserMutation.mutateAsync(payload);
       }
 
       onClose();
