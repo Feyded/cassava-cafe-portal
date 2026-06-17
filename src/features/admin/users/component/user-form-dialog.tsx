@@ -175,7 +175,11 @@ export default function UserFormDialog({
               control={control}
               name="is_active"
               render={({ field }) => (
-                <Switch id="is_active" onCheckedChange={field.onChange} />
+                <Switch
+                  id="is_active"
+                  checked={field.value as boolean}
+                  onCheckedChange={field.onChange}
+                />
               )}
             />
           </div>
