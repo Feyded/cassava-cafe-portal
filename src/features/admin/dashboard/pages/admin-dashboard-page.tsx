@@ -1,20 +1,59 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, CheckCircle, DollarSign } from "lucide-react";
+import { Package, CheckCircle, DollarSign, CalendarIcon } from "lucide-react";
 import useGetDashboardQuery from "../queries/use-get-dashboard-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/utils/format-price";
+import { Calendar } from "@/components/ui/calendar";
+import { useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function AdminDashboardPage() {
-  const dashboardQuery = useGetDashboardQuery();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
+  const dashboardQuery = useGetDashboardQuery(date);
+
   return (
     <div className="container mx-auto space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Overview of your cafe's performance.
-        </p>
+      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground mt-2">
+            Overview of your cafe's performance.
+          </p>
+        </div>
+        <Popover open={showCalendar} onOpenChange={setShowCalendar}>
+          <PopoverTrigger asChild>
+            <Button
+              id="date"
+              variant={"outline"}
+              size="sm"
+              className={cn(
+                "w-[260px] justify-start text-left font-normal h-9 rounded-md min-h-[44px] md:min-h-0", // Larger tap target on mobile, sleek on desktop
+                !date && "text-muted-foreground",
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? date.toLocaleDateString() : "Select date"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={(d) => {
+                if (d) setDate(d);
+                setShowCalendar(false);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
-
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
