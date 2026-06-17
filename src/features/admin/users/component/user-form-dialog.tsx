@@ -87,7 +87,7 @@ export default function UserFormDialog({
       if (user) {
         await updateUserMutation.mutateAsync({ id: user.id, payload: data });
       } else {
-        if (data.password === undefined) {
+        if (!data.password) {
           toast.error("Password is required when creating a new user.");
           return;
         }
