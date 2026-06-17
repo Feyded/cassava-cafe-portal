@@ -6,6 +6,8 @@ export type CreateUserPayload = {
   last_name: string;
   role: string;
   is_active: boolean;
+  email: string;
+  password: string;
 };
 
 export type UpdateUserPayload = Partial<Omit<User, "id">>;

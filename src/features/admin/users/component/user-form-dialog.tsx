@@ -32,15 +32,25 @@ interface UserFormDialogProps {
   user: User | null;
 }
 
-const schema = z.object({
+const updateUserSchema = z.object({
   first_name: z.string().min(1, "First name is required").max(60),
   middle_name: z.string().max(60).optional(),
   last_name: z.string().min(1, "Last name is required").max(60),
   role: z.string().min(1, "Role is required").max(60),
+  email: z
+    .string()
+    .email()
+    .min(6, "Email must be at least 6 characters")
+    .max(100),
   is_active: z.coerce.boolean(),
 });
 
-export type UserFormValues = z.infer<typeof schema>;
+const createUserSchema = updateUserSchema.extend({
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(100),
+});
 
 export default function UserFormDialog({
   isOpen,
@@ -49,7 +59,8 @@ export default function UserFormDialog({
 }: UserFormDialogProps) {
   const createUserMutation = useCreateUsersQuery();
   const updateUserMutation = useUpdateUsersMutation();
-
+  const schema = user ? updateUserSchema : createUserSchema;
+  type FormValues = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
@@ -61,6 +72,7 @@ export default function UserFormDialog({
       first_name: user?.first_name ?? "",
       middle_name: user?.middle_name ?? "",
       last_name: user?.last_name ?? "",
+      email: user?.email ?? "",
       role: user?.role ?? "",
       is_active: user?.is_active ?? true,
     },
@@ -73,13 +85,14 @@ export default function UserFormDialog({
         first_name: user?.first_name ?? "",
         middle_name: user?.middle_name ?? "",
         last_name: user?.last_name ?? "",
+        email: user?.email ?? "",
         role: user?.role ?? "",
         is_active: user?.is_active ?? true,
       });
     }
   }, [user, isOpen, reset]);
 
-  const onFormSubmit = async (data: UserFormValues) => {
+  const onFormSubmit = async (data: FormValues) => {
     try {
       if (user) {
         await updateUserMutation.mutateAsync({ id: user.id, payload: data });
@@ -149,6 +162,37 @@ export default function UserFormDialog({
             )}
           </div>
 
+          {/* Email */}
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              placeholder="john.doe@example.com"
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
+          {!user && (
+            <>
+              {/* Password */}
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  placeholder="********"
+                  type="password"
+                  {...register("password")}
+                />
+                {errors.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
           {/* Role (Using Controller for Custom Select wrapper) */}
           <div className="flex flex-col gap-2">
             <Label htmlFor="role">Role</Label>

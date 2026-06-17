@@ -5,6 +5,7 @@ import type { User } from "../types/user";
 import { Input } from "@/components/ui/input";
 import UserFormDialog from "../component/user-form-dialog";
 import useGetUsersQuery from "../queries/use-get-users-query";
+import { Button } from "@/components/ui/button";
 
 export default function UsersPage() {
   const [page, setPage] = useState(1);
@@ -57,7 +58,7 @@ export default function UsersPage() {
           </p>
         </div>
       </div>
-
+      <Button onClick={() => setDialogOpen(true)}>Create User</Button>
       <Input placeholder="Search user..." onChange={handleSearchChange} />
 
       <DataTable
