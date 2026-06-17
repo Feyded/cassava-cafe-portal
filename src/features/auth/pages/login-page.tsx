@@ -24,6 +24,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import type { AxiosError } from "axios";
+import { getErrorMessage } from "@/utils/get-error-message";
 
 const highlights = [
   "Track orders and product availability in one place.",
@@ -75,10 +76,7 @@ export default function LoginPage() {
 
       navigate("/admin/dashboard");
     } catch (error) {
-      const err = error as AxiosError<{ message: string }>;
-      const message =
-        err.response?.data?.message || "Login failed. Please try again.";
-      setErrorMessage(message);
+      setErrorMessage(getErrorMessage(error));
     }
   };
 

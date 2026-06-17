@@ -23,6 +23,8 @@ import { Switch } from "@/components/ui/switch";
 import { useEffect } from "react";
 import useCreateUsersQuery from "../queries/use-create-user-mutation";
 import useUpdateUsersMutation from "../queries/use-update-user-mutation";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/utils/get-error-message";
 
 interface UserFormDialogProps {
   isOpen: boolean;
@@ -37,6 +39,8 @@ const schema = z.object({
   role: z.string().min(1, "Role is required").max(60),
   is_active: z.coerce.boolean(),
 });
+
+export type UserFormValues = z.infer<typeof schema>;
 
 export default function UserFormDialog({
   isOpen,
@@ -75,14 +79,18 @@ export default function UserFormDialog({
     }
   }, [user, isOpen, reset]);
 
-  const onFormSubmit = async (data: any) => {
-    if (user) {
-      await updateUserMutation.mutateAsync({ id: user.id, payload: data });
-    } else {
-      await createUserMutation.mutateAsync(data);
-    }
+  const onFormSubmit = async (data: UserFormValues) => {
+    try {
+      if (user) {
+        await updateUserMutation.mutateAsync({ id: user.id, payload: data });
+      } else {
+        await createUserMutation.mutateAsync(data);
+      }
 
-    onClose();
+      onClose();
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
   };
 
   return (
