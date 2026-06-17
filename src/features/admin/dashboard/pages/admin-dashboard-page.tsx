@@ -68,7 +68,7 @@ export default function AdminDashboardPage() {
                 {dashboardQuery.data?.total_orders ?? 0}
               </div>
             )}
-            <p className="text-xs text-muted-foreground mt-1">Orders today</p>
+            <p className="text-xs text-muted-foreground mt-1">Orders as of {date ? date.toLocaleDateString() : "N/A"}</p>
           </CardContent>
         </Card>
 
@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
                 {formatPrice(dashboardQuery.data?.total_sales ?? 0)}
               </div>
             )}
-            <p className="text-xs text-muted-foreground mt-1">Sales today</p>
+            <p className="text-xs text-muted-foreground mt-1">Sales as of {date ? date.toLocaleDateString() : "N/A"}</p>
           </CardContent>
         </Card>
 
@@ -103,7 +103,7 @@ export default function AdminDashboardPage() {
               </div>
             )}
             <p className="text-xs text-muted-foreground mt-1">
-              Items sold today
+              Items sold as of {date ? date.toLocaleDateString() : "N/A"}
             </p>
           </CardContent>
         </Card>
@@ -124,7 +124,7 @@ export default function AdminDashboardPage() {
               </div>
             )}
             <p className="text-xs text-muted-foreground mt-1">
-              Average order value today
+              Average order value as of {date ? date.toLocaleDateString() : "N/A"}
             </p>
           </CardContent>
         </Card>
