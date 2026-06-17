@@ -22,6 +22,12 @@ export default function ProductVariantsDialog({
   item,
   onVariantChange,
 }: ProductVariantsDialogProps) {
+  
+  const handleSelectVariant = (item: CartItem, variantId: number) => {
+    onVariantChange(item, variantId);
+    onOpen(false);
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpen}>
       <SheetContent>
@@ -38,7 +44,7 @@ export default function ProductVariantsDialog({
               key={variant.id}
               variant={variant.id === item.variant_id ? "default" : "outline"}
               className="w-full justify-between rounded-md"
-              onClick={() => onVariantChange(item, variant.id)}
+              onClick={() => handleSelectVariant(item, variant.id)}
             >
               {variant.name}
               <span className="text-sm ">{formatPrice(variant.price)}</span>

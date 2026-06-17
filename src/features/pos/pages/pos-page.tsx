@@ -8,13 +8,23 @@ import CategoryList from "../components/category-list";
 import ProductList from "../components/product-list";
 import Cart from "../components/cart";
 import ProductVariantsDialog from "../components/product-variants-dialog";
+import useCart from "../hooks/use-cart";
 
 export default function POSPage() {
   const [openSheet, setOpenSheet] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(1);
+  const {
+    cart,
+    addToCart,
+    updateQuantity,
+    changeVariant,
+    clearCart,
+    subtotal,
+    total,
+  } = useCart();
+  
   const [editingItem, setEditingItem] = useState<CartItem | null>(null);
-  const [cart, setCart] = useState<CartItem[] | []>([]);
 
   const productsQuery = useGetProductsQuery({
     page: 1,
@@ -23,76 +33,11 @@ export default function POSPage() {
   });
 
   const checkoutMutation = useCreateCheckoutMutation();
-
-  const addToCart = (product: Product) => {
-    const productInfo = {
-      product_id: product.id,
-      variant_id: product.variants[0].id,
-      product_name: product.name,
-      variant_name: product.variants[0].name,
-      price: product.variants[0].price,
-      quantity: 1,
-      category: product.category.name,
-      variants: product.variants,
-    };
-
-    const exist = cart.find(
-      (item) => item.variant_id === productInfo.variant_id,
-    );
-
-    if (exist) {
-      setCart((currentCart) =>
-        currentCart.map((item) =>
-          item.variant_id === productInfo.variant_id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        ),
-      );
-    } else {
-      setCart((currentCart) => [...currentCart, productInfo]);
-    }
-  };
-
-  const updateQuantity = (variant_id: number, amount: number) => {
-    const exist = cart.find((item) => item.variant_id === variant_id);
-
-    if (!exist) return;
-
-    const newQty = exist.quantity + amount;
-    if (newQty <= 0) {
-      setCart((currentCart) =>
-        currentCart.filter((item) => item.variant_id !== variant_id),
-      );
-    } else {
-      setCart((currentCart) =>
-        currentCart.map((item) =>
-          item.variant_id === variant_id ? { ...item, quantity: newQty } : item,
-        ),
-      );
-    }
-  };
+ 
 
   const handleEditItem = (item: CartItem) => {
     setEditingItem(item);
     setOpenSheet(true);
-  };
-
-  const handleVariantChange = (item: CartItem, variant_id: number) => {
-    const variant = item.variants.find((v) => v.id === variant_id);
-    if (!variant) return;
-    setCart((currentCart) =>
-      currentCart.map((cartItem) =>
-        cartItem.variant_id === item.variant_id
-          ? {
-              ...cartItem,
-              variant_id,
-              variant_name: variant.name,
-              price: variant.price,
-            }
-          : cartItem,
-      ),
-    );
-    setOpenSheet(false);
   };
 
   //MAKE IT MUTATEASYNC AND USE TRY CATCH
@@ -104,7 +49,7 @@ export default function POSPage() {
 
     checkoutMutation.mutate(payload, {
       onSuccess: () => {
-        setCart([]);
+        clearCart();
         setIsPaymentOpen(false);
       },
       onError: (error) => {
@@ -114,12 +59,6 @@ export default function POSPage() {
     });
   };
 
-  // Calculations
-  const subtotal = cart.reduce(
-    (sum, item) => sum + Number(item.price) * item.quantity,
-    0,
-  );
-  const total = subtotal;
 
   return (
     <div className="flex h-screen w-full bg-slate-50 text-slate-900 overflow-hidden font-sans">
@@ -138,7 +77,7 @@ export default function POSPage() {
         items={cart}
         updateQuantity={updateQuantity}
         handleEditItem={handleEditItem}
-        onClearCart={() => setCart([])}
+        onClearCart={clearCart}
         subtotal={subtotal}
         total={total}
         onPay={() => setIsPaymentOpen(true)}
@@ -148,7 +87,7 @@ export default function POSPage() {
         open={openSheet}
         onOpen={setOpenSheet}
         item={editingItem}
-        onVariantChange={handleVariantChange}
+        onVariantChange={changeVariant}
       />
 
       <PaymentDialog
