@@ -14,7 +14,7 @@ const footerGroups = [
     label: 'Info',
     links: [
       { label: 'About', href: '#about' },
-      { label: 'Visit Us', href: '#visit' },
+      { label: 'Visit Us', href: '/visit' },
     ],
   },
 ]
