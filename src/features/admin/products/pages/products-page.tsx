@@ -1,15 +1,17 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import useGetProductsQuery from "@/features/admin/products/queries/use-get-products-query";
 import { DataTable } from "@/components/ui/data-table";
 import { createColumns } from "../components/columns";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import ProductModal from "../components/product-modal";
 import type { Product } from "@/features/menu/types/product";
+import { Input } from "@/components/ui/input";
 
 export default function ProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -30,6 +32,18 @@ export default function ProductsPage() {
     setModalOpen(true);
   };
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    if (searchTimeout.current) {
+      clearTimeout(searchTimeout.current);
+    }
+    searchTimeout.current = setTimeout(() => {
+      setSearch(value);
+      setPage(1);
+    }, 400);
+  };
+
   const columns = useMemo(
     () => createColumns({ onEdit: handleEdit }),
     [handleEdit],
@@ -37,19 +51,30 @@ export default function ProductsPage() {
 
   return (
     <div className=" mx-auto space-y-8">
-      <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-          <p className="text-muted-foreground">
-            Review your menu catalog, current availability, and variant pricing.
-          </p>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+        <p className="text-muted-foreground">
+          Review your menu catalog, current availability, and variant pricing.
+        </p>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        {/* Search Input */}
+        <div className="relative w-full sm:max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search product by name..."
+            className="pl-9 h-10 w-full bg-background"
+            onChange={handleSearchChange}
+          />
         </div>
-        <Button onClick={handleOpen}>
-          <Plus className="w-4 h-4 mr-2" />
-          Add Product
+
+        <Button
+          className="w-full sm:w-auto h-10 gap-2 font-medium shadow-sm px-4"
+          onClick={handleOpen}
+        >
+          <Plus className="h-4 w-4" /> Add Product
         </Button>
       </div>
-
       <DataTable
         columns={columns}
         data={productsQuery.data?.data ?? []}
