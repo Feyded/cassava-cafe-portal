@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
-import ReceiptDialog from "../component/receipt-modal";
 import type { User } from "../types/user";
 import { Input } from "@/components/ui/input";
+import UserFormDialog from "../component/user-form-dialog";
 import useGetUsersQuery from "../queries/use-get-users-query";
 
 export default function UsersPage() {
@@ -20,7 +20,7 @@ export default function UsersPage() {
     search,
   });
 
-  const handleViewReceipt = useCallback((user: User) => {
+  const handleUpdateUser = useCallback((user: User) => {
     setSelectedUser(user);
     setDialogOpen(true);
   }, []);
@@ -37,9 +37,14 @@ export default function UsersPage() {
     }, 400);
   };
 
+  const handleCloseDialog = () => {
+    setSelectedUser(null);
+    setDialogOpen(false);
+  };
+
   const columns = useMemo(
-    () => getColumns({ onViewReceipt: handleViewReceipt }),
-    [handleViewReceipt],
+    () => getColumns({ onUpdateUser: handleUpdateUser }),
+    [handleUpdateUser],
   );
 
   return (
@@ -66,10 +71,10 @@ export default function UsersPage() {
         onLimitChange={setLimit}
       />
 
-      <ReceiptDialog
+      <UserFormDialog
         isOpen={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        order={selectedUser}
+        onClose={handleCloseDialog}
+        user={selectedUser}
       />
     </div>
   );

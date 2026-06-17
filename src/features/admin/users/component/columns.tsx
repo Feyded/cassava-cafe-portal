@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 type ColumnsProps = {
-  onViewReceipt: (user: User) => void;
+  onUpdateUser: (user: User) => void;
 };
 
 export const getColumns = ({
-  onViewReceipt,
+  onUpdateUser,
 }: ColumnsProps): ColumnDef<User>[] => [
   {
     header: "Name",
@@ -19,9 +19,8 @@ export const getColumns = ({
     },
   },
   {
-    accessorKey: "created_at",
-    header: "Created At",
-    cell: ({ row }) => formatDate(row.original.created_at),
+    accessorKey: "role",
+    header: "Role",
   },
   {
     accessorKey: "is_active",
@@ -33,10 +32,15 @@ export const getColumns = ({
     ),
   },
   {
+    accessorKey: "created_at",
+    header: "Created At",
+    cell: ({ row }) => formatDate(row.original.created_at),
+  },
+  {
     header: "Actions",
     cell: ({ row }) => (
-      <Button size="sm" onClick={() => onViewReceipt(row.original)}>
-        View Receipt
+      <Button size="sm" onClick={() => onUpdateUser(row.original)}>
+        Update
       </Button>
     ),
   },
