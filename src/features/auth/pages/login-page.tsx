@@ -164,7 +164,7 @@ export default function LoginPage() {
                     className="absolute inset-y-0 right-0 px-3"
                     type="button"
                   >
-                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                   </Button>
                 </div>
                 {errors.password && (

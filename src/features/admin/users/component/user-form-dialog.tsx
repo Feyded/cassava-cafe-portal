@@ -100,7 +100,9 @@ export default function UserFormDialog({
         await createUserMutation.mutateAsync(payload);
       }
 
-      toast.success(user ? "User updated successfully!" : "User created successfully!");
+      toast.success(
+        user ? "User updated successfully!" : "User created successfully!",
+      );
       onClose();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -198,7 +200,7 @@ export default function UserFormDialog({
                     className="absolute inset-y-0 right-0 px-3"
                     type="button"
                   >
-                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    {showPassword ? <EyeIcon /> : <EyeOffIcon />}
                   </Button>
                 </div>
               </div>
