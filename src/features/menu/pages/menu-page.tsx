@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import MenuProductGrid from "../components/menu-product-grid";
 import ProductDetailsDrawer from "../components/product-details-drawer";
-import type { Product } from "../types/product";
+import type { Product } from "../../../types/models/product";
 
 export default function MenuPage() {
   const [active, setActive] = useState<number | null>(null);

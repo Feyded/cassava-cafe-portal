@@ -15,7 +15,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
-import type { Variant } from "@/features/menu/types/product";
+import type { Variant } from "@/types/models/product";
 import useCreateVariantMutation from "../queries/use-create-variant-mutation";
 import useUpdateVariantMutation from "../queries/use-update-variant-mutation";
 

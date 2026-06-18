@@ -3,7 +3,7 @@ import useGetOrdersQuery from "../queries/use-get-orders-query";
 import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
 import ReceiptDialog from "../component/receipt-modal";
-import type { Order } from "../types/order";
+import type { Order } from "../../../../types/models/order";
 import { Input } from "@/components/ui/input";
 
 export default function OrderPage() {

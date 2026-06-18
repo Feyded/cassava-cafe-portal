@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
-import type { User } from "../types/user";
+import type { User } from "../../../../types/models/user";
 import { Input } from "@/components/ui/input";
 import UserFormDialog from "../component/user-form-dialog";
 import useGetUsersQuery from "../queries/use-get-users-query";

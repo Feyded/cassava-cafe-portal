@@ -1,4 +1,4 @@
-import type { User } from "./user";
+import type { User } from "../../../../types/models/user";
 
 export type CreateUserPayload = {
   first_name: string;

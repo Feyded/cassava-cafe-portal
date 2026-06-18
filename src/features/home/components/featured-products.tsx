@@ -1,7 +1,7 @@
 import useGetProductsQuery from "@/features/menu/queries/use-get-products-query";
 import ProductCard from "./product-card";
 import ProductCardSkeleton from "./product-card-skeleton";
-import type { Product } from "@/features/menu/types/product";
+import type { Product } from "@/types/models/product";
 
 export default function FeaturedProducts() {
   const products = useGetProductsQuery({

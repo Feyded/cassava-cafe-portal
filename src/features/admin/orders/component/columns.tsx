@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Order } from "../types/order";
+import type { Order } from "../../../../types/models/order";
 import { formatPrice } from "@/utils/format-price";
 import { formatDate } from "@/utils/format-date";
 import { Badge } from "@/components/ui/badge";

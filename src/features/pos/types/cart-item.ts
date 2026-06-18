@@ -1,4 +1,4 @@
-import type { Product } from "@/features/menu/types/product";
+import type { Product } from "@/types/models/product";
 
 export type CartItem = {
   product_id: number;

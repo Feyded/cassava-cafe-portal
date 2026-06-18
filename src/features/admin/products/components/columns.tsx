@@ -1,4 +1,4 @@
-import type { Product } from "@/features/menu/types/product";
+import type { Product } from "@/types/models/product";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { Product } from "@/features/menu/types/product";
+import type { Product } from "@/types/models/product";
 import type { CartItem } from "../types/cart-item";
 
 export default function useCart() {

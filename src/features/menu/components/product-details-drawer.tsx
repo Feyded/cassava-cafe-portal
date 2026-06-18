@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
-import type { Product, Variant } from "../types/product";
+import type { Product, Variant } from "../../../types/models/product";
 import { formatFileUrl } from "@/utils/format-file-url";
 
 type ProductDetailsDrawerProps = {

@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getPriceLabel } from "@/features/menu/hooks/get-price-label";
-import type { Product } from "@/features/menu/types/product";
+import type { Product } from "@/types/models/product";
 interface ProductCardProps {
   product: Product;
 }
