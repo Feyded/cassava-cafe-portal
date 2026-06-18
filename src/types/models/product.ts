@@ -1,3 +1,5 @@
+import type { ModifierGroup } from "./modifier-group";
+
 export type Product = {
   id: number;
   name: string;
@@ -9,6 +11,7 @@ export type Product = {
   updated_at: string;
   variants: Variant[];
   category: Category;
+  modifier_groups?: ModifierGroup[] | [];
 };
 
 export type Variant = {
@@ -28,5 +31,3 @@ export type Category = {
   created_at: string;
   updated_at: string;
 };
-
-
