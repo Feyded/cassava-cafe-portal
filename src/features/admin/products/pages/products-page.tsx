@@ -7,6 +7,7 @@ import { Plus, Search } from "lucide-react";
 import ProductModal from "../components/product-modal";
 import type { Product } from "@/features/menu/types/product";
 import { Input } from "@/components/ui/input";
+import useGetModifierGroupsQuery from "../queries/use-get-modifier-groups-query";
 
 export default function ProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -20,6 +21,11 @@ export default function ProductsPage() {
     search: search,
     page,
     limit: limit,
+  });
+
+  const modifierGroupsQuery = useGetModifierGroupsQuery({
+    page: 1,
+    limit: 100,
   });
 
   const handleEdit = (product: Product) => {

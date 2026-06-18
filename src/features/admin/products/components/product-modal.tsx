@@ -13,10 +13,10 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { VariantCategories } from "../data/variants";
-
+import { getErrorMessage } from "@/utils/get-error-message";
 import useCreateProductMutation from "../queries/use-create-product-mutation";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useUpdateProductMutation from "../queries/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -56,6 +56,7 @@ export default function ProductModal({
   onClose,
   editingProduct,
 }: ProductModalProps) {
+  const [selectedModifiers, setSelectedModifiers] = useState([]);
   const createProductMutation = useCreateProductMutation();
   const updateProductMutation = useUpdateProductMutation();
   const isEdit = Boolean(editingProduct);
@@ -100,10 +101,8 @@ export default function ProductModal({
           toast.success("Product created successfully");
           handleClose();
         },
-        onError: (error: any) => {
-          const message =
-            error.response?.data?.message || "Failed to create product";
-          toast.error(message);
+        onError: (error) => {
+          toast.error(getErrorMessage(error));
         },
       });
     }
@@ -172,7 +171,7 @@ export default function ProductModal({
                     value={field.value ? String(field.value) : ""}
                     onValueChange={(value) => field.onChange(Number(value))}
                   >
-                    <SelectTrigger className="w-full"   >
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
 
