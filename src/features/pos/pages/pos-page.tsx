@@ -1,6 +1,7 @@
 import useGetProductsQuery from "../queries/use-get-products-query";
 import { useState } from "react";
 import ProductList from "../components/product-list";
+import CartSidebar from "../components/cart-sidebar";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -12,13 +13,15 @@ export default function PosPage() {
 
   return (
     <div>
-      <ProductList
-        products={productsQuery.data?.data}
-        loading={productsQuery.isFetching}
-        onCategoryChange={setSelectedCategory}
-      />
+      <div className="flex">
+        <ProductList
+          products={productsQuery.data?.data}
+          loading={productsQuery.isFetching}
+          onCategoryChange={setSelectedCategory}
+        />
 
-      
+        <CartSidebar />
+      </div>
     </div>
   );
 }
