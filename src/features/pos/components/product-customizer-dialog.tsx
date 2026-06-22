@@ -10,6 +10,7 @@ type ProductCustomizerDialogProps = {
   isOpen: boolean;
   onOpen: (isOpen: boolean) => void;
   product: Product;
+  onProductSelect: (product: Product | null) => void;
 };
 
 export default function ProductCustomizerDialog({

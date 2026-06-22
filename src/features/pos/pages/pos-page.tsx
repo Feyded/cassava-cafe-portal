@@ -5,6 +5,8 @@ import CartSidebar from "../components/cart-sidebar";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
+  const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const productsQuery = useGetProductsQuery({
     page: 1,
     limit: 100,
@@ -21,6 +23,7 @@ export default function PosPage() {
         />
 
         <CartSidebar />
+
       </div>
     </div>
   );
