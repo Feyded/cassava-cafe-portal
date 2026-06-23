@@ -20,6 +20,7 @@ type ProductCustomizerDialogProps = {
   isOpen: boolean;
   product: Product | null;
   onClose: () => void;
+  onAddToCart: (item: any) => void;
 };
 
 export function ProductCustomizerDialog({
@@ -61,6 +62,12 @@ export function ProductCustomizerDialog({
 
   const totalPrice = useMemo(() => {
     if (!product || !selectedVariant) return 0;
+    const modifiersPrice = selectedModifiers.reduce(
+      (acc, modifier) => acc + Number(modifier.price),
+      0,
+    );
+    const variantPrice = selectedVariant ? Number(selectedVariant[0].price) : 0;
+    return (variantPrice + modifiersPrice) * quantity;
   }, [quantity, selectedVariant, selectedModifiers, product]);
 
   return (
