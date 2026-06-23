@@ -16,7 +16,7 @@ export default function PosPage() {
     categoryId: selectedCategory,
   });
 
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -33,7 +33,7 @@ export default function PosPage() {
           onProductClick={handleProductClick}
         />
 
-        <CartSidebar />
+        <CartSidebar cart={cart} />
       </div>
 
       <ProductCustomizerDialog
