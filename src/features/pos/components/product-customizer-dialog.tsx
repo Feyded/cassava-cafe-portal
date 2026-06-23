@@ -15,28 +15,30 @@ import type { Product, Variant } from "@/types/models/product";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/utils/format-price";
 import type { Modifier } from "@/types/models/modifier-group";
+import type { CartItem } from "../types/cart-item";
 
 type ProductCustomizerDialogProps = {
   isOpen: boolean;
-  product: Product | null;
+  product: Product;
   onClose: () => void;
-  onAddToCart: (item: any) => void;
+  onAddToCart: (item: CartItem) => void;
 };
 
 export function ProductCustomizerDialog({
   isOpen,
   product,
   onClose,
+  onAddToCart,
 }: ProductCustomizerDialogProps) {
-  const [selectedVariant, setSelectedVariant] = useState<Variant[] | null>(
-    null,
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedModifiers, setSelectedModifiers] = useState<Modifier[] | []>(
+    [],
   );
-  const [selectedModifiers, setSelectedModifiers] = useState<Modifier[]>([]);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (isOpen && product) {
-      setSelectedVariant([product.variants[0]]);
+      setSelectedVariant(product.variants[0]);
       setSelectedModifiers([]);
       setQuantity(1);
     }
@@ -66,9 +68,24 @@ export function ProductCustomizerDialog({
       (acc, modifier) => acc + Number(modifier.price),
       0,
     );
-    const variantPrice = selectedVariant ? Number(selectedVariant[0].price) : 0;
+    const variantPrice = selectedVariant ? Number(selectedVariant.price) : 0;
     return (variantPrice + modifiersPrice) * quantity;
   }, [quantity, selectedVariant, selectedModifiers, product]);
+
+  const handleAddToCart = () => {
+    const item: CartItem = {
+      product_id: product.id,
+      variant_id: selectedVariant?.id!,
+      product_name: product.name,
+      variant_name: selectedVariant?.name!,
+      quantity: quantity,
+      price: totalPrice.toString(),
+      modifiers: selectedModifiers,
+    };
+
+    onAddToCart(item);
+    onClose();
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -103,14 +120,12 @@ export function ProductCustomizerDialog({
             <RadioGroup
               defaultValue="medium"
               className="grid grid-cols-1 gap-2"
-              value={
-                selectedVariant ? String(selectedVariant[0].id) : undefined
-              }
+              value={selectedVariant ? String(selectedVariant.id) : undefined}
               onValueChange={(value) => {
                 const variant = product?.variants.find(
                   (v) => v.id === Number(value),
                 );
-                if (variant) setSelectedVariant([variant]);
+                if (variant) setSelectedVariant(variant);
               }}
             >
               {product?.variants.map((variant) => (
@@ -215,6 +230,7 @@ export function ProductCustomizerDialog({
           <Button
             type="button"
             className="flex-1 h-12 text-white transition-colors rounded-xl font-medium shadow-sm flex items-center justify-center gap-2"
+            onClick={handleAddToCart}
           >
             <ShoppingCart className="h-4 w-4" />
             <span>Add to Order</span>
