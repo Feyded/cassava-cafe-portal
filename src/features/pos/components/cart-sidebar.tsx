@@ -9,9 +9,16 @@ import { formatPrice } from "@/utils/format-price";
 
 type CartSidebarProps = {
   cart: CartItem[];
+  updateQuantity: (
+    variantId: number,
+    quantity: number,
+  ) => void;
 };
 
-export default function CartSidebar({ cart }: CartSidebarProps) {
+export default function CartSidebar({
+  cart,
+  updateQuantity,
+}: CartSidebarProps) {
   // Mock cart items for demonstration
 
   return (
@@ -49,6 +56,10 @@ export default function CartSidebar({ cart }: CartSidebarProps) {
                 <div className="flex justify-between items-start gap-2">
                   <div className="font-semibold text-base text-gray-900 pt-1">
                     {item.product_name}
+                    <span className="text-sm font-normal text-gray-600">
+                      {" "}
+                      ( {item.variant_name})
+                    </span>
                   </div>
                   <div className="text-base font-bold text-gray-900 pt-1 shrink-0">
                     {formatPrice(item.price)}
@@ -82,6 +93,12 @@ export default function CartSidebar({ cart }: CartSidebarProps) {
                       variant="ghost"
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
+                      onClick={() =>
+                        updateQuantity(
+                          item.variant_id,
+                          item.quantity - 1,
+                        )
+                      }
                     >
                       <Minus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
@@ -92,6 +109,12 @@ export default function CartSidebar({ cart }: CartSidebarProps) {
                       variant="ghost"
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
+                      onClick={() =>
+                        updateQuantity(
+                          item.variant_id,
+                          item.quantity + 1,
+                        )
+                      }
                     >
                       <Plus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
