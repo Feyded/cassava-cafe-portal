@@ -9,10 +9,7 @@ import { formatPrice } from "@/utils/format-price";
 
 type CartSidebarProps = {
   cart: CartItem[];
-  updateQuantity: (
-    variantId: number,
-    quantity: number,
-  ) => void;
+  updateQuantity: (id: string, quantity: number) => void;
 };
 
 export default function CartSidebar({
@@ -49,7 +46,7 @@ export default function CartSidebar({
           <div className="space-y-3">
             {cart.map((item) => (
               <div
-                key={`${item.product_id}-${item.variant_id}`}
+                key={item.id}
                 className="flex flex-col gap-2 p-3 bg-white border border-gray-100 rounded-xl shadow-sm"
               >
                 {/* Main Row */}
@@ -94,10 +91,7 @@ export default function CartSidebar({
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
                       onClick={() =>
-                        updateQuantity(
-                          item.variant_id,
-                          item.quantity - 1,
-                        )
+                        updateQuantity(item.id, item.quantity - 1)
                       }
                     >
                       <Minus className="h-4 w-4 stroke-[2.5]" />
@@ -110,10 +104,7 @@ export default function CartSidebar({
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
                       onClick={() =>
-                        updateQuantity(
-                          item.variant_id,
-                          item.quantity + 1,
-                        )
+                        updateQuantity(item.id, item.quantity + 1)
                       }
                     >
                       <Plus className="h-4 w-4 stroke-[2.5]" />

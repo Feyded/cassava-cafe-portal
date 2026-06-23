@@ -1,6 +1,7 @@
 import type { Modifier } from "@/types/models/modifier-group";
 
 export type CartItem = {
+  id: string;
   product_id: number;
   variant_id: number;
   product_name: string;

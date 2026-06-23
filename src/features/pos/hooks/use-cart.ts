@@ -7,9 +7,7 @@ export default function useCart() {
   // ADD TO CART
   const addToCart = (cartItem: CartItem) => {
     setCart((current) => {
-      const exist = current.find(
-        (item) => item.variant_id === cartItem.variant_id,
-      );
+      const exist = current.find((item) => item.id === cartItem.id);
 
       if (exist) {
         return current.map((item) =>
@@ -24,20 +22,18 @@ export default function useCart() {
   };
 
   // UPDATE QTY (+/-)
-  const updateQuantity = (variant_id: number, amount: number) => {
+  const updateQuantity = (id: string, amount: number) => {
     setCart((current) => {
-      const item = current.find((i) => i.variant_id === variant_id);
+      const item = current.find((i) => i.id === id);
       if (!item) return current;
 
       const newQty = item.quantity + amount;
 
       if (newQty <= 0) {
-        return current.filter((i) => i.variant_id !== variant_id);
+        return current.filter((i) => i.id !== id);
       }
 
-      return current.map((i) =>
-        i.variant_id === variant_id ? { ...i, quantity: newQty } : i,
-      );
+      return current.map((i) => (i.id === id ? { ...i, quantity: newQty } : i));
     });
   };
 

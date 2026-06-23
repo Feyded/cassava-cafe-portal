@@ -74,6 +74,7 @@ export function ProductCustomizerDialog({
 
   const handleAddToCart = () => {
     const item: CartItem = {
+      id: crypto.randomUUID(),
       product_id: product.id,
       variant_id: selectedVariant?.id!,
       product_name: product.name,
