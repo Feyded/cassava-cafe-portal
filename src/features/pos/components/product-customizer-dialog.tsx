@@ -158,7 +158,7 @@ export function ProductCustomizerDialog({
                   {modifierGroup.modifiers.map((modifier) => (
                     <Label
                       key={modifier.id}
-                      className="flex items-center justify-between p-3.5 rounded-xl border-2 border-black bg-gray-50/50 cursor-pointer transition-all"
+                      className="flex items-center justify-between p-3.5 rounded-xl border cursor-pointer transition-all"
                     >
                       <div className="flex items-center gap-3">
                         <Checkbox
@@ -214,7 +214,7 @@ export function ProductCustomizerDialog({
           {/* Action Call Button */}
           <Button
             type="button"
-            className="flex-1 h-12 bg-black text-white hover:bg-gray-900 transition-colors rounded-xl font-medium shadow-sm flex items-center justify-center gap-2"
+            className="flex-1 h-12 text-white transition-colors rounded-xl font-medium shadow-sm flex items-center justify-center gap-2"
           >
             <ShoppingCart className="h-4 w-4" />
             <span>Add to Order</span>
