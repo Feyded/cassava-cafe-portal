@@ -10,6 +10,7 @@ type ProductListProps = {
   products: Product[];
   loading: boolean;
   onCategoryChange: (categoryId: number) => void;
+  onProductClick: (product: Product) => void;
 };
 
 export const categories = [
@@ -27,6 +28,7 @@ export default function ProductList({
   products,
   loading,
   onCategoryChange,
+  onProductClick,
 }: ProductListProps) {
   return (
     <div className="flex-1 p-4 overflow-hidden pr-80">
@@ -69,6 +71,7 @@ export default function ProductList({
               <button
                 key={product.id}
                 className="p-2 cursor-pointer border-2 rounded-md"
+                onClick={() => onProductClick(product)}
               >
                 <div className="flex flex-col items-center justify-center">
                   <div className="w-full h-32 bg-red overflow-hidden rounded-md bg-muted">

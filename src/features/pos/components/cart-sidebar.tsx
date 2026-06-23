@@ -1,12 +1,11 @@
 import React from 'react';
-import { ShoppingCart, Trash2, Plus, Minus, Coffee } from 'lucide-react';
+import { ShoppingCart, Trash2, Plus, Minus, Coffee, X } from 'lucide-react';
 // Note: Replace these imports with your actual Shadcn component paths
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
-// Mock Data Structure for Cart Items
 interface Modifier {
   id: string;
   name: string;
@@ -45,107 +44,112 @@ export default function CartSidebar() {
     }
   ]);
 
-  // Helper to calculate single item total including its modifiers
   const getItemTotal = (item: CartItem) => {
     const modifiersTotal = item.modifiers.reduce((sum, mod) => sum + mod.price, 0);
     return (item.basePrice + modifiersTotal) * item.quantity;
   };
 
-  // Helper to calculate total cart order
   const getSubtotal = () => cart.reduce((sum, item) => sum + getItemTotal(item), 0);
-  const tax = getSubtotal() * 0.08; // 8% Coffee shop tax
+  const tax = getSubtotal() * 0.08;
   const total = getSubtotal() + tax;
 
   return (
-    <div className="bg-white border-l border-gray-200 w-80 h-screen fixed right-0 top-0 z-50 flex flex-col shadow-xl font-sans">
+    // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
+    <div className="bg-white border-l border-gray-200 w-96 h-screen fixed right-0 top-0 z-50 flex flex-col shadow-2xl select-none">
       
-      {/* 1. Header */}
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/70">
-        <div className="flex items-center gap-2">
-          <ShoppingCart className="h-5 w-5 text-amber-700" />
-          <h2 className="font-semibold text-lg text-gray-800">Current Order</h2>
+      {/* 1. Header (Thicker for comfortable top-grip holding) */}
+      <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/90 h-18">
+        <div className="flex items-center gap-3">
+          <ShoppingCart className="h-6 w-6 text-amber-700" />
+          <h2 className="font-bold text-xl text-gray-800">Current Order</h2>
         </div>
-        <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-100">
+        <Badge variant="secondary" className="bg-amber-100 text-amber-900 text-sm px-3 py-1 font-semibold rounded-full">
           {cart.reduce((sum, item) => sum + item.quantity, 0)} items
         </Badge>
       </div>
 
-      {/* 2. Cart Items List (Scrollable) */}
-      <ScrollArea className="flex-1 p-4">
+      {/* 2. Cart Items List (High-contrast tap rows) */}
+      <ScrollArea className="flex-1 px-4 py-2">
         {cart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-64 text-gray-400 gap-2">
-            <Coffee className="h-8 w-8 stroke-1" />
-            <p className="text-sm">Cart is empty</p>
+          <div className="flex flex-col items-center justify-center h-96 text-gray-400 gap-3">
+            <Coffee className="h-12 w-12 stroke-1" />
+            <p className="text-base font-medium">Tap items to add to cart</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {cart.map((item) => (
-              <div key={item.id} className="group flex flex-col gap-1.5 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+              <div key={item.id} className="flex flex-col gap-2 p-3 bg-white border border-gray-100 rounded-xl shadow-sm">
                 
-                {/* Item Name and Main Price */}
-                <div className="flex justify-between items-start">
-                  <div className="font-medium text-sm text-gray-900">{item.name}</div>
-                  <div className="text-sm font-semibold text-gray-900">
+                {/* Main Row */}
+                <div className="flex justify-between items-start gap-2">
+                  <div className="font-semibold text-base text-gray-900 pt-1">{item.name}</div>
+                  <div className="text-base font-bold text-gray-900 pt-1 shrink-0">
                     ${getItemTotal(item).toFixed(2)}
                   </div>
                 </div>
 
-                {/* Selected Modifiers list */}
+                {/* Modifiers (Always clear, legible bulleted structure) */}
                 {item.modifiers.length > 0 && (
-                  <div className="flex flex-wrap gap-1 pl-1">
+                  <div className="space-y-1 pl-1 bg-gray-50/50 p-2 rounded-lg border border-gray-50">
                     {item.modifiers.map((mod) => (
-                      <span key={mod.id} className="text-[11px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
-                        + {mod.name} {mod.price > 0 ? `(+$${mod.price.toFixed(2)})` : ''}
-                      </span>
+                      <div key={mod.id} className="flex justify-between items-center text-xs text-gray-600">
+                        <span>• {mod.name}</span>
+                        {mod.price > 0 && <span className="font-medium text-gray-500">+${mod.price.toFixed(2)}</span>}
+                      </div>
                     ))}
                   </div>
                 )}
 
-                {/* Quantity Controls & Delete */}
-                <div className="flex justify-between items-center mt-1.5">
-                  <div className="flex items-center border border-gray-200 rounded-md bg-white">
-                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-none p-0">
-                      <Minus className="h-3 w-3" />
+                {/* Bottom Row: Tactile Quantity Toggles + Delete */}
+                <div className="flex justify-between items-center mt-1">
+                  
+                  {/* Big Touch-Friendly Quantity Stepper */}
+                  <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50 overflow-hidden">
+                    <Button variant="ghost" size="icon" className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none">
+                      <Minus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
-                    <span className="text-xs px-2.5 font-medium text-gray-700">{item.quantity}</span>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-none p-0">
-                      <Plus className="h-3 w-3" />
+                    <span className="text-sm font-bold px-4 text-gray-800 min-w-8 text-center">{item.quantity}</span>
+                    <Button variant="ghost" size="icon" className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none">
+                      <Plus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
                   </div>
                   
-                  <Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Trash2 className="h-4 w-4" />
+                  {/* Distinct, static tap target for deleting items */}
+                  <Button variant="outline" size="icon" className="h-11 w-11 border-red-100 text-red-500 hover:bg-red-50 active:bg-red-100">
+                    <Trash2 className="h-5 w-5" />
                   </Button>
                 </div>
+
               </div>
             ))}
           </div>
         )}
       </ScrollArea>
 
-      {/* 3. Checkout Summary & Actions */}
-      <div className="p-4 bg-gray-50 border-t border-gray-100 space-y-4">
-        <div className="space-y-1.5 text-sm text-gray-600">
-          <div className="flex justify-between">
+      {/* 3. Checkout Summary & Big Action Buttons */}
+      <div className="p-5 bg-gray-50 border-t border-gray-200 space-y-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+        <div className="space-y-2 text-sm text-gray-600">
+          <div className="flex justify-between font-medium">
             <span>Subtotal</span>
-            <span>${getSubtotal().toFixed(2)}</span>
+            <span className="text-gray-900">${getSubtotal().toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span>Tax (8%)</span>
             <span>${tax.toFixed(2)}</span>
           </div>
-          <Separator className="my-2 bg-gray-200" />
-          <div className="flex justify-between text-base font-bold text-gray-900">
+          <Separator className="my-2 bg-gray-300" />
+          <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span className="text-xl text-amber-900">${total.toFixed(2)}</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="outline" className="w-full border-gray-300 text-gray-700 hover:bg-gray-100">
+        {/* Chunky, full-hand width buttons for effortless register operations */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button variant="outline" className="w-full h-14 border-gray-300 text-gray-700 text-base font-semibold active:bg-gray-200 rounded-xl">
             Hold Order
           </Button>
-          <Button className="w-full bg-amber-700 hover:bg-amber-800 text-white font-medium">
+          <Button className="w-full h-14 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white text-base font-bold shadow-md rounded-xl">
             Pay Now
           </Button>
         </div>
