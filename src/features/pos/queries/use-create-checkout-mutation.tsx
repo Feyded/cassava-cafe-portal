@@ -6,6 +6,10 @@ type CreateCheckoutPayload = {
   items: {
     variant_id: number;
     quantity: number;
+    modifiers: {
+      modifier_id: number;
+      quantity: number;
+    }[];
   }[];
 };
 
