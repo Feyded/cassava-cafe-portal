@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Wallet, Banknote, CreditCard, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
+import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 
 export type Modifier = {
   id: number;
@@ -35,7 +36,7 @@ interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
   isLoading: boolean;
-  onCheckout: (amountPaid: number) => Promise<void>;
+  onCheckout: (payment: CheckoutPaymentPayload) => Promise<void>;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -46,10 +47,12 @@ export function PayDialog({
   isLoading,
   onCheckout,
 }: PayDialogProps) {
-  const [paymentMethod, setPaymentMethod] = useState<
-    "CASH" | "CARD" | "WALLET"
-  >("CASH");
   const [amountPaid, setAmountPaid] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<"cash" | "qr" | "card">(
+    "cash",
+  );
+  const [reference, setReference] = useState<string | null>(null);
+  const [paymentProvider, setPaymentProvider] = useState<string | null>(null);
 
   const calculateItemTotal = (item: CartItem) => {
     const basePrice = parseFloat(item.price) || 0;
@@ -73,7 +76,12 @@ export function PayDialog({
 
   const handleCheckout = async () => {
     try {
-      await onCheckout(Number(amountPaid));
+      await onCheckout({
+        payment_method: paymentMethod,
+        received_amount: parsedAmountPaid,
+        reference_number: reference || "",
+        payment_provider: paymentProvider || "",
+      });
       setAmountPaid("");
     } catch {}
   };
@@ -160,27 +168,27 @@ export function PayDialog({
               <div className="grid grid-cols-3 gap-3">
                 <Button
                   type="button"
-                  variant={paymentMethod === "CASH" ? "default" : "outline"}
+                  variant={paymentMethod === "cash" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("CASH")}
+                  onClick={() => setPaymentMethod("cash")}
                 >
                   <Banknote className="h-6 w-6" />
                   <span>Cash</span>
                 </Button>
                 <Button
                   type="button"
-                  variant={paymentMethod === "CARD" ? "default" : "outline"}
+                  variant={paymentMethod === "card" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("CARD")}
+                  onClick={() => setPaymentMethod("card")}
                 >
                   <CreditCard className="h-6 w-6" />
                   <span>Card</span>
                 </Button>
                 <Button
                   type="button"
-                  variant={paymentMethod === "WALLET" ? "default" : "outline"}
+                  variant={paymentMethod === "qr" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("WALLET")}
+                  onClick={() => setPaymentMethod("qr")}
                 >
                   <Wallet className="h-6 w-6" />
                   <span>E-Wallet</span>
@@ -199,7 +207,7 @@ export function PayDialog({
                 </span>
               </div>
 
-              {paymentMethod === "CASH" && (
+              {paymentMethod === "cash" && (
                 <>
                   <div className="space-y-2">
                     <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
@@ -261,6 +269,40 @@ export function PayDialog({
                   </div>
                 </>
               )}
+
+              {paymentMethod === "qr" && (
+                <>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                      Payment Provider
+                    </label>
+                    <Input type="text" placeholder="Enter payment provider" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                      Reference Number
+                    </label>
+                    <Input type="text" placeholder="Enter reference number" />
+                  </div>
+                </>
+              )}
+
+              {paymentMethod === "card" && (
+                <>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                      Payment Provider
+                    </label>
+                    <Input type="text" placeholder="Enter payment provider" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                      Reference Number
+                    </label>
+                    <Input type="text" placeholder="Enter reference number" />
+                  </div>
+                </>
+              )}
             </div>
 
             {/* 3. Action Processing Button */}
@@ -269,7 +311,7 @@ export function PayDialog({
                 type="button"
                 size="lg"
                 className="w-full h-16 text-xl font-black uppercase tracking-wider"
-                disabled={paymentMethod === "CASH" && changeDue < 0}
+                disabled={isLoading || parsedAmountPaid < totalAmount}
                 loading={isLoading}
                 onClick={handleCheckout}
               >

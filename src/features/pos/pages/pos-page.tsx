@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
 import CheckoutSuccessDialog from "../components/checkout-success-dialog";
 import type { Order } from "@/types/models/order";
+import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -35,10 +36,13 @@ export default function PosPage() {
     setIsCustomizerOpen(true);
   };
 
-  const handleCheckout = async (amountPaid: number) => {
+  const handleCheckout = async (payment: CheckoutPaymentPayload) => {
     try {
       const payload = {
-        received_amount: amountPaid,
+        payment_method: payment.payment_method,
+        received_amount: payment.received_amount,
+        reference_number: payment.reference_number,
+        payment_provider: payment.payment_provider,
         items: cart.map((item) => ({
           variant_id: item.variant_id,
           quantity: item.quantity,
