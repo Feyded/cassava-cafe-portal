@@ -4,14 +4,18 @@ import type { CartItem } from "../types/cart-item";
 export default function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  const removeFromCart = (id: string) => {
+    setCart((current) => current.filter((item) => item.id !== id));
+  };
+
   // ADD TO CART
-  const addToCart = (cartItem: CartItem) => {
+  const addToCart = (cartItem: CartItem) =>
     setCart((current) => {
       const exist = current.find((item) => item.id === cartItem.id);
 
       if (exist) {
         return current.map((item) =>
-          item.variant_id === cartItem.variant_id
+          item.id === cartItem.id
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
@@ -19,14 +23,12 @@ export default function useCart() {
 
       return [...current, cartItem];
     });
-  };
 
   // UPDATE QTY (+/-)
   const updateQuantity = (id: string, amount: number) => {
     setCart((current) => {
       const item = current.find((i) => i.id === id);
       if (!item) return current;
-
       const newQty = item.quantity + amount;
 
       if (newQty <= 0) {
@@ -54,6 +56,7 @@ export default function useCart() {
     cart,
     setCart,
     addToCart,
+    removeFromCart,
     updateQuantity,
     clearCart,
     subtotal,

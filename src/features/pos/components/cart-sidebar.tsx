@@ -6,17 +6,41 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import type { CartItem } from "../types/cart-item";
 import { formatPrice } from "@/utils/format-price";
+import { useMemo } from "react";
 
 type CartSidebarProps = {
   cart: CartItem[];
   updateQuantity: (id: string, quantity: number) => void;
+  removeFromCart: (id: string) => void;
 };
 
 export default function CartSidebar({
   cart,
   updateQuantity,
+  removeFromCart,
 }: CartSidebarProps) {
   // Mock cart items for demonstration
+
+  const getSubtotal = useMemo(() => {
+    return cart.reduce(
+      (sum, item) => sum + Number(item.price) * item.quantity,
+      0,
+    );
+  }, [cart]);
+
+  const getDiscount = useMemo(() => {
+    return cart.reduce(
+      (sum, item) => sum + Number(item.price) * item.quantity,
+      0,
+    );
+  }, [cart]);
+
+  const getTotal = useMemo(() => {
+    return cart.reduce(
+      (sum, item) => sum + Number(item.price) * item.quantity,
+      0,
+    );
+  }, [cart]);
 
   return (
     // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
@@ -90,9 +114,8 @@ export default function CartSidebar({
                       variant="ghost"
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity - 1)
-                      }
+                      type="button"
+                      onClick={() => updateQuantity(item.id, -1)}
                     >
                       <Minus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
@@ -103,9 +126,8 @@ export default function CartSidebar({
                       variant="ghost"
                       size="icon"
                       className="h-11 w-11 text-gray-700 hover:bg-gray-200 active:bg-gray-300 rounded-none"
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity + 1)
-                      }
+                      type="button"
+                      onClick={() => updateQuantity(item.id, 1)}
                     >
                       <Plus className="h-4 w-4 stroke-[2.5]" />
                     </Button>
@@ -116,6 +138,8 @@ export default function CartSidebar({
                     variant="outline"
                     size="icon"
                     className="h-11 w-11 border-red-100 text-red-500 hover:bg-red-50 active:bg-red-100"
+                    type="button"
+                    onClick={() => removeFromCart(item.id)}
                   >
                     <Trash2 className="h-5 w-5" />
                   </Button>
@@ -131,16 +155,18 @@ export default function CartSidebar({
         <div className="space-y-2 text-sm text-gray-600">
           <div className="flex justify-between font-medium">
             <span>Subtotal</span>
-            {/* <span className="text-gray-900">${getSubtotal().toFixed(2)}</span> */}
+            <span className="text-gray-900">{formatPrice(getSubtotal)}</span>
           </div>
           <div className="flex justify-between text-xs">
-            <span>Tax (8%)</span>
-            {/* <span>${tax.toFixed(2)}</span> */}
+            <span>Discount</span>
+            <span>{formatPrice(getDiscount)}</span>
           </div>
           <Separator className="my-2 bg-gray-300" />
           <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>
-            {/* <span className="text-xl text-amber-900">${total.toFixed(2)}</span> */}
+            <span className="text-xl text-amber-900">
+              {formatPrice(getTotal)}
+            </span>
           </div>
         </div>
 
