@@ -9,11 +9,15 @@ import { PayDialog } from "../components/pay-dialog";
 import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
+import CheckoutSuccessDialog from "../components/checkout-success-dialog";
+import type { Order } from "@/types/models/order";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isPayDialogOpen, setIsPayDialogOpen] = useState(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+  const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const productsQuery = useGetProductsQuery({
     page: 1,
@@ -46,10 +50,11 @@ export default function PosPage() {
         })),
       };
 
-      await checkoutMutation.mutateAsync(payload);
+      const response = await checkoutMutation.mutateAsync(payload);
       setIsPayDialogOpen(false);
       clearCart();
-
+      setCompletedOrder(response.data);
+      setIsSuccessDialogOpen(true);
       toast.success("Checkout successful!");
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -87,6 +92,12 @@ export default function PosPage() {
         cart={cart}
         onCheckout={handleCheckout}
         isLoading={checkoutMutation.isPending}
+      />
+
+      <CheckoutSuccessDialog
+        isOpen={isSuccessDialogOpen}
+        onOpenChange={setIsSuccessDialogOpen}
+        order={completedOrder!}
       />
     </div>
   );
