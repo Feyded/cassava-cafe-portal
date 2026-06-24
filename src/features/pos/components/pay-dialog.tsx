@@ -120,9 +120,14 @@ export function PayDialog({
                         {formatPrice(calculateItemTotal(item))}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1 italic">
-                      {item.variant_name}
-                    </p>
+                    <div className="flex justify-between items-center gap-4 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1 italic">
+                        {item.variant_name}
+                      </p>
+                      <span className="font-mono tabular-nums text-xs text-muted-foreground">
+                        {formatPrice(parseFloat(item.price))}
+                      </span>
+                    </div>
 
                     {item.modifiers && item.modifiers.length > 0 && (
                       <div className="mt-2 pl-3 border-l-2 border-primary/40 space-y-1 block bg-muted/20 py-1 rounded-r">
