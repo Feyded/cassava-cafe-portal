@@ -23,13 +23,6 @@ export default function CartSidebar({
 }: CartSidebarProps) {
   // Mock cart items for demonstration
 
-  const getSubtotal = useMemo(() => {
-    return cart.reduce(
-      (sum, item) => sum + Number(item.price) * item.quantity,
-      0,
-    );
-  }, [cart]);
-
   // const getDiscount = useMemo(() => {
   //   return cart.reduce(
   //     (sum, item) => sum + Number(item.price) * item.quantity,
@@ -45,6 +38,10 @@ export default function CartSidebar({
     );
     return (basePrice + modifiersPrice) * item.quantity;
   };
+
+  const getSubtotal = useMemo(() => {
+    return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
+  }, [cart]);
 
   const getTotal = useMemo(() => {
     return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
