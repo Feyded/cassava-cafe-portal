@@ -52,13 +52,19 @@ export default function PosPage() {
 
       const response = await checkoutMutation.mutateAsync(payload);
       setIsPayDialogOpen(false);
-      clearCart();
       setCompletedOrder(response.data);
       setIsSuccessDialogOpen(true);
       toast.success("Checkout successful!");
     } catch (error) {
       toast.error(getErrorMessage(error));
+      throw error;
     }
+  };
+
+  const handleNewSale = () => {
+    clearCart();
+    setCompletedOrder(null);
+    setIsSuccessDialogOpen(false);
   };
 
   return (
@@ -97,7 +103,8 @@ export default function PosPage() {
       <CheckoutSuccessDialog
         isOpen={isSuccessDialogOpen}
         onOpenChange={setIsSuccessDialogOpen}
-        order={completedOrder!}
+        order={completedOrder}
+        onNewSale={handleNewSale}
       />
     </div>
   );

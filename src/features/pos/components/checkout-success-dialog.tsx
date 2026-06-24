@@ -14,8 +14,8 @@ import { formatDate } from "@/utils/format-date";
 type CheckoutSuccessDialogProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  order: Order;
-  onNewSale?: () => void;
+  order: Order | null;
+  onNewSale: () => void;
 };
 
 export default function CheckoutSuccessDialog({
@@ -66,12 +66,7 @@ export default function CheckoutSuccessDialog({
         </div>
 
         <DialogFooter className="flex-col gap-2 sm:flex-row">
-          <Button
-            className="w-full"
-            onClick={() => {
-              onOpenChange(false);
-            }}
-          >
+          <Button className="w-full" onClick={onNewSale}>
             New Sale
           </Button>
         </DialogFooter>

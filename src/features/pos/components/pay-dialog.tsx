@@ -35,7 +35,7 @@ interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
   isLoading: boolean;
-  onCheckout: (amountPaid: number) => void;
+  onCheckout: (amountPaid: number) => Promise<void>;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -71,6 +71,13 @@ export function PayDialog({
     setAmountPaid(amount.toString());
   };
 
+  const handleCheckout = async () => {
+    try {
+      await onCheckout(Number(amountPaid));
+      setAmountPaid("");
+    } catch {}
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="w-[96vw] md:max-w-5xl lg:max-w-6xl h-[90vh] md:h-[80vh] max-h-[850px] p-0 gap-0 overflow-hidden bg-background text-foreground flex flex-col">
@@ -83,9 +90,7 @@ export function PayDialog({
         </DialogHeader>
 
         {/* Master Form Layout */}
-        <div
-          className="grid grid-cols-1 md:grid-cols-12 flex-1 min-h-0 w-full"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-12 flex-1 min-h-0 w-full">
           {/* LEFT PANEL: Extra Wide Order Breakdown */}
           <div className="md:col-span-5 bg-muted/30 p-6 border-b md:border-b-0 md:border-r flex flex-col min-h-0">
             <h3 className="font-bold text-xs uppercase tracking-wider text-muted-foreground mb-4 shrink-0">
@@ -266,7 +271,7 @@ export function PayDialog({
                 className="w-full h-16 text-xl font-black uppercase tracking-wider"
                 disabled={paymentMethod === "CASH" && changeDue < 0}
                 loading={isLoading}
-                onClick={() => onCheckout(Number(amountPaid))}
+                onClick={handleCheckout}
               >
                 Complete Transaction
               </Button>
