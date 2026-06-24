@@ -28,12 +28,12 @@ export default function CartSidebar({
     );
   }, [cart]);
 
-  const getDiscount = useMemo(() => {
-    return cart.reduce(
-      (sum, item) => sum + Number(item.price) * item.quantity,
-      0,
-    );
-  }, [cart]);
+  // const getDiscount = useMemo(() => {
+  //   return cart.reduce(
+  //     (sum, item) => sum + Number(item.price) * item.quantity,
+  //     0,
+  //   );
+  // }, [cart]);
 
   const getTotal = useMemo(() => {
     return cart.reduce(
@@ -157,10 +157,10 @@ export default function CartSidebar({
             <span>Subtotal</span>
             <span className="text-gray-900">{formatPrice(getSubtotal)}</span>
           </div>
-          <div className="flex justify-between text-xs">
+          {/* <div className="flex justify-between text-xs">
             <span>Discount</span>
             <span>{formatPrice(getDiscount)}</span>
-          </div>
+          </div> */}
           <Separator className="my-2 bg-gray-300" />
           <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>
