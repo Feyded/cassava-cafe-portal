@@ -31,7 +31,7 @@ export default function ProductList({
   onProductClick,
 }: ProductListProps) {
   return (
-    <div className="flex-1 p-4 overflow-hidden pr-80">
+    <div className="flex-1 p-4 overflow-hidden pr-100">
       <Link to="/" className="mb-4 inline-block">
         <Button size="sm" variant="outline">
           <ArrowLeft className="size-4" />
@@ -51,7 +51,7 @@ export default function ProductList({
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 overflow-y-auto">
           {loading &&
             Array.from({ length: 8 }).map((_, index) => (
               <div className="p-2" key={index}>
