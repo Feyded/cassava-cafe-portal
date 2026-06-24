@@ -12,12 +12,14 @@ type CartSidebarProps = {
   cart: CartItem[];
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
+  onProceedToPay: () => void;
 };
 
 export default function CartSidebar({
   cart,
   updateQuantity,
   removeFromCart,
+  onProceedToPay,
 }: CartSidebarProps) {
   // Mock cart items for demonstration
 
@@ -35,11 +37,17 @@ export default function CartSidebar({
   //   );
   // }, [cart]);
 
-  const getTotal = useMemo(() => {
-    return cart.reduce(
-      (sum, item) => sum + Number(item.price) * item.quantity,
+  const calculateItemTotal = (item: CartItem) => {
+    const basePrice = parseFloat(item.price) || 0;
+    const modifiersPrice = (item.modifiers || []).reduce(
+      (sum, mod) => sum + (parseFloat(mod.price) || 0),
       0,
     );
+    return (basePrice + modifiersPrice) * item.quantity;
+  };
+
+  const getTotal = useMemo(() => {
+    return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
   }, [cart]);
 
   return (
@@ -77,12 +85,18 @@ export default function CartSidebar({
                 <div className="flex justify-between items-start gap-2">
                   <div className="font-semibold text-base text-gray-900 pt-1">
                     {item.product_name}
-                    <span className="text-sm font-normal text-gray-600">
-                      {" "}
-                      ( {item.variant_name})
-                    </span>
                   </div>
                   <div className="text-base font-bold text-gray-900 pt-1 shrink-0">
+                    {formatPrice(calculateItemTotal(item))}
+                  </div>
+                </div>
+                <div className="flex justify-between items-start gap-2">
+                  <div className="font-semibold text-base text-gray-900 pt-1">
+                    <p className="text-xs text-muted-foreground mt-1 italic">
+                      {item.variant_name}
+                    </p>
+                  </div>
+                  <div className="text-xs font-bold text-gray-900 pt-1 shrink-0">
                     {formatPrice(item.price)}
                   </div>
                 </div>
@@ -171,14 +185,18 @@ export default function CartSidebar({
         </div>
 
         {/* Chunky, full-hand width buttons for effortless register operations */}
-        <div className="grid grid-cols-2 gap-3">
-          <Button
+        <div className="grid grid-cols-1 gap-3">
+          {/* <Button
             variant="outline"
             className="w-full h-14 border-gray-300 text-gray-700 text-base font-semibold active:bg-gray-200 rounded-xl"
           >
             Hold Order
-          </Button>
-          <Button className="w-full h-14 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white text-base font-bold shadow-md rounded-xl">
+          </Button> */}
+          <Button
+            className="w-full h-14 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white text-base font-bold shadow-md rounded-xl"
+            onClick={onProceedToPay}
+            type="button"
+          >
             Pay Now
           </Button>
         </div>
