@@ -55,6 +55,7 @@ export default function PosPage() {
       };
 
       const response = await checkoutMutation.mutateAsync(payload);
+      
       setIsPayDialogOpen(false);
       setCompletedOrder(response.data);
       setIsSuccessDialogOpen(true);

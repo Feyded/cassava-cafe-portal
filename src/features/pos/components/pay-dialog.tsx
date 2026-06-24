@@ -11,6 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Wallet, Banknote, CreditCard, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 import type { CheckoutPaymentPayload } from "../types/checkout-payment";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export type Modifier = {
   id: number;
@@ -74,6 +82,19 @@ export function PayDialog({
     setAmountPaid(amount.toString());
   };
 
+  const handleChangePayment = (method: "cash" | "qr" | "card") => {
+    setPaymentMethod(method);
+
+    setReference(null);
+    setPaymentProvider(null);
+
+    if (method === "cash") {
+      setAmountPaid("0");
+    } else {
+      setAmountPaid(totalAmount.toString());
+    }
+  };
+
   const handleCheckout = async () => {
     try {
       await onCheckout({
@@ -84,6 +105,16 @@ export function PayDialog({
       });
       setAmountPaid("");
     } catch {}
+  };
+
+  const isValid = () => {
+    if (paymentMethod === "cash" && parsedAmountPaid < totalAmount)
+      return false;
+    if (paymentMethod === "qr" && (!paymentProvider || !reference))
+      return false;
+    if (paymentMethod === "card" && (!paymentProvider || !reference))
+      return false;
+    return true;
   };
 
   return (
@@ -170,7 +201,7 @@ export function PayDialog({
                   type="button"
                   variant={paymentMethod === "cash" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("cash")}
+                  onClick={() => handleChangePayment("cash")}
                 >
                   <Banknote className="h-6 w-6" />
                   <span>Cash</span>
@@ -179,7 +210,7 @@ export function PayDialog({
                   type="button"
                   variant={paymentMethod === "card" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("card")}
+                  onClick={() => handleChangePayment("card")}
                 >
                   <CreditCard className="h-6 w-6" />
                   <span>Card</span>
@@ -188,7 +219,7 @@ export function PayDialog({
                   type="button"
                   variant={paymentMethod === "qr" ? "default" : "outline"}
                   className="h-20 flex flex-col gap-2 items-center justify-center text-sm font-bold transition-all"
-                  onClick={() => setPaymentMethod("qr")}
+                  onClick={() => handleChangePayment("qr")}
                 >
                   <Wallet className="h-6 w-6" />
                   <span>E-Wallet</span>
@@ -271,20 +302,56 @@ export function PayDialog({
               )}
 
               {paymentMethod === "qr" && (
-                <>
+                <div className="space-y-4 animate-in fade-in-50 duration-200">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">
                       Payment Provider
-                    </label>
-                    <Input type="text" placeholder="Enter payment provider" />
+                    </Label>
+                    <Select
+                      required={true}
+                      value={paymentProvider || ""}
+                      onValueChange={setPaymentProvider}
+                    >
+                      <SelectTrigger className="w-full h-12 text-base font-medium border-2">
+                        <SelectValue placeholder="Select QR Provider" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem
+                          value="gcash"
+                          className="font-semibold py-3 text-base"
+                        >
+                          GCash
+                        </SelectItem>
+                        <SelectItem
+                          value="maya"
+                          className="font-semibold py-3 text-base"
+                        >
+                          Maya
+                        </SelectItem>
+                        <SelectItem
+                          value="grabpay"
+                          className="font-semibold py-3 text-base"
+                        >
+                          GrabPay
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
+
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">
                       Reference Number
-                    </label>
-                    <Input type="text" placeholder="Enter reference number" />
+                    </Label>
+                    <Input
+                      required={true}
+                      type="text"
+                      placeholder="Enter reference number"
+                      className="h-12 border-2 text-base font-mono"
+                      value={reference || ""}
+                      onChange={(e) => setReference(e.target.value)}
+                    />
                   </div>
-                </>
+                </div>
               )}
 
               {paymentMethod === "card" && (
@@ -293,13 +360,23 @@ export function PayDialog({
                     <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
                       Payment Provider
                     </label>
-                    <Input type="text" placeholder="Enter payment provider" />
+                    <Input
+                      value={paymentProvider || ""}
+                      onChange={(e) => setPaymentProvider(e.target.value)}
+                      type="text"
+                      placeholder="Enter payment provider"
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
                       Reference Number
                     </label>
-                    <Input type="text" placeholder="Enter reference number" />
+                    <Input
+                      value={reference || ""}
+                      onChange={(e) => setReference(e.target.value)}
+                      type="text"
+                      placeholder="Enter reference number"
+                    />
                   </div>
                 </>
               )}
@@ -311,7 +388,7 @@ export function PayDialog({
                 type="button"
                 size="lg"
                 className="w-full h-16 text-xl font-black uppercase tracking-wider"
-                disabled={isLoading || parsedAmountPaid < totalAmount}
+                disabled={isLoading || !isValid()}
                 loading={isLoading}
                 onClick={handleCheckout}
               >
