@@ -23,7 +23,8 @@ export default function PosPage() {
 
   const checkoutMutation = useCreateCheckoutMutation();
 
-  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+  const { cart, addToCart, removeFromCart, updateQuantity, clearCart } =
+    useCart();
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -33,7 +34,7 @@ export default function PosPage() {
   const handleCheckout = async (amountPaid: number) => {
     try {
       const payload = {
-        received_amount: amountPaid, 
+        received_amount: amountPaid,
         items: cart.map((item) => ({
           variant_id: item.variant_id,
           quantity: item.quantity,
@@ -47,6 +48,8 @@ export default function PosPage() {
 
       await checkoutMutation.mutateAsync(payload);
       setIsPayDialogOpen(false);
+      clearCart();
+
       toast.success("Checkout successful!");
     } catch (error) {
       toast.error(getErrorMessage(error));

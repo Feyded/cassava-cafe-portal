@@ -196,6 +196,7 @@ export default function CartSidebar({
             className="w-full h-14 bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white text-base font-bold shadow-md rounded-xl"
             onClick={onProceedToPay}
             type="button"
+            disabled={cart.length <= 0}
           >
             Pay Now
           </Button>
