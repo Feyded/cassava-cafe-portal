@@ -60,7 +60,7 @@ export default function CartSidebar({
       </div>
 
       {/* 2. Cart Items List (High-contrast tap rows) */}
-      <ScrollArea className="flex-1 px-4 py-2">
+      <ScrollArea className="flex-1 min-h-0 px-4 py-2">
         {cart.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-96 text-gray-400 gap-3">
             <Coffee className="h-12 w-12 stroke-1" />
