@@ -33,12 +33,9 @@ export type CartItem = {
 
 interface PayDialogProps {
   cart: CartItem[];
-  onCompletePayment: (
-    paymentMethod: string,
-    amountPaid: number,
-    change: number,
-  ) => void;
   isOpen: boolean;
+  isLoading: boolean;
+  onCheckout: (amountPaid: number) => void;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -46,7 +43,8 @@ export function PayDialog({
   cart,
   isOpen,
   onOpenChange,
-  onCompletePayment,
+  isLoading,
+  onCheckout,
 }: PayDialogProps) {
   const [paymentMethod, setPaymentMethod] = useState<
     "CASH" | "CARD" | "WALLET"
@@ -73,12 +71,6 @@ export function PayDialog({
     setAmountPaid(amount.toString());
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (parsedAmountPaid < totalAmount && paymentMethod === "CASH") return;
-    onCompletePayment(paymentMethod, parsedAmountPaid, Math.max(0, changeDue));
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="w-[96vw] md:max-w-5xl lg:max-w-6xl h-[90vh] md:h-[80vh] max-h-[850px] p-0 gap-0 overflow-hidden bg-background text-foreground flex flex-col">
@@ -91,8 +83,7 @@ export function PayDialog({
         </DialogHeader>
 
         {/* Master Form Layout */}
-        <form
-          onSubmit={handleSubmit}
+        <div
           className="grid grid-cols-1 md:grid-cols-12 flex-1 min-h-0 w-full"
         >
           {/* LEFT PANEL: Extra Wide Order Breakdown */}
@@ -270,16 +261,18 @@ export function PayDialog({
             {/* 3. Action Processing Button */}
             <DialogFooter className="pt-4 border-t shrink-0">
               <Button
-                type="submit"
+                type="button"
                 size="lg"
                 className="w-full h-16 text-xl font-black uppercase tracking-wider"
                 disabled={paymentMethod === "CASH" && changeDue < 0}
+                loading={isLoading}
+                onClick={() => onCheckout(Number(amountPaid))}
               >
                 Complete Transaction
               </Button>
             </DialogFooter>
           </div>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -25,6 +25,18 @@ type OrderItems = {
   subtotal: string;
   created_at: string;
   updated_at: string;
+  modifiers: OrderItemModifier[];
+};
+
+type OrderItemModifier = {
+  id: number;
+  order_item_id: number;
+  modifier_id: number;
+  modifier_name: string;
+  quantity: number;
+  modifier_price: string;
+  created_at: string;
+  updated_at: string;
 };
 
 type Payment = {

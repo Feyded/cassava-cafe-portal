@@ -28,6 +28,15 @@ export default function ReceiptDialog({
     window.print();
   };
 
+  const calculateItemTotal = (item: Order["items"][number]) => {
+    const basePrice = parseFloat(item.unit_price);
+    const modifiersPrice = (item.modifiers || []).reduce(
+      (sum, mod) => sum + parseFloat(mod.modifier_price),
+      0,
+    );
+    return (basePrice + modifiersPrice) * item.quantity;
+  };
+
   if (!order) return null;
 
   return (
@@ -77,25 +86,55 @@ export default function ReceiptDialog({
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Items Summary
             </h4>
-            <div className="space-y-2 max-h-[180px] overflow-y-auto pr-1">
-              {order.items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-start text-sm"
-                >
-                  <div className="space-y-0.5">
-                    <p className="font-medium text-foreground pr-4 line-clamp-1">
-                      {item.product_name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Qty: {item.quantity} × {formatPrice(item.unit_price)}
-                    </p>
+            <div className="space-y-4 overflow-y-auto flex-1 pr-2">
+              {order && order.items.length > 0 ? (
+                order.items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="text-sm border-b border-border/60 pb-3 last:border-0 last:pb-0 block"
+                  >
+                    <div className="flex justify-between font-semibold items-start gap-4">
+                      <span className="break-words text-base">
+                        {item.product_name}
+                        <span className="text-muted-foreground font-normal text-sm ml-2 bg-muted px-2 py-0.5 rounded">
+                          x{item.quantity}
+                        </span>
+                      </span>
+                      <span className="font-mono tabular-nums text-base">
+                        {formatPrice(calculateItemTotal(item))}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center gap-4 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1 italic">
+                        {item.variant_name}
+                      </p>
+                      <span className="font-mono tabular-nums text-xs text-muted-foreground">
+                        {formatPrice(parseFloat(item.unit_price))}
+                      </span>
+                    </div>
+
+                    {item.modifiers && item.modifiers.length > 0 && (
+                      <div className="mt-2 pl-3 border-l-2 border-primary/40 space-y-1 block bg-muted/20 py-1 rounded-r">
+                        {item.modifiers.map((mod) => (
+                          <div
+                            key={mod.id}
+                            className="text-xs text-muted-foreground flex justify-between items-center pr-2"
+                          >
+                            <span>+ {mod.modifier_name}</span>
+                            <span className="font-mono">
+                              {formatPrice(parseFloat(mod.modifier_price))}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <span className="font-medium text-foreground shrink-0">
-                    {formatPrice(Number(item.unit_price) * item.quantity)}
-                  </span>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  No items in cart
+                </p>
+              )}
             </div>
           </div>
 
