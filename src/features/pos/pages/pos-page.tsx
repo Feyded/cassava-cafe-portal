@@ -11,7 +11,7 @@ import { getErrorMessage } from "@/shared/utils/get-error-message";
 import CheckoutSuccessDialog from "../components/checkout-success-dialog";
 import type { Order } from "@/entities/order";
 import type { Product } from "@/entities/product";
-import type { CheckoutPaymentPayload } from "../types";
+import type { CheckoutPaymentDto } from "../types";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -36,7 +36,7 @@ export default function PosPage() {
     setIsCustomizerOpen(true);
   };
 
-  const handleCheckout = async (payment: CheckoutPaymentPayload) => {
+  const handleCheckout = async (payment: CheckoutPaymentDto) => {
     try {
       const payload = {
         payment_method: payment.payment_method,

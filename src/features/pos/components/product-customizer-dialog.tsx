@@ -30,7 +30,9 @@ export function ProductCustomizerDialog({
   onClose,
   onAddToCart,
 }: ProductCustomizerDialogProps) {
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    null,
+  );
   const [selectedModifiers, setSelectedModifiers] = useState<Modifier[] | []>(
     [],
   );
@@ -84,6 +86,7 @@ export function ProductCustomizerDialog({
       modifiers: selectedModifiers,
     };
 
+    console.log(selectedModifiers);
     onAddToCart(item);
     onClose();
   };

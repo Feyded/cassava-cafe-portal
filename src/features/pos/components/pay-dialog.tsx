@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import type { Modifier } from "@/entities/modifier";
-import type { CheckoutPaymentPayload } from "../types";
+import type { CheckoutPaymentDto } from "../types";
 
 
 export type CartItem = {
@@ -37,7 +37,7 @@ interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
   isLoading: boolean;
-  onCheckout: (payment: CheckoutPaymentPayload) => Promise<void>;
+  onCheckout: (payment: CheckoutPaymentDto) => Promise<void>;
   onOpenChange: (open: boolean) => void;
 }
 

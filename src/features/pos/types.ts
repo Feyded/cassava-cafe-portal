@@ -11,9 +11,21 @@ export type CartItem = {
   modifiers: Modifier[] | [];
 };
 
-export type CheckoutPaymentPayload = {
-    payment_method: "cash" | "qr" | "card";
-    received_amount: number;
-    reference_number: string;
-    payment_provider: string;
-  };
+export type CheckoutPaymentDto = {
+  payment_method: "cash" | "qr" | "card";
+  received_amount: number;
+  reference_number: string;
+  payment_provider: string;
+};
+
+export type CreateCheckoutDto = {
+  received_amount: number;
+  items: {
+    variant_id: number;
+    quantity: number;
+    modifiers: {
+      modifier_id: number;
+      quantity: number;
+    }[];
+  }[];
+};
