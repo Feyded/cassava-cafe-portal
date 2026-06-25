@@ -1,10 +1,9 @@
 import { api } from "@/services/api/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateProductPayload } from "../../types/product";
 
 type UpdateProductArgs = {
   id: number;
-  payload: CreateProductPayload;
+  payload: any;
 };
 
 export default function useUpdateProductMutation() {

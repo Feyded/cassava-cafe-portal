@@ -15,14 +15,14 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
-import type { Variant } from "@/types/models/product";
 import useCreateVariantMutation from "../queries/use-create-variant-mutation";
 import useUpdateVariantMutation from "../queries/use-update-variant-mutation";
+import type { ProductVariant } from "@/entities/product";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
-  editingVariant: Variant | null;
+  editingVariant: ProductVariant | null;
   productId: string;
 };
 

@@ -23,7 +23,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import type { AxiosError } from "axios";
 import { getErrorMessage } from "@/utils/get-error-message";
 
 const highlights = [

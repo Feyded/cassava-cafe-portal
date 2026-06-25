@@ -4,17 +4,17 @@ import useGetProductVariantsQuery from "../queries/use-get-product-variants-quer
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Variant } from "@/types/models/product";
 import { formatPrice } from "@/utils/format-price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import VariantModal from "../components/variant-modal";
+import type { ProductVariant } from "@/entities/product";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [editingVariant, setEditingVariant] = useState<Variant | null>(null);
+  const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
   const { id } = useParams();
@@ -27,7 +27,7 @@ export default function ProductDetailsPage() {
     productId: Number(id),
   });
 
-  const columns: ColumnDef<Variant>[] = [
+  const columns: ColumnDef<ProductVariant>[] = [
     {
       accessorKey: "name",
       header: "Variant",
@@ -68,7 +68,7 @@ export default function ProductDetailsPage() {
     setOpenModal(true);
   };
 
-  const handleEditVariant = (variant: Variant) => {
+  const handleEditVariant = (variant: ProductVariant) => {
     setEditingVariant(variant);
     setOpenModal(true);
   };

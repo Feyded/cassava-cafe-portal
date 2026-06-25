@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Order } from "../../../../types/models/order";
 import { formatPrice } from "@/utils/format-price";
 import { formatDate } from "@/utils/format-date";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { Order } from "@/entities/order";
 
 type ColumnsProps = {
   onViewReceipt: (order: Order) => void;

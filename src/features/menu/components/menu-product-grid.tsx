@@ -1,6 +1,6 @@
 import { formatFileUrl } from "@/utils/format-file-url";
 import { getPriceLabel } from "../hooks/get-price-label";
-import type { Product} from "../../../types/models/product";
+import type { Product } from "@/entities/product";
 
 type MenuProductGridProps = {
   items: Product[];

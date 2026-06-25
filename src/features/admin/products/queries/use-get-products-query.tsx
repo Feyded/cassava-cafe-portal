@@ -1,6 +1,6 @@
+import type { Product } from "@/entities/product";
 import { api } from "@/services/api/axios";
 import { useQuery } from "@tanstack/react-query";
-import type { Product } from "@/types/models/product";
 
 type GetProductsParams = {
   search?: string;

@@ -1,7 +1,7 @@
+import type { ProductVariant } from "@/entities/product";
 import { formatPrice } from "@/utils/format-price";
-import type { Variant } from "../../../types/models/product";
 
-export function getPriceLabel(variants: Variant[]) {
+export function getPriceLabel(variants: ProductVariant[]) {
   if (variants.length === 0) {
     return "Price unavailable";
   }

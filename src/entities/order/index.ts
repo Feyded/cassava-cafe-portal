@@ -1,1 +1,1 @@
-export type { Order, OrderItem, OrderItemModifier, Creator } from "./types";
+export type { Order, OrderItem, OrderItemModifier } from "./types";

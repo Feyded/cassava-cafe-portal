@@ -3,15 +3,15 @@ import { useState } from "react";
 import ProductList from "../components/product-list";
 import CartSidebar from "../components/cart-sidebar";
 import { ProductCustomizerDialog } from "../components/product-customizer-dialog";
-import type { Product } from "@/types/models/product";
 import useCart from "../hooks/use-cart";
 import { PayDialog } from "../components/pay-dialog";
 import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
 import CheckoutSuccessDialog from "../components/checkout-success-dialog";
-import type { Order } from "@/types/models/order";
 import type { CheckoutPaymentPayload } from "../types/checkout-payment";
+import type { Order } from "@/entities/order";
+import type { Product } from "@/entities/product";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);

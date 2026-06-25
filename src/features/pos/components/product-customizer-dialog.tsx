@@ -11,11 +11,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
-import type { Product, Variant } from "@/types/models/product";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/utils/format-price";
-import type { Modifier } from "@/types/models/modifier-group";
 import type { CartItem } from "../types/cart-item";
+import type { Product, ProductVariant } from "@/entities/product";
+import type { Modifier } from "@/entities/modifier";
 
 type ProductCustomizerDialogProps = {
   isOpen: boolean;
@@ -30,7 +30,7 @@ export function ProductCustomizerDialog({
   onClose,
   onAddToCart,
 }: ProductCustomizerDialogProps) {
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
   const [selectedModifiers, setSelectedModifiers] = useState<Modifier[] | []>(
     [],
   );

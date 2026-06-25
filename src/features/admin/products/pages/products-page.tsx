@@ -5,9 +5,9 @@ import { createColumns } from "../components/columns";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import ProductModal from "../components/product-modal";
-import type { Product } from "@/types/models/product";
 import { Input } from "@/components/ui/input";
 import useGetModifierGroupsQuery from "../queries/use-get-modifier-groups-query";
+import type { Product } from "@/entities/product";
 
 export default function ProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);

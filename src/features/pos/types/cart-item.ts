@@ -1,4 +1,4 @@
-import type { Modifier } from "@/types/models/modifier-group";
+import type { Modifier } from "@/entities/modifier";
 
 export type CartItem = {
   id: string;

@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import type { Order } from "../../../../types/models/order";
 import { formatPrice } from "@/utils/format-price";
 import { formatDate } from "@/utils/format-date";
+import type { Order } from "@/entities/order";
 
 interface ReceiptDialogProps {
   isOpen: boolean;

@@ -6,8 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import type { Product } from "@/entities/product";
 import { getPriceLabel } from "@/features/menu/hooks/get-price-label";
-import type { Product } from "@/types/models/product";
+import { formatFileUrl } from "@/utils/format-file-url";
 interface ProductCardProps {
   product: Product;
 }
@@ -16,7 +17,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card size="sm">
       <img
-        src={product.image}
+        src={product.image_path ? formatFileUrl(product.image_path) : undefined}
         alt={product.name}
         className="h-52 w-full object-cover"
       />

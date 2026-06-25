@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { X } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
-import type { Product, Variant } from "../../../types/models/product";
 import { formatFileUrl } from "@/utils/format-file-url";
+import type { Product, ProductVariant } from "@/entities/product";
 
 type ProductDetailsDrawerProps = {
   product: Product | null;
@@ -128,7 +128,7 @@ export default function ProductDetailsDrawer({
                   </div>
 
                   <div className="space-y-2">
-                    {product.variants.map((variant: Variant) => (
+                    {product.variants.map((variant: ProductVariant) => (
                       <div
                         key={variant.id}
                         className="flex items-center justify-between rounded-2xl border border-border/70 bg-card px-4 py-3"

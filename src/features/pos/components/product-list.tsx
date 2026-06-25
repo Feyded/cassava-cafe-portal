@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Product } from "@/types/models/product";
+import type { Product } from "@/entities/product";
 import { formatFileUrl } from "@/utils/format-file-url";
 import { formatPrice } from "@/utils/format-price";
 import { ArrowLeft } from "lucide-react";

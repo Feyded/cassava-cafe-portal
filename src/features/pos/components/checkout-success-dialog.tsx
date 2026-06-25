@@ -6,10 +6,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Printer } from "lucide-react";
-import type { Order } from "@/types/models/order";
+import { CheckCircle2} from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
 import { formatDate } from "@/utils/format-date";
+import type { Order } from "@/entities/order";
 
 type CheckoutSuccessDialogProps = {
   isOpen: boolean;

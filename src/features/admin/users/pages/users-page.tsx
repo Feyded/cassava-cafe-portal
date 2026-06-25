@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
-import type { User } from "../../../../types/models/user";
 import { Input } from "@/components/ui/input";
 import UserFormDialog from "../component/user-form-dialog";
 import useGetUsersQuery from "../queries/use-get-users-query";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
+import type { User } from "@/entities/user";
 
 export default function UsersPage() {
   const [page, setPage] = useState(1);

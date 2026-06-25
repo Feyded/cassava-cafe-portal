@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,15 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import type { Modifier } from "@/entities/modifier";
 
-export type Modifier = {
-  id: number;
-  modifier_group_id: number;
-  name: string;
-  price: string;
-  created_at: string;
-  updated_at: string;
-};
 
 export type CartItem = {
   id: string;

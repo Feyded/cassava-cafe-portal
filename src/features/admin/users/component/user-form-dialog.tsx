@@ -6,7 +6,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { User } from "../../../../types/models/user";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -26,6 +25,7 @@ import useUpdateUsersMutation from "../queries/use-update-user-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import type { User } from "@/entities/user";
 
 interface UserFormDialogProps {
   isOpen: boolean;
