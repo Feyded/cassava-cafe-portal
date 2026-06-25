@@ -78,6 +78,7 @@ export default function PosPage() {
         <ProductList
           products={productsQuery.data?.data}
           loading={productsQuery.isFetching}
+          category={selectedCategory}
           onCategoryChange={setSelectedCategory}
           onProductClick={handleProductClick}
         />

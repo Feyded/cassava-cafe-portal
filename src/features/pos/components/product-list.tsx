@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Product } from "@/entities/product";
+import { cn } from "@/shared/lib/utils";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
 import { formatPrice } from "@/shared/utils/format-price";
 import { ArrowLeft } from "lucide-react";
@@ -9,6 +10,7 @@ import { Link } from "react-router-dom";
 type ProductListProps = {
   products: Product[];
   loading: boolean;
+  category: number;
   onCategoryChange: (categoryId: number) => void;
   onProductClick: (product: Product) => void;
 };
@@ -27,6 +29,7 @@ export const categories = [
 export default function ProductList({
   products,
   loading,
+  category,
   onCategoryChange,
   onProductClick,
 }: ProductListProps) {
@@ -39,14 +42,18 @@ export default function ProductList({
       </Link>
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 mb-5 whitespace-nowrap overflow-x-auto">
-          {categories.map((category) => (
+          {categories.map((categoryItem) => (
             <Button
               size="sm"
-              key={category.value}
-              className="  rounded-md bg-primary text-white"
-              onClick={() => onCategoryChange(category.value)}
+              key={categoryItem.value}
+              className={cn("rounded-md bg-primary text-white", {
+                "bg-primary text-white": category === categoryItem.value,
+                "bg-muted text-muted-foreground":
+                  category !== categoryItem.value,
+              })}
+              onClick={() => onCategoryChange(categoryItem.value)}
             >
-              {category.label}
+              {categoryItem.label}
             </Button>
           ))}
         </div>
