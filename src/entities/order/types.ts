@@ -5,7 +5,7 @@ export interface Order {
   id: number;
   order_number: string;
   status: string;
-  discount_type: string | null;
+  discount_id: number | null;
   discount_amount: string | null;
   subtotal: string;
   total: string;

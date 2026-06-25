@@ -171,10 +171,6 @@ export default function ReceiptDialog({
           {/* Financial Totals */}
           <div className="space-y-1.5 text-sm">
             <div className="flex justify-between text-muted-foreground">
-              <span>Subtotal</span>
-              <span>{formatPrice(order.subtotal)}</span>
-            </div>
-            <div className="flex justify-between text-muted-foreground">
               <span>Received Amount</span>
               <span>{formatPrice(order.payment.received_amount)}</span>
             </div>
@@ -182,20 +178,24 @@ export default function ReceiptDialog({
               <span>Change Amount</span>
               <span>{formatPrice(order.payment.change_amount)}</span>
             </div>
-            {/* {order.discount_type ? (
+            <div className="flex justify-between text-muted-foreground">
+              <span>Subtotal</span>
+              <span>{formatPrice(order.subtotal)}</span>
+            </div>
+             {order.discount_amount ? (
               <div className="flex justify-between text-emerald-600 dark:text-emerald-500">
                 <span>Discount</span>
                 <span>-{formatPrice(order.discount_amount)}</span>
               </div>
             ) : null}
             <div className="flex justify-between text-muted-foreground">
-              <span>Tax</span>
-              <span>{formatPrice(order.tax)}</span>
-            </div> */}
+              <span>Total</span>
+              <span>{formatPrice(order.total)}</span>
+            </div>
             <Separator className="my-1" />
             <div className="flex justify-between text-base font-semibold text-foreground pt-1">
               <span>Total Paid</span>
-              <span>{formatPrice(order.total)}</span>
+              <span>{formatPrice(order.payment.amount)}</span>
             </div>
           </div>
         </div>
