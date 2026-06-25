@@ -11,7 +11,8 @@ import AdminLayout from "../layouts/admin-layout";
 import { GuestOnlyRoute } from "../guards/GuestOnlyRoute";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import ProductDetailsPage from "@/features/admin/products/pages/product-details";
-import PosPage from "@/features/pos/pages/pos-page";
+import CashierPosPage from "@/features/cashier/pos/pages/pos-page";
+import CashierOrdersPage from "@/features/cashier/orders/pages/orders-page";
 import OrderPage from "@/features/admin/orders/pages/order-page";
 import UsersPage from "@/features/admin/users/pages/users-page";
 
@@ -37,7 +38,6 @@ export const router = createBrowserRouter([
           {
             element: <AdminLayout />,
             children: [
-              { path: "pos", element: <PosPage /> },
               { path: "dashboard", element: <AdminDashboardPage /> },
               { path: "products", element: <ProductsPage /> },
               { path: "products/:id", element: <ProductDetailsPage /> },
@@ -52,7 +52,10 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute role={["cashier", "admin"]} />,
         children: [
           {
-            children: [{ path: "pos", element: <PosPage /> }],
+            children: [
+              { path: "pos", element: <CashierPosPage /> },
+              { path: "orders", element: <CashierOrdersPage /> },
+            ],
           },
         ],
       },
