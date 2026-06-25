@@ -20,6 +20,7 @@ export type CheckoutPaymentDto = {
 
 export type CreateCheckoutDto = {
   received_amount: number;
+  discount_id: number | null;
   items: {
     variant_id: number;
     quantity: number;

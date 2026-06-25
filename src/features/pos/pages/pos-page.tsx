@@ -55,6 +55,7 @@ export default function PosPage() {
         received_amount: payment.received_amount,
         reference_number: payment.reference_number,
         payment_provider: payment.payment_provider,
+        discount_id: selectedDiscount?.id || null,
         items: cart.map((item) => ({
           variant_id: item.variant_id,
           quantity: item.quantity,
