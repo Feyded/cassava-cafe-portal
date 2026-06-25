@@ -77,14 +77,16 @@ export default function ReceiptDialog({
                 {order.creator.first_name} {order.creator.last_name}
               </span>
             </div>
-            <div>
-              <span className="text-muted-foreground block text-xs">
-                Payment Provider
-              </span>
-              <span className="font-medium text-foreground block">
-                {order.payment.payment_provider}
-              </span>
-            </div>
+            {order.payment.payment_method !== "cash" && (
+              <div>
+                <span className="text-muted-foreground block text-xs">
+                  Payment Provider
+                </span>
+                <span className="font-medium text-foreground block">
+                  {order.payment.payment_provider}
+                </span>
+              </div>
+            )}
           </div>
 
           <Separator className="my-2" />
