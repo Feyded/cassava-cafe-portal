@@ -7,6 +7,7 @@ import { formatPrice } from "@/shared/utils/format-price";
 import { useMemo, useState } from "react";
 import type { CartItem } from "../types";
 import type { Discount } from "@/entities/discount";
+import { cn } from "@/shared/lib/utils";
 
 type CartSidebarProps = {
   cart: CartItem[];
@@ -191,25 +192,23 @@ export default function CartSidebar({
                   <button
                     type="button"
                     onClick={() => handleDiscountClick(discount.id)}
-                    className={`w-full text-left p-2.5 text-sm rounded-lg border transition-all duration-200 block
-                ${
-                  isSelected
-                    ? "bg-blue-50 border-primary text-primary font-medium shadow-sm"
-                    : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
-                }`}
+                    className={cn(
+                      "inline-flex items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200",
+                      isSelected
+                        ? "border-primary bg-blue-50 font-medium text-primary shadow-sm"
+                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
+                    )}
                   >
-                    <div className="flex justify-between items-center">
-                      <span>{discount.name}</span>
-                      <span
-                        className={
-                          isSelected
-                            ? "text-primary font-semibold"
-                            : "text-gray-500"
-                        }
-                      >
-                        {Number(discount.percentage).toFixed(0)}%
-                      </span>
-                    </div>
+                    <span>{discount.name}</span>
+                    <span
+                      className={
+                        isSelected
+                          ? "text-primary font-semibold"
+                          : "text-gray-500"
+                      }
+                    >
+                      {Number(discount.percentage).toFixed(0)}%
+                    </span>
                   </button>
                 </li>
               );
