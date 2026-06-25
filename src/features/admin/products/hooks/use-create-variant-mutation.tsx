@@ -1,17 +1,13 @@
 import { api } from "@/shared/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { CreateVariantDto } from "../types";
 
-type CreateVariantPayload = {
-  name: string;
-  price: number;
-  isActive: boolean;
-};
 
-export default function useCreateVariantMutation(productId: string) {
+export default function useCreateVariantMutation(productId: number) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["create-variant", productId],
-    mutationFn: async (payload: CreateVariantPayload) => {
+    mutationFn: async (payload: CreateVariantDto) => {
       const { data } = await api.post(`/admin/products/${productId}/variants`, {
         name: payload.name,
         price: payload.price,

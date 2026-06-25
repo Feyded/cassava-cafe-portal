@@ -11,26 +11,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import useCreateVariantMutation from "../hooks/use-create-variant-mutation";
 import useUpdateVariantMutation from "../hooks/use-update-variant-mutation";
 import type { ProductVariant } from "@/entities/product";
+import { productVariantSchema, type ProductVariantFormValues } from "../schema";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
   editingVariant: ProductVariant | null;
-  productId: string;
+  productId: number;
 };
-
-const schema = z.object({
-  name: z.string().min(1, "Name is required").max(60),
-  price: z.string().min(1, "Price is required").max(99999),
-  isActive: z.coerce.boolean(),
-});
 
 export default function VariantModal({
   open,
@@ -54,13 +48,13 @@ export default function VariantModal({
       price: editingVariant?.price ?? "",
       isActive: editingVariant?.is_active ?? false,
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(productVariantSchema),
   });
 
-  const onSubmit = (data: any) => {
-    if (isEdit) {
+  const onSubmit = (data: ProductVariantFormValues) => {
+    if (isEdit && editingVariant) {
       updateVariantMutation.mutate(
-        { id: editingVariant?.id!, ...data },
+        { id: editingVariant.id, ...data },
         {
           onSuccess: () => {
             toast.success("Variant updated successfully");

@@ -30,12 +30,13 @@ import {
   productSchema,
   type ProductFormInput,
   type ProductFormValues,
-} from "../types";
+} from "../schema";
+import type { Product } from "@/entities/product";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
-  editingProduct: any | null;
+  editingProduct: Product | null;
 };
 
 export default function ProductModal({
@@ -66,7 +67,7 @@ export default function ProductModal({
   });
 
   const onSubmit = (data: ProductFormValues) => {
-    if (isEdit) {
+    if (isEdit && editingProduct) {
       updateProductMutation.mutate(
         { id: editingProduct.id, payload: data },
         {
@@ -74,10 +75,8 @@ export default function ProductModal({
             toast.success("Product updated successfully");
             handleClose();
           },
-          onError: (error: any) => {
-            const message =
-              error.response?.data?.message || "Failed to update product";
-            toast.error(message);
+          onError: (error) => {
+            toast.error(getErrorMessage(error));
           },
         },
       );

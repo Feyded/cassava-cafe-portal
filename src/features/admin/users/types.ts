@@ -5,5 +5,5 @@ export interface CreateUserDto {
   email: string;
   password: string;
   role: string;
-  is_active: boolean;
+  is_active: string;
 }

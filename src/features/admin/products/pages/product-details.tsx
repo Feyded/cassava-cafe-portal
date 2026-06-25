@@ -14,7 +14,9 @@ import type { ProductVariant } from "@/entities/product";
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(null);
+  const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(
+    null,
+  );
   const [openModal, setOpenModal] = useState(false);
 
   const { id } = useParams();
@@ -92,7 +94,7 @@ export default function ProductDetailsPage() {
       />
 
       <VariantModal
-        productId={id!}
+        productId={Number(id)}
         editingVariant={editingVariant}
         open={openModal}
         onClose={() => setOpenModal(false)}
