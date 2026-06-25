@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { CartItem } from "../types/cart-item";
+import type { CartItem } from "../types";
 
 export default function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);

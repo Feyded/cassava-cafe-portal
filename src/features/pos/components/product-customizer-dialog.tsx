@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/shared/utils/format-price";
-import type { CartItem } from "../types/cart-item";
 import type { Product, ProductVariant } from "@/entities/product";
 import type { Modifier } from "@/entities/modifier";
+import type { CartItem } from "../types";
 
 type ProductCustomizerDialogProps = {
   isOpen: boolean;

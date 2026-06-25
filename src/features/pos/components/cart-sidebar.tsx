@@ -1,12 +1,12 @@
-import { ShoppingCart, Trash2, Plus, Minus, Coffee, X } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, Coffee } from "lucide-react";
 // Note: Replace these imports with your actual Shadcn component paths
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import type { CartItem } from "../types/cart-item";
 import { formatPrice } from "@/shared/utils/format-price";
 import { useMemo } from "react";
+import type { CartItem } from "../types";
 
 type CartSidebarProps = {
   cart: CartItem[];

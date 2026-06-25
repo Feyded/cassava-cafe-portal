@@ -1,17 +1,17 @@
-import useGetProductsQuery from "../queries/use-get-products-query";
+import useGetProductsQuery from "../hooks/use-get-products-query";
 import { useState } from "react";
 import ProductList from "../components/product-list";
 import CartSidebar from "../components/cart-sidebar";
 import { ProductCustomizerDialog } from "../components/product-customizer-dialog";
 import useCart from "../hooks/use-cart";
 import { PayDialog } from "../components/pay-dialog";
-import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
+import useCreateCheckoutMutation from "../hooks/use-create-checkout-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
 import CheckoutSuccessDialog from "../components/checkout-success-dialog";
-import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 import type { Order } from "@/entities/order";
 import type { Product } from "@/entities/product";
+import type { CheckoutPaymentPayload } from "../types";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);

@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Wallet, Banknote, CreditCard, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/shared/utils/format-price";
-import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 import {
   Select,
   SelectContent,
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import type { Modifier } from "@/entities/modifier";
+import type { CheckoutPaymentPayload } from "../types";
 
 
 export type CartItem = {
