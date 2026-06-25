@@ -13,13 +13,13 @@ interface OrderCardProps {
 
 export function OrderCard({ order, onClick }: OrderCardProps) {
   const statusColors: Record<Order["status"], string> = {
-    Pending:
+    pending:
       "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
-    Preparing:
+    preparing:
       "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-    Ready:
+    ready:
       "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
-    Completed:
+    completed:
       "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400",
   };
 
@@ -42,11 +42,14 @@ export function OrderCard({ order, onClick }: OrderCardProps) {
 
             <h3 className="mt-1 text-lg font-bold">#{order.order_number}</h3>
           </div>
-          <Badge
-            className={cn("border-0 font-semibold", statusColors[order.status])}
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",
+              statusColors[order.status],
+            )}
           >
-            {order.status}
-          </Badge>
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+          </span>
         </div>
 
         {/* Details */}
