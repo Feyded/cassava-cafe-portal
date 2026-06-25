@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
-import useCreateUsersQuery from "../queries/use-create-user-mutation";
-import useUpdateUsersMutation from "../queries/use-update-user-mutation";
+import useCreateUsersQuery from "../hooks/use-create-user-mutation";
+import useUpdateUsersMutation from "../hooks/use-update-user-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/get-error-message";
 import { EyeIcon, EyeOffIcon } from "lucide-react";

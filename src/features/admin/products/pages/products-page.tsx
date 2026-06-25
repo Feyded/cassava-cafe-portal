@@ -1,12 +1,12 @@
 import { useMemo, useRef, useState } from "react";
-import useGetProductsQuery from "@/features/admin/products/queries/use-get-products-query";
+import useGetProductsQuery from "@/features/admin/products/hooks/use-get-products-query";
 import { DataTable } from "@/components/ui/data-table";
 import { createColumns } from "../components/columns";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import ProductModal from "../components/product-modal";
 import { Input } from "@/components/ui/input";
-import useGetModifierGroupsQuery from "../queries/use-get-modifier-groups-query";
+import useGetModifierGroupsQuery from "../hooks/use-get-modifier-groups-query";
 import type { Product } from "@/entities/product";
 
 export default function ProductsPage() {

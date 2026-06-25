@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import useLoginMutation from "../queries/use-login-mutation";
+import useLoginMutation from "../hooks/use-login-mutation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

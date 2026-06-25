@@ -3,7 +3,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
 import { Input } from "@/components/ui/input";
 import UserFormDialog from "../component/user-form-dialog";
-import useGetUsersQuery from "../queries/use-get-users-query";
+import useGetUsersQuery from "../hooks/use-get-users-query";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import type { User } from "@/entities/user";

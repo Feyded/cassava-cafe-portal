@@ -1,6 +1,6 @@
 import { DataTable } from "@/components/ui/data-table";
-import useGetProductQuery from "../queries/use-get-product-query";
-import useGetProductVariantsQuery from "../queries/use-get-product-variants-query";
+import useGetProductQuery from "../hooks/use-get-product-query";
+import useGetProductVariantsQuery from "../hooks/use-get-product-variants-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";

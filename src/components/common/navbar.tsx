@@ -1,5 +1,5 @@
-import useLogoutMutation from "@/features/auth/queries/use-logout-mutation";
-import useMeQuery from "@/features/me/queries/use-me-query";
+import useLogoutMutation from "@/features/auth/hooks/use-logout-mutation";
+import useMeQuery from "@/features/me/hooks/use-me-query";
 import { Coffee } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

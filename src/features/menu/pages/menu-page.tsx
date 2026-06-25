@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { menuCategories } from "../data/menu";
-import useGetProductsQuery from "../queries/use-get-products-query";
+import useGetProductsQuery from "../hooks/use-get-products-query";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";

@@ -1,4 +1,4 @@
-import useGetProductsQuery from "@/features/menu/queries/use-get-products-query";
+import useGetProductsQuery from "@/features/menu/hooks/use-get-products-query";
 import ProductCard from "./product-card";
 import ProductCardSkeleton from "./product-card-skeleton";
 import type { Product } from "@/entities/product";

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import useMeQuery from "@/features/me/queries/use-me-query";
+import useMeQuery from "@/features/me/hooks/use-me-query";
 
 export const GuestOnlyRoute = () => {
   const token = localStorage.getItem("auth_token");

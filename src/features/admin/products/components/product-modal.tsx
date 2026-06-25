@@ -14,10 +14,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { VariantCategories } from "../data/variants";
 import { getErrorMessage } from "@/utils/get-error-message";
-import useCreateProductMutation from "../queries/use-create-product-mutation";
+import useCreateProductMutation from "../hooks/use-create-product-mutation";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import useUpdateProductMutation from "../queries/use-update-product-mutation";
+import useUpdateProductMutation from "../hooks/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
