@@ -1,5 +1,5 @@
 import type { Product } from "@/entities/product";
-import { api } from "@/shared/lib/axios";
+import { api } from "@/shared/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
 type GetProductsParams = {
