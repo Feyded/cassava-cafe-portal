@@ -8,7 +8,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,24 +25,13 @@ import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import type { User } from "@/entities/user";
+import { createUserSchema, type CreateUserFormValues } from "../schema";
 
 interface UserFormDialogProps {
   isOpen: boolean;
   onClose: () => void;
   user: User | null;
 }
-
-const schema = z.object({
-  first_name: z.string().min(1).max(60),
-  middle_name: z.string().max(60).optional(),
-  last_name: z.string().min(1).max(60),
-  role: z.string().min(1).max(60),
-  email: z.string().email().min(6).max(100),
-  is_active: z.boolean(),
-  password: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof schema>;
 
 export default function UserFormDialog({
   isOpen,
@@ -68,7 +56,7 @@ export default function UserFormDialog({
       role: user?.role ?? "",
       is_active: user?.is_active ?? true,
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(createUserSchema),
   });
 
   useEffect(() => {
@@ -84,7 +72,7 @@ export default function UserFormDialog({
     }
   }, [user, isOpen, reset]);
 
-  const onFormSubmit = async (data: FormValues) => {
+  const onFormSubmit = async (data: CreateUserFormValues) => {
     try {
       if (user) {
         await updateUserMutation.mutateAsync({ id: user.id, payload: data });
