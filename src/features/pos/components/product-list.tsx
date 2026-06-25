@@ -58,7 +58,7 @@ export default function ProductList({
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 overflow-y-auto">
           {loading &&
             Array.from({ length: 8 }).map((_, index) => (
               <div className="p-2" key={index}>

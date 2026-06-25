@@ -6,12 +6,15 @@ import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/shared/utils/format-price";
 import { useMemo } from "react";
 import type { CartItem } from "../types";
+import type { Discount } from "@/entities/discount";
 
 type CartSidebarProps = {
   cart: CartItem[];
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
   onProceedToPay: () => void;
+  isDiscountLoading: boolean;
+  discounts?: Discount[];
 };
 
 export default function CartSidebar({
@@ -19,6 +22,8 @@ export default function CartSidebar({
   updateQuantity,
   removeFromCart,
   onProceedToPay,
+  isDiscountLoading,
+  discounts = [],
 }: CartSidebarProps) {
   // const getDiscount = useMemo(() => {
   //   return cart.reduce(
@@ -158,7 +163,23 @@ export default function CartSidebar({
         )}
       </ScrollArea>
 
-      {/* 3. Checkout Summary & Big Action Buttons */}
+      {/* DISCOUNTS */}
+      {isDiscountLoading ? (
+        <div className="p-4 text-sm text-gray-500">Loading discounts...</div>
+      ) : discounts && discounts.length > 0 ? (
+        <div className="p-4 space-y-2">
+          <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
+          <ul className="space-y-1">
+            {discounts.map((discount) => (
+              <li key={discount.id} className="text-sm text-gray-600">
+                {discount.name}: {formatPrice(discount.percentage)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div className="p-4 text-sm text-gray-500">No discounts available.</div>
+      )}
       <div className="p-5 bg-gray-50 border-t border-gray-200 space-y-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
         <div className="space-y-2 text-sm text-gray-600">
           <div className="flex justify-between font-medium">
