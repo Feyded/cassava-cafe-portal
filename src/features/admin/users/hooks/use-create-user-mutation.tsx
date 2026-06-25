@@ -1,11 +1,11 @@
 import { api } from "@/shared/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateUserPayload } from "../types/user-payload";
+import type { CreateUserDto } from "../types";
 
-export default function useCreateUsersQuery() {
+export function useCreateUserQuery() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (payload: CreateUserPayload) => {
+    mutationFn: async (payload: CreateUserDto) => {
       const { data } = await api.post("/admin/users", payload);
       return data;
     },

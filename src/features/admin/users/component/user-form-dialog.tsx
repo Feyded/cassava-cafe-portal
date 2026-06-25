@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
-import useCreateUsersQuery from "../hooks/use-create-user-mutation";
+import { useCreateUserQuery } from "../hooks/use-create-user-mutation";
 import useUpdateUsersMutation from "../hooks/use-update-user-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
@@ -51,7 +51,7 @@ export default function UserFormDialog({
   user,
 }: UserFormDialogProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const createUserMutation = useCreateUsersQuery();
+  const createUserMutation = useCreateUserQuery();
   const updateUserMutation = useUpdateUsersMutation();
   const {
     register,
