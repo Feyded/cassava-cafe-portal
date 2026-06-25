@@ -44,10 +44,19 @@ export default function useCart() {
 
   // TOTALS (memoized)
   const subtotal = useMemo(() => {
-    return cart.reduce(
+    const modifiersPrice = cart.reduce((sum, item) => {
+      const itemModifiersPrice = item.modifiers.reduce(
+        (modSum, mod) => modSum + Number(mod.price),
+        0,
+      );
+      return sum + itemModifiersPrice * item.quantity;
+    }, 0);
+
+    const basePrice = cart.reduce(
       (sum, item) => sum + Number(item.price) * item.quantity,
       0,
     );
+    return basePrice + modifiersPrice;
   }, [cart]);
 
   return {
