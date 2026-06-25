@@ -1,9 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ShoppingBag, ChevronRight } from "lucide-react";
+import { Clock, ShoppingBag, ChevronRight, CreditCard } from "lucide-react";
 import type { Order } from "@/entities/order";
 import { formatDate } from "@/shared/utils/format-date";
 import { formatPrice } from "@/shared/utils/format-price";
+import { cn } from "@/shared/lib/utils";
 
 interface OrderCardProps {
   order: Order;
@@ -39,13 +40,10 @@ export function OrderCard({ order, onClick }: OrderCardProps) {
               Order No.
             </p>
 
-            <h3 className="mt-1 text-lg font-bold">
-              #{order.order_number}
-            </h3>
+            <h3 className="mt-1 text-lg font-bold">#{order.order_number}</h3>
           </div>
-
           <Badge
-            className={`border-0 font-semibold ${statusColors[order.status]}`}
+            className={cn("border-0 font-semibold", statusColors[order.status])}
           >
             {order.status}
           </Badge>
@@ -61,8 +59,15 @@ export function OrderCard({ order, onClick }: OrderCardProps) {
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-4 w-4" />
             <span>
-              {order.items.length}{" "}
-              {order.items.length === 1 ? "item" : "items"}
+              {order.items.length} {order.items.length === 1 ? "item" : "items"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4" />
+            <span>
+              {order.payment.payment_method.charAt(0).toUpperCase() +
+                order.payment.payment_method.slice(1)}
             </span>
           </div>
         </div>
