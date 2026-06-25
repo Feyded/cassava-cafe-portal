@@ -56,7 +56,6 @@ export default function ProductModal({
   onClose,
   editingProduct,
 }: ProductModalProps) {
-  const [selectedModifiers, setSelectedModifiers] = useState([]);
   const createProductMutation = useCreateProductMutation();
   const updateProductMutation = useUpdateProductMutation();
   const isEdit = Boolean(editingProduct);

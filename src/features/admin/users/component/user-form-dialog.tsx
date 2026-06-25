@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import type { User } from "@/entities/user";
-import { createUserSchema, type CreateUserFormValues } from "../schema";
+import { userSchema, type UserFormValues } from "../schema";
 
 interface UserFormDialogProps {
   isOpen: boolean;
@@ -56,7 +56,7 @@ export default function UserFormDialog({
       role: user?.role ?? "",
       is_active: user?.is_active ?? true,
     },
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(userSchema),
   });
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function UserFormDialog({
     }
   }, [user, isOpen, reset]);
 
-  const onFormSubmit = async (data: CreateUserFormValues) => {
+  const onFormSubmit = async (data: UserFormValues) => {
     try {
       if (user) {
         await updateUserMutation.mutateAsync({ id: user.id, payload: data });

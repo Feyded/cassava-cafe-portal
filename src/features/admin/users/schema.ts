@@ -1,14 +1,11 @@
 import z from "zod";
 
-export const createUserSchema = z.object({
+export const userSchema = z.object({
   first_name: z
     .string()
     .min(1, "First name is required")
     .max(60, "First name cannot exceed 60 characters"),
-  middle_name: z
-    .string()
-    .max(60, "Middle name cannot exceed 60 characters")
-    .optional(),
+  middle_name: z.string().max(60, "Middle name cannot exceed 60 characters"),
   last_name: z
     .string()
     .min(1, "Last name is required")
@@ -22,4 +19,4 @@ export const createUserSchema = z.object({
   password: z.string().optional(),
 });
 
-export type CreateUserFormValues = z.infer<typeof createUserSchema>;
+export type UserFormValues = z.infer<typeof userSchema>;
