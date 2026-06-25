@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import useGetOrdersQuery from "../queries/use-get-orders-query";
+import useGetOrdersQuery from "../hooks/use-get-orders-query";
 import { DataTable } from "@/components/ui/data-table";
 import { getColumns } from "../component/columns";
 import ReceiptDialog from "../component/receipt-modal";

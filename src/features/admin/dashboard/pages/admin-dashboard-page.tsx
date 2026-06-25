@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, CheckCircle, DollarSign, CalendarIcon } from "lucide-react";
-import useGetDashboardQuery from "../queries/use-get-dashboard-query";
+import useGetDashboardQuery from "../hooks/use-get-dashboard-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatPrice } from "@/utils/format-price";
 import { Calendar } from "@/components/ui/calendar";
