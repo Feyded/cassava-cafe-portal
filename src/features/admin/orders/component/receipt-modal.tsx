@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/shared/utils/format-price";
 import { formatDate } from "@/shared/utils/format-date";
 import type { Order } from "@/entities/order";
+import { cn } from "@/shared/lib/utils";
 
 interface ReceiptDialogProps {
   isOpen: boolean;
@@ -37,6 +38,8 @@ export default function ReceiptDialog({
     return (basePrice + modifiersPrice) * item.quantity;
   };
 
+  const paymentMethod = order?.payment.payment_method;
+
   if (!order) return null;
 
   return (
@@ -54,19 +57,16 @@ export default function ReceiptDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div
+            className={cn("grid gap-4 text-sm", {
+              "grid-cols-2": paymentMethod === "cash",
+              "grid-cols-3": paymentMethod !== "cash",
+            })}
+          >
             <div>
               <span className="text-muted-foreground block text-xs">Date</span>
               <span className="font-medium text-foreground">
                 {formatDate(order.created_at)}
-              </span>
-            </div>
-            <div>
-              <span className="text-muted-foreground block text-xs">
-                Payment Method
-              </span>
-              <span className="font-medium text-foreground">
-                {order.payment.payment_method}
               </span>
             </div>
             <div>
@@ -77,15 +77,33 @@ export default function ReceiptDialog({
                 {order.creator.first_name} {order.creator.last_name}
               </span>
             </div>
-            {order.payment.payment_method !== "cash" && (
-              <div>
-                <span className="text-muted-foreground block text-xs">
-                  Payment Provider
-                </span>
-                <span className="font-medium text-foreground block">
-                  {order.payment.payment_provider}
-                </span>
-              </div>
+            <div>
+              <span className="text-muted-foreground block text-xs">
+                Payment Method
+              </span>
+              <span className="font-medium text-foreground">
+                {paymentMethod}
+              </span>
+            </div>
+            {paymentMethod !== "cash" && (
+              <>
+                <div>
+                  <span className="text-muted-foreground block text-xs">
+                    Payment Provider
+                  </span>
+                  <span className="font-medium text-foreground block">
+                    {order.payment.payment_provider}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-xs">
+                    Payment Reference
+                  </span>
+                  <span className="font-medium text-foreground block">
+                    {order.payment.reference_number}
+                  </span>
+                </div>
+              </>
             )}
           </div>
 
