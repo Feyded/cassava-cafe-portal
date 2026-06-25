@@ -30,8 +30,14 @@ export default function PosPage() {
   const checkoutMutation = useCreateCheckoutMutation();
   const discountsQuery = useGetDiscountsQuery();
 
-  const { cart, addToCart, removeFromCart, updateQuantity, clearCart } =
-    useCart();
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    subtotal,
+  } = useCart();
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -87,6 +93,7 @@ export default function PosPage() {
 
         <CartSidebar
           cart={cart}
+          subtotal={subtotal}
           updateQuantity={updateQuantity}
           removeFromCart={removeFromCart}
           isDiscountLoading={discountsQuery.isFetching}

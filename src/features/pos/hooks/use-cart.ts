@@ -50,8 +50,6 @@ export default function useCart() {
     );
   }, [cart]);
 
-  const total = subtotal;
-
   return {
     cart,
     setCart,
@@ -60,6 +58,5 @@ export default function useCart() {
     updateQuantity,
     clearCart,
     subtotal,
-    total,
   };
 }

@@ -16,6 +16,7 @@ type CartSidebarProps = {
   onProceedToPay: () => void;
   isDiscountLoading: boolean;
   discounts?: Discount[];
+  subtotal: number;
 };
 
 export default function CartSidebar({
@@ -25,6 +26,7 @@ export default function CartSidebar({
   onProceedToPay,
   isDiscountLoading,
   discounts = [],
+  subtotal,
 }: CartSidebarProps) {
   const [selectedDiscountId, setSelectedDiscountId] = useState<number | null>(
     null,
@@ -45,22 +47,18 @@ export default function CartSidebar({
     return (basePrice + modifiersPrice) * item.quantity;
   };
 
-  const getSubtotal = useMemo(() => {
-    return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
-  }, [cart]);
-
-  const getDiscount = useMemo(() => {
+  const discount = useMemo(() => {
     const discount = discounts.find((d) => d.id === selectedDiscountId);
     if (discount) {
-      const discountAmount = (getSubtotal * Number(discount.percentage)) / 100;
+      const discountAmount = (subtotal * Number(discount.percentage)) / 100;
       return discountAmount;
     }
     return 0;
-  }, [cart, discounts, selectedDiscountId]);
+  }, [subtotal, discounts, selectedDiscountId]);
 
-  const getTotal = useMemo(() => {
-    return getSubtotal - getDiscount;
-  }, [getSubtotal, getDiscount]);
+  const total = useMemo(() => {
+    return subtotal - discount;
+  }, [subtotal, discount]);
 
   return (
     // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
@@ -183,7 +181,7 @@ export default function CartSidebar({
       ) : discounts && discounts.length > 0 ? (
         <div className="p-4 space-y-2">
           <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2 grid grid-cols-2 gap-2">
             {discounts.map((discount) => {
               const isSelected = selectedDiscountId === discount.id;
 
@@ -193,7 +191,7 @@ export default function CartSidebar({
                     type="button"
                     onClick={() => handleDiscountClick(discount.id)}
                     className={cn(
-                      "inline-flex items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200",
+                      "inline-flex items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200 cursor-pointer",
                       isSelected
                         ? "border-primary bg-blue-50 font-medium text-primary shadow-sm"
                         : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
@@ -222,17 +220,17 @@ export default function CartSidebar({
         <div className="space-y-2 text-sm text-gray-600">
           <div className="flex justify-between font-medium">
             <span>Subtotal</span>
-            <span className="text-gray-900">{formatPrice(getSubtotal)}</span>
+            <span className="text-gray-900">{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span>Discount</span>
-            <span>{formatPrice(getDiscount)}</span>
+            <span>{formatPrice(discount)}</span>
           </div>
           <Separator className="my-2 bg-gray-300" />
           <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>
             <span className="text-xl text-amber-900">
-              {formatPrice(getTotal)}
+              {formatPrice(total)}
             </span>
           </div>
         </div>
