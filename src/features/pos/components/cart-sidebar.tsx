@@ -4,19 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/shared/utils/format-price";
-import { useMemo, useState } from "react";
 import type { CartItem } from "../types";
 import type { Discount } from "@/entities/discount";
 import { cn } from "@/shared/lib/utils";
 
 type CartSidebarProps = {
   cart: CartItem[];
+  setSelectedDiscount?: (discount: Discount | null) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
   onProceedToPay: () => void;
   isDiscountLoading: boolean;
   discounts?: Discount[];
   subtotal: number;
+  selectedDiscount?: Discount | null;
+  total: number;
+  discount: number;
 };
 
 export default function CartSidebar({
@@ -27,16 +30,11 @@ export default function CartSidebar({
   isDiscountLoading,
   discounts = [],
   subtotal,
+  discount,
+  total,
+  selectedDiscount,
+  setSelectedDiscount,
 }: CartSidebarProps) {
-  const [selectedDiscountId, setSelectedDiscountId] = useState<number | null>(
-    null,
-  );
-
-  const handleDiscountClick = (discountId: number) => {
-    setSelectedDiscountId((prevId) =>
-      prevId === discountId ? null : discountId,
-    );
-  };
 
   const calculateItemTotal = (item: CartItem) => {
     const basePrice = parseFloat(item.price) || 0;
@@ -46,19 +44,6 @@ export default function CartSidebar({
     );
     return (basePrice + modifiersPrice) * item.quantity;
   };
-
-  const discount = useMemo(() => {
-    const discount = discounts.find((d) => d.id === selectedDiscountId);
-    if (discount) {
-      const discountAmount = (subtotal * Number(discount.percentage)) / 100;
-      return discountAmount;
-    }
-    return 0;
-  }, [subtotal, discounts, selectedDiscountId]);
-
-  const total = useMemo(() => {
-    return subtotal - discount;
-  }, [subtotal, discount]);
 
   return (
     // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
@@ -183,13 +168,15 @@ export default function CartSidebar({
           <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
           <ul className="space-y-2 grid grid-cols-2 gap-2">
             {discounts.map((discount) => {
-              const isSelected = selectedDiscountId === discount.id;
+              const isSelected = selectedDiscount?.id === discount.id;
 
               return (
                 <li key={discount.id}>
                   <button
                     type="button"
-                    onClick={() => handleDiscountClick(discount.id)}
+                    onClick={() =>
+                      setSelectedDiscount?.(isSelected ? null : discount)
+                    }
                     className={cn(
                       "inline-flex items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200 cursor-pointer",
                       isSelected
@@ -229,9 +216,7 @@ export default function CartSidebar({
           <Separator className="my-2 bg-gray-300" />
           <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>
-            <span className="text-xl text-amber-900">
-              {formatPrice(total)}
-            </span>
+            <span className="text-xl text-amber-900">{formatPrice(total)}</span>
           </div>
         </div>
 

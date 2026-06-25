@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import type { CartItem } from "../types";
+import type { Discount } from "@/entities/discount";
 
 export default function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [selectedDiscount, setSelectedDiscount] = useState<Discount | null>(
+    null,
+  );
 
   const removeFromCart = (id: string) => {
     setCart((current) => current.filter((item) => item.id !== id));
@@ -42,7 +46,6 @@ export default function useCart() {
   // CLEAR CART
   const clearCart = () => setCart([]);
 
-  // TOTALS (memoized)
   const subtotal = useMemo(() => {
     const modifiersPrice = cart.reduce((sum, item) => {
       const itemModifiersPrice = item.modifiers.reduce(
@@ -59,6 +62,24 @@ export default function useCart() {
     return basePrice + modifiersPrice;
   }, [cart]);
 
+  const discount = useMemo(() => {
+    if (selectedDiscount) {
+      const discountAmount =
+        (subtotal * Number(selectedDiscount.percentage)) / 100;
+      return discountAmount;
+    }
+    return 0;
+  }, [subtotal, selectedDiscount]);
+
+  const total = useMemo(() => {
+    if (selectedDiscount) {
+      const discountAmount =
+        (subtotal * Number(selectedDiscount.percentage)) / 100;
+      return subtotal - discountAmount;
+    }
+    return subtotal;
+  }, [subtotal, selectedDiscount]);
+
   return {
     cart,
     setCart,
@@ -67,5 +88,9 @@ export default function useCart() {
     updateQuantity,
     clearCart,
     subtotal,
+    discount,
+    total,
+    selectedDiscount,
+    setSelectedDiscount,
   };
 }

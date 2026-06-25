@@ -36,7 +36,11 @@ export default function PosPage() {
     removeFromCart,
     updateQuantity,
     clearCart,
+    selectedDiscount,
+    setSelectedDiscount,
     subtotal,
+    discount,
+    total,
   } = useCart();
 
   const handleProductClick = (product: Product) => {
@@ -94,6 +98,10 @@ export default function PosPage() {
         <CartSidebar
           cart={cart}
           subtotal={subtotal}
+          discount={discount}
+          total={total}
+          selectedDiscount={selectedDiscount}
+          setSelectedDiscount={setSelectedDiscount}
           updateQuantity={updateQuantity}
           removeFromCart={removeFromCart}
           isDiscountLoading={discountsQuery.isFetching}
