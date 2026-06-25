@@ -1,4 +1,7 @@
-export type Order = {
+import type { Payment } from "../payment";
+import type { User } from "../user";
+
+export interface Order {
   id: number;
   order_number: string;
   status: string;
@@ -9,12 +12,12 @@ export type Order = {
   created_by: number;
   created_at: string;
   updated_at: string;
-  items: OrderItems[];
+  items: OrderItem[];
   payment: Payment;
-  creator: Creator;
-};
+  creator: User;
+}
 
-type OrderItems = {
+export interface OrderItem {
   id: number;
   order_id: number;
   product_variant_id: number;
@@ -26,9 +29,9 @@ type OrderItems = {
   created_at: string;
   updated_at: string;
   modifiers: OrderItemModifier[];
-};
+}
 
-type OrderItemModifier = {
+export interface OrderItemModifier {
   id: number;
   order_item_id: number;
   modifier_id: number;
@@ -37,31 +40,4 @@ type OrderItemModifier = {
   modifier_price: string;
   created_at: string;
   updated_at: string;
-};
-
-type Payment = {
-  id: number;
-  order_id: number;
-  payment_method: string;
-  amount: string;
-  received_amount: string;
-  change_amount: string;
-  status: string;
-  paid_at: string;
-  payment_provider: string | null;
-  reference_number: string | null;
-  created_at: string;
-  updated_at: string;
-};
-
-type Creator = {
-  id: number;
-  first_name: string;
-  middle_name: string;
-  last_name: string;
-  email: string;
-  email_verified_at: string | null;
-  role: string;
-  created_at: string;
-  updated_at: string;
-};
+}

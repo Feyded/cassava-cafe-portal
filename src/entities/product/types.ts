@@ -1,6 +1,7 @@
-import type { ModifierGroup } from "./modifier-group";
+import type { Category } from "../category";
+import type { ModifierGroup } from "../modifier";
 
-export type Product = {
+export interface Product {
   id: number;
   name: string;
   description: string;
@@ -9,12 +10,12 @@ export type Product = {
   category_id: number;
   created_at: string;
   updated_at: string;
-  variants: Variant[];
+  variants: ProductVariant[];
   category: Category;
   modifier_groups?: ModifierGroup[] | [];
-};
+}
 
-export type Variant = {
+export interface ProductVariant {
   id: number;
   product_id: number;
   name: string;
@@ -22,12 +23,4 @@ export type Variant = {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-};
-
-export type Category = {
-  id: number;
-  name: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-};
+}

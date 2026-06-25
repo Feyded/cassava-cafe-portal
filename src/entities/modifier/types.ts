@@ -1,4 +1,4 @@
-export type ModifierGroup = {
+export interface ModifierGroup {
   id: number;
   name: string;
   min_selection: number;
@@ -6,13 +6,13 @@ export type ModifierGroup = {
   created_at: string;
   updated_at: string;
   modifiers: Modifier[];
-};
+}
 
-export type Modifier = {
+export interface Modifier {
   id: number;
   modifier_group_id: number;
   name: string;
   price: string;
   created_at: string;
   updated_at: string;
-};
+}
