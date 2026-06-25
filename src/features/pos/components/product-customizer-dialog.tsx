@@ -75,18 +75,19 @@ export function ProductCustomizerDialog({
   }, [quantity, selectedVariant, selectedModifiers, product]);
 
   const handleAddToCart = () => {
+    if (!selectedVariant) return;
+
     const item: CartItem = {
       id: crypto.randomUUID(),
       product_id: product.id,
-      variant_id: selectedVariant?.id!,
+      variant_id: selectedVariant?.id,
       product_name: product.name,
-      variant_name: selectedVariant?.name!,
+      variant_name: selectedVariant?.name,
       quantity: quantity,
-      price: totalPrice.toString(),
+      price: selectedVariant?.price,
       modifiers: selectedModifiers,
     };
 
-    console.log(selectedModifiers);
     onAddToCart(item);
     onClose();
   };

@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,6 +83,9 @@ export function PayDialog({
         payment_provider: paymentProvider || "",
       });
       setAmountPaid("");
+      setReference(null);
+      setPaymentProvider(null);
+      setPaymentMethod("cash");
     } catch {}
   };
 
@@ -104,6 +108,10 @@ export function PayDialog({
             <ShoppingCart className="h-6 w-6 text-muted-foreground" />
             Checkout Payment
           </DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">
+            Review the order and select a payment method to complete the
+            transaction.
+          </DialogDescription>
         </DialogHeader>
 
         {/* Master Form Layout */}
