@@ -26,30 +26,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  productSchema,
+  type ProductFormInput,
+  type ProductFormValues,
+} from "../types";
 
 type ProductModalProps = {
   open: boolean;
   onClose: () => void;
   editingProduct: any | null;
 };
-
-const schema = z.object({
-  name: z.string().min(1, "Name is required").max(60),
-  description: z.string().min(1, "Description is required").max(255),
-  categoryId: z.coerce.number().refine((value) => value !== 0, {
-    message: "Category is required",
-  }),
-  isAvailable: z.coerce.boolean(),
-  image: z
-    .instanceof(File, { message: "Image is required" })
-    .optional()
-    .refine((file) => !file || file.type.startsWith("image/"), {
-      message: "Only image files are allowed",
-    })
-    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
-      message: "Image must be less than 5MB",
-    }),
-});
 
 export default function ProductModal({
   open,
@@ -67,7 +54,7 @@ export default function ProductModal({
     reset,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<ProductFormInput, unknown, ProductFormValues>({
     defaultValues: {
       name: editingProduct?.name ?? "",
       description: editingProduct?.description ?? "",
@@ -75,10 +62,10 @@ export default function ProductModal({
       isAvailable: editingProduct?.is_available ?? true,
       image: undefined,
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(productSchema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: ProductFormValues) => {
     if (isEdit) {
       updateProductMutation.mutate(
         { id: editingProduct.id, payload: data },
