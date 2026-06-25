@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import type { CartItem } from "../types/cart-item";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 import { useMemo } from "react";
 
 type CartSidebarProps = {

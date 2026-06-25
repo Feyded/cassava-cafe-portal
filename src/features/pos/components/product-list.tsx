@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Product } from "@/entities/product";
-import { formatFileUrl } from "@/utils/format-file-url";
-import { formatPrice } from "@/utils/format-price";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
+import { formatPrice } from "@/shared/utils/format-price";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 

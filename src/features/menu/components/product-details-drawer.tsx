@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
-import { formatPrice } from "@/utils/format-price";
-import { cn } from "@/lib/utils";
-import { formatFileUrl } from "@/utils/format-file-url";
+import { formatPrice } from "@/shared/utils/format-price";
+import { cn } from "@/shared/lib/utils";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
 import type { Product, ProductVariant } from "@/entities/product";
 
 type ProductDetailsDrawerProps = {

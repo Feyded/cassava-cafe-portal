@@ -1,4 +1,4 @@
-import { formatFileUrl } from "@/utils/format-file-url";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
 import { getPriceLabel } from "../hooks/get-price-label";
 import type { Product } from "@/entities/product";
 

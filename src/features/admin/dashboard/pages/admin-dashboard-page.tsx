@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, CheckCircle, DollarSign, CalendarIcon } from "lucide-react";
 import useGetDashboardQuery from "../hooks/use-get-dashboard-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import {
@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 export default function AdminDashboardPage() {
   const [showCalendar, setShowCalendar] = useState(false);

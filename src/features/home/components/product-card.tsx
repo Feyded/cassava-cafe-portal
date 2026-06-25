@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import type { Product } from "@/entities/product";
 import { getPriceLabel } from "@/features/menu/hooks/get-price-label";
-import { formatFileUrl } from "@/utils/format-file-url";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
 interface ProductCardProps {
   product: Product;
 }

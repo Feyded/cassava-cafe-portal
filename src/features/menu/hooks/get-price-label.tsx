@@ -1,5 +1,5 @@
 import type { ProductVariant } from "@/entities/product";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 
 export function getPriceLabel(variants: ProductVariant[]) {
   if (variants.length === 0) {

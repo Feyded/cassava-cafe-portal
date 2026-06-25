@@ -4,7 +4,7 @@ import useGetProductVariantsQuery from "../hooks/use-get-product-variants-query"
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";

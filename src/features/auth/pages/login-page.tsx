@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { getErrorMessage } from "@/utils/get-error-message";
+import { getErrorMessage } from "@/shared/utils/get-error-message";
 
 const highlights = [
   "Track orders and product availability in one place.",

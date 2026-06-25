@@ -1,4 +1,4 @@
-import { api } from "@/services/api/axios";
+import { api } from "@/shared/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateUserPayload } from "../types/user-payload";
 

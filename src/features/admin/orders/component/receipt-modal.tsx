@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { formatPrice } from "@/utils/format-price";
-import { formatDate } from "@/utils/format-date";
+import { formatPrice } from "@/shared/utils/format-price";
+import { formatDate } from "@/shared/utils/format-date";
 import type { Order } from "@/entities/order";
 
 interface ReceiptDialogProps {

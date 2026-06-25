@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Wallet, Banknote, CreditCard, ShoppingCart } from "lucide-react";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 import {
   Select,

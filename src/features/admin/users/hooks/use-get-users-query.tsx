@@ -1,4 +1,4 @@
-import { api } from "@/services/api/axios";
+import { api } from "@/shared/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 type GetUsersParams = {

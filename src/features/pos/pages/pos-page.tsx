@@ -7,7 +7,7 @@ import useCart from "../hooks/use-cart";
 import { PayDialog } from "../components/pay-dialog";
 import useCreateCheckoutMutation from "../queries/use-create-checkout-mutation";
 import { toast } from "sonner";
-import { getErrorMessage } from "@/utils/get-error-message";
+import { getErrorMessage } from "@/shared/utils/get-error-message";
 import CheckoutSuccessDialog from "../components/checkout-success-dialog";
 import type { CheckoutPaymentPayload } from "../types/checkout-payment";
 import type { Order } from "@/entities/order";

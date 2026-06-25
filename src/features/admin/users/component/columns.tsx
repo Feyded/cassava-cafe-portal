@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/utils/format-date";
+import { formatDate } from "@/shared/utils/format-date";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { User } from "@/entities/user";

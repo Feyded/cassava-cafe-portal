@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import useCreateUsersQuery from "../hooks/use-create-user-mutation";
 import useUpdateUsersMutation from "../hooks/use-update-user-mutation";
 import { toast } from "sonner";
-import { getErrorMessage } from "@/utils/get-error-message";
+import { getErrorMessage } from "@/shared/utils/get-error-message";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import type { User } from "@/entities/user";
 

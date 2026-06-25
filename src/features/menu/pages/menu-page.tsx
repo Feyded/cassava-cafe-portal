@@ -3,7 +3,7 @@ import { menuCategories } from "../data/menu";
 import useGetProductsQuery from "../hooks/use-get-products-query";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import MenuProductGrid from "../components/menu-product-grid";
 import ProductDetailsDrawer from "../components/product-details-drawer";
 import type { Product } from "@/entities/product";

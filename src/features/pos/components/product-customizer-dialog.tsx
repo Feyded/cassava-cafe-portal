@@ -12,7 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { formatPrice } from "@/utils/format-price";
+import { formatPrice } from "@/shared/utils/format-price";
 import type { CartItem } from "../types/cart-item";
 import type { Product, ProductVariant } from "@/entities/product";
 import type { Modifier } from "@/entities/modifier";

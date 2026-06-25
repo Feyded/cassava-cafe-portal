@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatFileUrl } from "@/utils/format-file-url";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
 import { Link } from "react-router-dom";
 import type { Product } from "@/entities/product";
 

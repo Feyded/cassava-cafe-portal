@@ -1,4 +1,4 @@
-import { api } from "@/services/api/axios";
+import { api } from "@/shared/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 
 export default function useLoginMutation() {
