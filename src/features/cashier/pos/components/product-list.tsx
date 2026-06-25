@@ -4,7 +4,7 @@ import type { Product } from "@/entities/product";
 import { cn } from "@/shared/lib/utils";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
 import { formatPrice } from "@/shared/utils/format-price";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ReceiptText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type ProductListProps = {
@@ -35,11 +35,7 @@ export default function ProductList({
 }: ProductListProps) {
   return (
     <div className="flex-1 p-4 overflow-hidden pr-100">
-      <Link to="/" className="mb-4 inline-block">
-        <Button size="sm" variant="outline">
-          <ArrowLeft className="size-4" />
-        </Button>
-      </Link>
+      
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 mb-5 whitespace-nowrap overflow-x-auto">
           {categories.map((categoryItem) => (

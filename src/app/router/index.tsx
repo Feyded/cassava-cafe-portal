@@ -15,6 +15,7 @@ import CashierPosPage from "@/features/cashier/pos/pages/pos-page";
 import CashierOrdersPage from "@/features/cashier/orders/pages/orders-page";
 import OrderPage from "@/features/admin/orders/pages/order-page";
 import UsersPage from "@/features/admin/users/pages/users-page";
+import CashierLayout from "../layouts/cashier-layout";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute role={["cashier", "admin"]} />,
         children: [
           {
+            element: <CashierLayout />,
             children: [
               { path: "pos", element: <CashierPosPage /> },
               { path: "orders", element: <CashierOrdersPage /> },
