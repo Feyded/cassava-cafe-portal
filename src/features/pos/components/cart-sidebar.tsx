@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/shared/utils/format-price";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { CartItem } from "../types";
 import type { Discount } from "@/entities/discount";
 
@@ -25,12 +25,15 @@ export default function CartSidebar({
   isDiscountLoading,
   discounts = [],
 }: CartSidebarProps) {
-  // const getDiscount = useMemo(() => {
-  //   return cart.reduce(
-  //     (sum, item) => sum + Number(item.price) * item.quantity,
-  //     0,
-  //   );
-  // }, [cart]);
+  const [selectedDiscountId, setSelectedDiscountId] = useState<number | null>(
+    null,
+  );
+
+  const handleDiscountClick = (discountId: number) => {
+    setSelectedDiscountId((prevId) =>
+      prevId === discountId ? null : discountId,
+    );
+  };
 
   const calculateItemTotal = (item: CartItem) => {
     const basePrice = parseFloat(item.price) || 0;
@@ -45,9 +48,18 @@ export default function CartSidebar({
     return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
   }, [cart]);
 
+  const getDiscount = useMemo(() => {
+    const discount = discounts.find((d) => d.id === selectedDiscountId);
+    if (discount) {
+      const discountAmount = (getSubtotal * Number(discount.percentage)) / 100;
+      return discountAmount;
+    }
+    return 0;
+  }, [cart, discounts, selectedDiscountId]);
+
   const getTotal = useMemo(() => {
-    return cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
-  }, [cart]);
+    return getSubtotal - getDiscount;
+  }, [getSubtotal, getDiscount]);
 
   return (
     // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
@@ -164,17 +176,44 @@ export default function CartSidebar({
       </ScrollArea>
 
       {/* DISCOUNTS */}
+      <Separator className=" bg-gray-300" />
       {isDiscountLoading ? (
         <div className="p-4 text-sm text-gray-500">Loading discounts...</div>
       ) : discounts && discounts.length > 0 ? (
         <div className="p-4 space-y-2">
           <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
-          <ul className="space-y-1">
-            {discounts.map((discount) => (
-              <li key={discount.id} className="text-sm text-gray-600">
-                {discount.name}: {formatPrice(discount.percentage)}
-              </li>
-            ))}
+          <ul className="space-y-2">
+            {discounts.map((discount) => {
+              const isSelected = selectedDiscountId === discount.id;
+
+              return (
+                <li key={discount.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleDiscountClick(discount.id)}
+                    className={`w-full text-left p-2.5 text-sm rounded-lg border transition-all duration-200 block
+                ${
+                  isSelected
+                    ? "bg-blue-50 border-primary text-primary font-medium shadow-sm"
+                    : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
+                }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span>{discount.name}</span>
+                      <span
+                        className={
+                          isSelected
+                            ? "text-primary font-semibold"
+                            : "text-gray-500"
+                        }
+                      >
+                        {Number(discount.percentage).toFixed(0)}%
+                      </span>
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       ) : (
@@ -186,10 +225,10 @@ export default function CartSidebar({
             <span>Subtotal</span>
             <span className="text-gray-900">{formatPrice(getSubtotal)}</span>
           </div>
-          {/* <div className="flex justify-between text-xs">
+          <div className="flex justify-between text-xs">
             <span>Discount</span>
             <span>{formatPrice(getDiscount)}</span>
-          </div> */}
+          </div>
           <Separator className="my-2 bg-gray-300" />
           <div className="flex justify-between text-lg font-black text-gray-900">
             <span>Total</span>

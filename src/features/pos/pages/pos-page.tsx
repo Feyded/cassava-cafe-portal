@@ -12,6 +12,7 @@ import CheckoutSuccessDialog from "../components/checkout-success-dialog";
 import type { Order } from "@/entities/order";
 import type { Product } from "@/entities/product";
 import type { CheckoutPaymentDto } from "../types";
+import useGetDiscountsQuery from "../hooks/use-get-discounts-query";
 
 export default function PosPage() {
   const [selectedCategory, setSelectedCategory] = useState(1);
@@ -27,6 +28,7 @@ export default function PosPage() {
   });
 
   const checkoutMutation = useCreateCheckoutMutation();
+  const discountsQuery = useGetDiscountsQuery();
 
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart } =
     useCart();
@@ -55,7 +57,7 @@ export default function PosPage() {
       };
 
       const response = await checkoutMutation.mutateAsync(payload);
-      
+
       setIsPayDialogOpen(false);
       setCompletedOrder(response.data);
       setIsSuccessDialogOpen(true);
@@ -87,6 +89,8 @@ export default function PosPage() {
           cart={cart}
           updateQuantity={updateQuantity}
           removeFromCart={removeFromCart}
+          isDiscountLoading={discountsQuery.isFetching}
+          discounts={discountsQuery.data}
           onProceedToPay={() => setIsPayDialogOpen(true)}
         />
       </div>
