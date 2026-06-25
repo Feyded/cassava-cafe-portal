@@ -1,7 +1,7 @@
 export interface Payment {
   id: number;
   order_id: number;
-  payment_method: string;
+  payment_method: "cash" | "card" | "qr";
   amount: string;
   received_amount: string;
   change_amount: string;
