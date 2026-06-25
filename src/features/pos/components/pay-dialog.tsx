@@ -24,6 +24,7 @@ interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
   isLoading: boolean;
+  total: number;
   onCheckout: (payment: CheckoutPaymentDto) => Promise<void>;
   onOpenChange: (open: boolean) => void;
 }
@@ -34,6 +35,7 @@ export function PayDialog({
   onOpenChange,
   isLoading,
   onCheckout,
+  total,
 }: PayDialogProps) {
   const [amountPaid, setAmountPaid] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "qr" | "card">(
@@ -51,12 +53,8 @@ export function PayDialog({
     return (basePrice + modifiersPrice) * item.quantity;
   };
 
-  const totalAmount = (cart || []).reduce(
-    (sum, item) => sum + calculateItemTotal(item),
-    0,
-  );
   const parsedAmountPaid = parseFloat(amountPaid) || 0;
-  const changeDue = parsedAmountPaid - totalAmount;
+  const changeDue = parsedAmountPaid - total;
 
   const handleQuickCash = (amount: number) => {
     setAmountPaid(amount.toString());
@@ -71,7 +69,7 @@ export function PayDialog({
     if (method === "cash") {
       setAmountPaid("0");
     } else {
-      setAmountPaid(totalAmount.toString());
+      setAmountPaid(total.toString());
     }
   };
 
@@ -88,7 +86,7 @@ export function PayDialog({
   };
 
   const isValid = () => {
-    if (paymentMethod === "cash" && parsedAmountPaid < totalAmount)
+    if (paymentMethod === "cash" && parsedAmountPaid < total)
       return false;
     if (paymentMethod === "qr" && (!paymentProvider || !reference))
       return false;
@@ -214,7 +212,7 @@ export function PayDialog({
                   Total Payable:
                 </span>
                 <span className="text-4xl font-black font-mono">
-                  {formatPrice(totalAmount)}
+                  {formatPrice(total)}
                 </span>
               </div>
 
@@ -243,10 +241,10 @@ export function PayDialog({
 
                   {/* Cash suggestions helper */}
                   <div className="grid grid-cols-4 gap-2">
-                    {[Math.ceil(totalAmount), 5, 10, 20, 50, 100].map(
+                    {[Math.ceil(total), 5, 10, 20, 50, 100].map(
                       (amt, idx) => {
                         const cashSuggestion = idx === 0 ? amt : amt;
-                        if (cashSuggestion < totalAmount && idx !== 0)
+                        if (cashSuggestion < total && idx !== 0)
                           return null;
                         return (
                           <Button

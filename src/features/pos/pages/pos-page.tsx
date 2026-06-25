@@ -118,6 +118,7 @@ export default function PosPage() {
       />
 
       <PayDialog
+        total={total}
         isOpen={isPayDialogOpen}
         onOpenChange={setIsPayDialogOpen}
         cart={cart}
