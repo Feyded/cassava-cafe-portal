@@ -1,5 +1,4 @@
 import { ShoppingCart, Trash2, Plus, Minus, Coffee } from "lucide-react";
-// Note: Replace these imports with your actual Shadcn component paths
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -21,8 +20,6 @@ export default function CartSidebar({
   removeFromCart,
   onProceedToPay,
 }: CartSidebarProps) {
-  // Mock cart items for demonstration
-
   // const getDiscount = useMemo(() => {
   //   return cart.reduce(
   //     (sum, item) => sum + Number(item.price) * item.quantity,

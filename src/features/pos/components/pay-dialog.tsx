@@ -18,21 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import type { Modifier } from "@/entities/modifier";
-import type { CheckoutPaymentDto } from "../types";
-
-
-export type CartItem = {
-  id: string;
-  product_id: number;
-  variant_id: number;
-  product_name: string;
-  variant_name: string;
-  quantity: number;
-  price: string;
-  modifiers: Modifier[] | [];
-};
-
+import type { CartItem, CheckoutPaymentDto } from "../types";
 interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
