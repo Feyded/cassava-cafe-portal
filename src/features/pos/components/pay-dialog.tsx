@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import type { CartItem, CheckoutPaymentDto } from "../types";
+import { PAYMENT_PROVIDERS } from "../data";
 interface PayDialogProps {
   cart: CartItem[];
   isOpen: boolean;
@@ -208,7 +209,7 @@ export function PayDialog({
 
             {/* 2. Numbers & Calculators */}
             <div className="space-y-4 my-auto py-4">
-              <div className="bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900 p-5 rounded-xl flex justify-between items-center shadow-inner">
+              <div className="bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900 p-4 rounded-xl flex justify-between items-center shadow-inner">
                 <span className="text-base font-bold uppercase tracking-wider opacity-80">
                   Total Payable:
                 </span>
@@ -295,24 +296,17 @@ export function PayDialog({
                         <SelectValue placeholder="Select QR Provider" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem
-                          value="gcash"
-                          className="font-semibold py-3 text-base"
-                        >
-                          GCash
-                        </SelectItem>
-                        <SelectItem
-                          value="maya"
-                          className="font-semibold py-3 text-base"
-                        >
-                          Maya
-                        </SelectItem>
-                        <SelectItem
-                          value="grabpay"
-                          className="font-semibold py-3 text-base"
-                        >
-                          GrabPay
-                        </SelectItem>
+                        {PAYMENT_PROVIDERS.filter(
+                          (provider) => provider.type === "qr",
+                        ).map((provider) => (
+                          <SelectItem
+                            key={provider.id}
+                            value={provider.id}
+                            className="font-semibold py-3 text-base"
+                          >
+                            {provider.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -334,30 +328,49 @@ export function PayDialog({
               )}
 
               {paymentMethod === "card" && (
-                <>
+                <div className="space-y-4 animate-in fade-in-50 duration-200">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">
                       Payment Provider
-                    </label>
-                    <Input
+                    </Label>
+                    <Select
+                      required={true}
                       value={paymentProvider || ""}
-                      onChange={(e) => setPaymentProvider(e.target.value)}
-                      type="text"
-                      placeholder="Enter payment provider"
-                    />
+                      onValueChange={setPaymentProvider}
+                    >
+                      <SelectTrigger className="w-full h-12 text-base font-medium border-2">
+                        <SelectValue placeholder="Select QR Provider" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PAYMENT_PROVIDERS.filter(
+                          (provider) => provider.type === "card",
+                        ).map((provider) => (
+                          <SelectItem
+                            key={provider.id}
+                            value={provider.id}
+                            className="font-semibold py-3 text-base"
+                          >
+                            {provider.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
+
                   <div className="space-y-2">
-                    <label className="text-sm font-bold uppercase tracking-wide text-muted-foreground block">
+                    <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground block">
                       Reference Number
-                    </label>
+                    </Label>
                     <Input
-                      value={reference || ""}
-                      onChange={(e) => setReference(e.target.value)}
+                      required={true}
                       type="text"
                       placeholder="Enter reference number"
+                      className="h-12 border-2 text-base font-mono"
+                      value={reference || ""}
+                      onChange={(e) => setReference(e.target.value)}
                     />
                   </div>
-                </>
+                </div>
               )}
             </div>
 
