@@ -34,7 +34,7 @@ export default function ProductList({
   onProductClick,
 }: ProductListProps) {
   return (
-    <div className="flex-1 p-4 overflow-hidden pr-100">
+    <div className="flex-1  overflow-hidden pr-100">
       
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 mb-5 whitespace-nowrap overflow-x-auto">

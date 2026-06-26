@@ -30,7 +30,9 @@ export default function CashierLayout() {
           </Link>
         ))}
       </div>
-      <Outlet />
+      <div className="p-3">
+        <Outlet />
+      </div>
     </div>
   );
 }
