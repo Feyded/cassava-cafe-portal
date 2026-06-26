@@ -61,11 +61,14 @@ export default function Navbar() {
                 <DropdownMenuTrigger>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      src="asd"
                       alt="@shadcn"
                       className="grayscale"
                     />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>
+                      {me.data.first_name?.charAt(0)}
+                      {me.data.last_name?.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="start">
