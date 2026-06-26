@@ -1,6 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Clock, ShoppingBag, ChevronRight, CreditCard } from "lucide-react";
 import type { Order } from "@/entities/order";
 import { formatDate } from "@/shared/utils/format-date";
 import { formatPrice } from "@/shared/utils/format-price";
@@ -13,81 +11,53 @@ interface OrderCardProps {
 
 export function OrderCard({ order, onClick }: OrderCardProps) {
   const statusColors: Record<Order["status"], string> = {
-    pending:
-      "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
-    preparing:
-      "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-    ready:
-      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
-    completed:
-      "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400",
+    cancelled: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+    pending: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
+    preparing: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+    completed: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
   };
 
   return (
     <Card
       onClick={onClick}
       className="
-        group cursor-pointer transition-all duration-200
-        hover:-translate-y-1 hover:shadow-lg
-        active:scale-[0.98]
+        group cursor-pointer transition-colors duration-150 
+        hover:bg-accent/60 active:scale-[0.99] border-muted/60
       "
     >
-      <CardContent className="p-5">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              Order No.
-            </p>
-
-            <h3 className="mt-1 text-lg font-bold">#{order.order_number}</h3>
-          </div>
+      <CardContent className="p-3 flex flex-col gap-1.5">
+        {/* Top Row: Identification & Status */}
+        <div className="flex items-center justify-between">
+          <span className="font-bold text-base text-card-foreground">
+            #{order.order_number}
+          </span>
           <span
             className={cn(
-              "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",
-              statusColors[order.status],
+              "inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold tracking-wide",
+              statusColors[order.status]
             )}
           >
             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
           </span>
         </div>
 
-        {/* Details */}
-        <div className="mt-5 space-y-3 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
+        {/* Bottom Row: Metadata & Price */}
+        <div className="flex items-end justify-between text-xs text-muted-foreground">
+          {/* Metadata inline list */}
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
             <span>{formatDate(order.created_at)}</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="h-4 w-4" />
-            <span>
+            <span>•</span>
+            <span className="font-medium text-foreground/90">
               {order.items.length} {order.items.length === 1 ? "item" : "items"}
             </span>
+            <span>•</span>
+            <span className="capitalize">{order.payment.payment_method}</span>
           </div>
-
-          <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4" />
-            <span>
-              {order.payment.payment_method.charAt(0).toUpperCase() +
-                order.payment.payment_method.slice(1)}
-            </span>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-5 flex items-center justify-between border-t pt-4">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">
-              Total
-            </p>
-
-            <p className="text-2xl font-bold text-primary">
-              {formatPrice(order.total)}
-            </p>
-          </div>
-
-          <ChevronRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
+          
+          {/* Prominent Price */}
+          <span className="text-base font-bold text-foreground shrink-0 pl-2">
+            {formatPrice(order.total)}
+          </span>
         </div>
       </CardContent>
     </Card>

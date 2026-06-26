@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ReceiptText, ShoppingBasket } from "lucide-react";
+import { ReceiptText } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 
 const items = [
   {
-    label: "POS",
+    label: "Home",
     href: "/",
   },
   {

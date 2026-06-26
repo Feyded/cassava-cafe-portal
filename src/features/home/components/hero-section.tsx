@@ -41,8 +41,8 @@ export default function HeroSection() {
         <div className="relative hidden md:block">
           <img
             src={heroImage}
-            alt="A warm cup of coffee on a wooden table"
-            className="h-130 w-full object-cover"
+            alt="Hero Image"
+            className="h-130 w-full object-cover rounded-md"
           />
         </div>
       </div>
