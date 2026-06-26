@@ -20,12 +20,12 @@ const userLinks = [
   {
     label: "Dashboard",
     href: "/admin/dashboard",
-    roles: ["admin"],
+    roles: ["super_admin", "admin"],
   },
   {
     label: "Pos",
     href: "/cashier/pos",
-    roles: ["cashier", "admin"],
+    roles: ["super_admin", "admin", "cashier"],
   },
 ];
 

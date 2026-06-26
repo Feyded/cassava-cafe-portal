@@ -42,10 +42,11 @@ export const getColumns = ({
   },
   {
     header: "Actions",
-    cell: ({ row }) => (
-      <Button size="sm" onClick={() => onUpdateUser(row.original)}>
-        Update
-      </Button>
-    ),
+    cell: ({ row }) =>
+      row.original.role != "super_admin" && (
+        <Button size="sm" onClick={() => onUpdateUser(row.original)}>
+          Update
+        </Button>
+      ),
   },
 ];
