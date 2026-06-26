@@ -39,6 +39,13 @@ export const getColumns = ({
     cell: ({ row }) => `${formatPrice(row.original.payment.received_amount)}`,
   },
   {
+    accessorKey: "payment.payment_method",
+    header: "Payment Method",
+    cell: ({ row }) =>
+      row.original.payment.payment_method.charAt(0).toUpperCase() +
+      row.original.payment.payment_method.slice(1),
+  },
+  {
     accessorKey: "payment.amount",
     header: "Total",
     cell: ({ row }) => `${formatPrice(row.original.payment.amount)}`,
