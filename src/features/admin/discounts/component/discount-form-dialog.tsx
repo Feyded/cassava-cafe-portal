@@ -30,7 +30,6 @@ export default function DiscountFormDialog({
   onClose,
   discount,
 }: DiscountFormDialogProps) {
-  const [showPassword, setShowPassword] = useState(false);
   const createDiscountMutation = useCreateDiscountQuery();
   const updateDiscountMutation = useUpdateDiscountsMutation();
   const {
@@ -59,16 +58,21 @@ export default function DiscountFormDialog({
   }, [discount, isOpen, reset]);
 
   const onFormSubmit = async (data: DiscountFormValues) => {
+    console.log("working");
     try {
       if (discount) {
-        await updateDiscountMutation.mutateAsync({ id: discount.id, payload: data });
+        await updateDiscountMutation.mutateAsync({
+          id: discount.id,
+          payload: data,
+        });
       } else {
-       
         await createDiscountMutation.mutateAsync(data);
       }
 
       toast.success(
-        discount ? "Discount updated successfully!" : "Discount created successfully!",
+        discount
+          ? "Discount updated successfully!"
+          : "Discount created successfully!",
       );
       onClose();
     } catch (error) {
@@ -80,7 +84,9 @@ export default function DiscountFormDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{discount ? "Edit Discount" : "Create Discount"}</DialogTitle>
+          <DialogTitle>
+            {discount ? "Edit Discount" : "Create Discount"}
+          </DialogTitle>
           <DialogDescription>
             {discount
               ? "Edit the details of the discount."
@@ -89,27 +95,19 @@ export default function DiscountFormDialog({
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
-          
           <div className="flex flex-col gap-2">
-            <Label htmlFor="name">First Name</Label>
-            <Input
-              id="name"
-              placeholder="John"
-              {...register("name")}
-            />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" placeholder="Senior" {...register("name")} />
             {errors.name && (
-              <p className="text-sm text-red-500">
-                {errors.name.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.name.message}</p>
             )}
           </div>
 
-      
           <div className="flex flex-col gap-2">
-            <Label htmlFor="percentage">Middle Name (Optional)</Label>
+            <Label htmlFor="percentage">Percentage</Label>
             <Input
               id="percentage"
-              placeholder="Doe"
+              placeholder="20"
               {...register("percentage")}
             />
             {errors.percentage && (
@@ -146,7 +144,8 @@ export default function DiscountFormDialog({
             <Button
               type="submit"
               loading={
-                createDiscountMutation.isPending || updateDiscountMutation.isPending
+                createDiscountMutation.isPending ||
+                updateDiscountMutation.isPending
               }
             >
               {discount ? "Save Changes" : "Create Discount"}

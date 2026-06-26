@@ -1,5 +1,5 @@
-export interface CreateDiscountDto {
+export interface DiscountFormDto {
   name: string;
-  percentage: string;
-  is_active: string;
+  percentage: number;
+  is_active: boolean;
 }

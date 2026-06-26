@@ -1,6 +1,6 @@
 import { api } from "@/shared/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateDiscountDto } from "../types";
+import type { DiscountFormDto } from "../types";
 
 export default function useUpdateDiscountsMutation() {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export default function useUpdateDiscountsMutation() {
       payload,
     }: {
       id: number;
-      payload: CreateDiscountDto;
+      payload: DiscountFormDto;
     }) => {
       const { data } = await api.patch(`/admin/discounts/${id}`, payload);
       return data;
