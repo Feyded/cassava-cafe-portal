@@ -58,7 +58,6 @@ export default function DiscountFormDialog({
   }, [discount, isOpen, reset]);
 
   const onFormSubmit = async (data: DiscountFormValues) => {
-    console.log("working");
     try {
       if (discount) {
         await updateDiscountMutation.mutateAsync({
