@@ -17,6 +17,7 @@ const navbarItems = [
   { name: "Users", icon: Users, path: "/admin/users" },
   { name: "Products", icon: Package, path: "/admin/products" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
+  { name: "Discounts", icon: ShoppingCart, path: "/admin/discounts" },
 ];
 
 export default function AdminLayout() {

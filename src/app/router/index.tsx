@@ -16,6 +16,7 @@ import CashierOrdersPage from "@/features/cashier/orders/pages/orders-page";
 import OrderPage from "@/features/admin/orders/pages/order-page";
 import UsersPage from "@/features/admin/users/pages/users-page";
 import CashierLayout from "../layouts/cashier-layout";
+import DiscountsPage from "@/features/admin/discounts/pages/discounts-page";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
               { path: "products/:id", element: <ProductDetailsPage /> },
               { path: "orders", element: <OrderPage /> },
               { path: "users", element: <UsersPage /> },
+              { path: "discounts", element: <DiscountsPage /> },
             ],
           },
         ],
