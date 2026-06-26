@@ -90,7 +90,7 @@ export default function PosPage() {
       <div className="flex">
         <ProductList
           products={productsQuery.data?.data}
-          loading={productsQuery.isFetching}
+          loading={productsQuery.isLoading}
           category={selectedCategory}
           onCategoryChange={setSelectedCategory}
           onProductClick={handleProductClick}
