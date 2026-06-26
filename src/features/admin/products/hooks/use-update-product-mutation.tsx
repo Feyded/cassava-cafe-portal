@@ -12,6 +12,7 @@ export default function useUpdateProductMutation() {
     mutationFn: async ({ id, payload }: UpdateProductArgs) => {
       const formData = new FormData();
 
+      formData.append("_method", "PATCH");
       formData.append("name", payload.name);
       formData.append("description", payload.description);
       formData.append("category_id", String(payload.categoryId));
@@ -21,11 +22,7 @@ export default function useUpdateProductMutation() {
         formData.append("image", payload.image);
       }
 
-      const { data } = await api.patch(`/admin/products/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await api.post(`/admin/products/${id}`, formData);
       return data;
     },
     onSuccess: () => {
