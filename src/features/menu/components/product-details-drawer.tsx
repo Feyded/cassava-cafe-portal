@@ -4,6 +4,7 @@ import { formatPrice } from "@/shared/utils/format-price";
 import { cn } from "@/shared/lib/utils";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
 import type { Product, ProductVariant } from "@/entities/product";
+import NoImage from "@/assets/placeholder/no-image.png";
 
 type ProductDetailsDrawerProps = {
   product: Product | null;
@@ -53,7 +54,9 @@ export default function ProductDetailsDrawer({
         aria-hidden={!open}
         className={cn(
           "fixed inset-0 z-40 bg-foreground/30 backdrop-blur-[2px] transition-opacity duration-200",
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+          open
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
         )}
         onClick={onClose}
       />
@@ -63,7 +66,9 @@ export default function ProductDetailsDrawer({
         aria-label={product ? `${product.name} details` : "Product details"}
         className={cn(
           "fixed inset-x-0 bottom-0 z-50 max-h-[88vh] rounded-t-[2rem] border border-border/70 bg-background shadow-2xl transition-transform duration-300 md:inset-y-0 md:right-0 md:left-auto md:w-[30rem] md:max-h-none md:rounded-none md:border-l",
-          open ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-y-0 md:translate-x-full",
+          open
+            ? "translate-y-0 md:translate-x-0"
+            : "translate-y-full md:translate-y-0 md:translate-x-full",
         )}
         role="dialog"
       >
@@ -94,7 +99,7 @@ export default function ProductDetailsDrawer({
                   src={
                     product.image_path
                       ? formatFileUrl(product.image_path)
-                      : "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=900&h=600&fit=crop"
+                      : NoImage
                   }
                   alt={product.name}
                   className="h-56 w-full object-cover sm:h-64"

@@ -9,6 +9,8 @@ import {
 import type { Product } from "@/entities/product";
 import { getPriceLabel } from "@/features/menu/hooks/get-price-label";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
+import NoImage from "@/assets/placeholder/no-image.png";
+
 interface ProductCardProps {
   product: Product;
 }
@@ -17,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card size="sm">
       <img
-        src={product.image_path ? formatFileUrl(product.image_path) : undefined}
+        src={product.image_path ? formatFileUrl(product.image_path) : NoImage}
         alt={product.name}
         className="h-52 w-full object-cover"
       />

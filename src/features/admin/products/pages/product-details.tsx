@@ -7,11 +7,12 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { formatPrice } from "@/shared/utils/format-price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Package, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import VariantModal from "../components/variant-modal";
 import type { ProductVariant } from "@/entities/product";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
+import NoImage from "@/assets/placeholder/no-image.png";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
@@ -91,30 +92,16 @@ export default function ProductDetailsPage() {
         ) : productQuery.data ? (
           <>
             {/* Product Image */}
-            {productQuery.data.image_path ? (
-              <img
-                src={formatFileUrl(productQuery.data.image_path)}
-                alt={productQuery.data.name}
-                className="h-12 w-12 rounded-full object-cover border border-border"
-              />
-            ) : (
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-muted">
-                {/* Box/Package icon outline representing a product silhouette */}
-                <svg
-                  className="h-5 w-5 text-muted-foreground"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                  />
-                </svg>
-              </div>
-            )}
+
+            <img
+              src={
+                productQuery.data?.image_path
+                  ? formatFileUrl(productQuery.data.image_path)
+                  : NoImage
+              }
+              alt={productQuery.data.name}
+              className="h-12 w-12 rounded-full object-cover border border-border"
+            />
 
             {/* Product Details */}
             <div className="space-y-1">
