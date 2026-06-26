@@ -11,13 +11,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCreateDiscountQuery } from "../hooks/use-create-discount-mutation";
 import useUpdateDiscountsMutation from "../hooks/use-update-discount-mutation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
 import type { Discount } from "@/entities/discount";
-import { discountSchema, type DiscountFormValues } from "../schema";
+import {
+  discountSchema,
+  type DiscountFormInput,
+  type DiscountFormValues,
+} from "../schema";
 
 interface DiscountFormDialogProps {
   isOpen: boolean;
@@ -38,7 +42,7 @@ export default function DiscountFormDialog({
     reset,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<DiscountFormInput, unknown, DiscountFormValues>({
     defaultValues: {
       name: discount?.name ?? "",
       percentage: discount?.percentage ?? "",
