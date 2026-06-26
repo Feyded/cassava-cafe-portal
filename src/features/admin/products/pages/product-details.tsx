@@ -11,6 +11,7 @@ import { Package, Plus } from "lucide-react";
 import VariantModal from "../components/variant-modal";
 import type { ProductVariant } from "@/entities/product";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatFileUrl } from "@/shared/utils/format-file-url";
 
 export default function ProductDetailsPage() {
   const [page, setPage] = useState(1);
@@ -92,7 +93,7 @@ export default function ProductDetailsPage() {
             {/* Product Image */}
             {productQuery.data.image_path ? (
               <img
-                src={`/${productQuery.data.image_path}`}
+                src={formatFileUrl(productQuery.data.image_path)}
                 alt={productQuery.data.name}
                 className="h-12 w-12 rounded-full object-cover border border-border"
               />

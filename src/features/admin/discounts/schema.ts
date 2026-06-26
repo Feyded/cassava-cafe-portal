@@ -3,11 +3,15 @@ import z from "zod";
 export const discountSchema = z.object({
   name: z
     .string()
-    .min(1, "name is required")
-    .max(60, "name cannot exceed 60 characters"),
-  percentage: z.coerce.number().max(100),
+    .min(1, "Name is required")
+    .max(60, "Must not exceed 60 characters"),
+
+  percentage: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z.coerce.number("Percentage is required").max(100, "Must not exceed 100%"),
+  ),
+
   is_active: z.coerce.boolean(),
 });
-
 export type DiscountFormValues = z.infer<typeof discountSchema>;
 export type DiscountFormInput = z.input<typeof discountSchema>;

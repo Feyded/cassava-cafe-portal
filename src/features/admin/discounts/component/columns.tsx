@@ -18,9 +18,7 @@ export const getColumns = ({
   {
     accessorKey: "percentage",
     header: "Percentage",
-    cell: ({ row }) => {
-      `${row.original.percentage}%`;
-    },
+    cell: ({ row }) => `${row.original.percentage}%`,
   },
   {
     accessorKey: "is_active",

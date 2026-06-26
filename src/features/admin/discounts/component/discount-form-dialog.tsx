@@ -55,7 +55,7 @@ export default function DiscountFormDialog({
     if (isOpen) {
       reset({
         name: discount?.name ?? "",
-        percentage: discount?.percentage ?? "",
+        percentage: discount?.percentage ?? 0,
         is_active: discount?.is_active ?? true,
       });
     }
