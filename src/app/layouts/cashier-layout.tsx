@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ReceiptText } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const items = [
   {
@@ -23,11 +23,14 @@ export default function CashierLayout() {
     <div>
       <div>
         {items.map((item) => (
-          <Link key={item.href} to={item.href} className="mb-4 inline-block">
-            <Button size="lg" variant="outline">
-              {item.label}
-            </Button>
-          </Link>
+          <NavLink key={item.href} to={item.href} className="mb-4 inline-block">
+            {({ isActive }) => (
+              <Button size="lg" variant={isActive ? "default" : "ghost"}>
+                {isActive}
+                {item.label}
+              </Button>
+            )}
+          </NavLink>
         ))}
       </div>
       <div className="p-3">
