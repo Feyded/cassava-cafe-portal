@@ -6,7 +6,6 @@ const items = [
   {
     label: "POS",
     href: "/",
-    icon: <ArrowLeft className="size-4" />,
   },
   {
     label: "Orders",
@@ -16,7 +15,6 @@ const items = [
   {
     label: "POS",
     href: "/cashier/pos",
-    icon: <ShoppingBasket className="size-4" />,
   },
 ];
 
@@ -27,7 +25,7 @@ export default function CashierLayout() {
         {items.map((item) => (
           <Link key={item.href} to={item.href} className="mb-4 inline-block">
             <Button size="lg" variant="outline">
-              {item.icon}
+              {item.label}
             </Button>
           </Link>
         ))}

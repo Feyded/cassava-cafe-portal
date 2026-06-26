@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/shared/lib/utils'
+import heroImage from '@/assets/hero.jpg'
 
 export default function HeroSection() {
   return (
@@ -39,7 +40,7 @@ export default function HeroSection() {
 
         <div className="relative hidden md:block">
           <img
-            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=900&fit=crop"
+            src={heroImage}
             alt="A warm cup of coffee on a wooden table"
             className="h-130 w-full object-cover"
           />
