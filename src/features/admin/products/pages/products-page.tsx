@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import ProductModal from "../components/product-modal";
 import { Input } from "@/components/ui/input";
-import useGetModifierGroupsQuery from "../hooks/use-get-modifier-groups-query";
 import type { Product } from "@/entities/product";
 
 export default function ProductsPage() {
@@ -21,11 +20,6 @@ export default function ProductsPage() {
     search: search,
     page,
     limit: limit,
-  });
-
-  const modifierGroupsQuery = useGetModifierGroupsQuery({
-    page: 1,
-    limit: 100,
   });
 
   const handleEdit = (product: Product) => {

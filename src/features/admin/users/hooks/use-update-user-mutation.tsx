@@ -1,6 +1,6 @@
 import { api } from "@/shared/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UpdateUserPayload } from "../types/user-payload";
+import type { UpdateUserDto } from "../types";
 
 export default function useUpdateUsersMutation() {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export default function useUpdateUsersMutation() {
       payload,
     }: {
       id: number;
-      payload: UpdateUserPayload;
+      payload: UpdateUserDto;
     }) => {
       const { data } = await api.patch(`/admin/users/${id}`, payload);
       return data;

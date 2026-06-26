@@ -5,5 +5,14 @@ export interface CreateUserDto {
   email: string;
   password: string;
   role: string;
-  is_active: string;
+  is_active: boolean;
+}
+
+export interface UpdateUserDto {
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  email: string;
+  role: string;
+  is_active: boolean;
 }

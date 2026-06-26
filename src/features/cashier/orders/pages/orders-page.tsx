@@ -4,7 +4,7 @@ import useGetOrdersQuery from "../hooks/use-get-orders-query";
 import { useRef, useState } from "react";
 import ReceiptDialog from "@/features/admin/orders/component/receipt-modal";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, ArrowRight, CalendarIcon, Search } from "lucide-react";
+import { CalendarIcon, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {

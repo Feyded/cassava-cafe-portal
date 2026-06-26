@@ -4,8 +4,6 @@ import type { Product } from "@/entities/product";
 import { cn } from "@/shared/lib/utils";
 import { formatFileUrl } from "@/shared/utils/format-file-url";
 import { formatPrice } from "@/shared/utils/format-price";
-import { ArrowLeft, ReceiptText } from "lucide-react";
-import { Link } from "react-router-dom";
 
 type ProductListProps = {
   products: Product[];

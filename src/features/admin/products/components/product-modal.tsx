@@ -11,12 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { VariantCategories } from "../data/variants";
 import { getErrorMessage } from "@/shared/utils/get-error-message";
 import useCreateProductMutation from "../hooks/use-create-product-mutation";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useUpdateProductMutation from "../hooks/use-update-product-mutation";
 import { Switch } from "@/components/ui/switch";
 import {
