@@ -8,7 +8,10 @@ export const discountSchema = z.object({
 
   percentage: z.preprocess(
     (value) => (value === "" ? undefined : value),
-    z.coerce.number("Percentage is required").max(100, "Must not exceed 100%"),
+    z.coerce
+      .number("Percentage is required")
+      .min(0)
+      .max(100, "Must not exceed 100"),
   ),
 
   is_active: z.coerce.boolean(),
