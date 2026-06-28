@@ -45,7 +45,7 @@ export default function CartSidebar({
   };
 
   return (
-    <div className="bg-white border-l border-gray-200 w-96 min-h-dvh fixed right-0 bottom-0 top-0 z-50 flex flex-col shadow-2xl select-none">
+    <div className="bg-white border-l border-gray-200 w-96 h-dvh fixed right-0 bottom-0 top-0 z-50 flex flex-col shadow-2xl select-none">
       {/* 1. Header (Thicker for comfortable top-grip holding) */}
       <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/90 h-18">
         <div className="flex items-center gap-3">
