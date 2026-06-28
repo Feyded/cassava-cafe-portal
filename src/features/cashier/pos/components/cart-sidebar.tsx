@@ -35,7 +35,6 @@ export default function CartSidebar({
   selectedDiscount,
   setSelectedDiscount,
 }: CartSidebarProps) {
-
   const calculateItemTotal = (item: CartItem) => {
     const basePrice = parseFloat(item.price) || 0;
     const modifiersPrice = (item.modifiers || []).reduce(
@@ -46,7 +45,6 @@ export default function CartSidebar({
   };
 
   return (
-    // Width bumped up to w-96 (24rem) for comfortable dual-hand holding/tapping profiles on 10"+ tablets
     <div className="bg-white border-l border-gray-200 w-96 h-screen fixed right-0 top-0 z-50 flex flex-col shadow-2xl select-none">
       {/* 1. Header (Thicker for comfortable top-grip holding) */}
       <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/90 h-18">
@@ -157,52 +155,54 @@ export default function CartSidebar({
             ))}
           </div>
         )}
+
+        <Separator className="mt-4 bg-gray-300" />
+        {isDiscountLoading ? (
+          <div className="p-4 text-sm text-gray-500">Loading discounts...</div>
+        ) : discounts && discounts.length > 0 ? (
+          <div className="p-4 space-y-2">
+            <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
+            <ul className="space-y-2 grid grid-cols-2 gap-2">
+              {discounts.map((discount) => {
+                const isSelected = selectedDiscount?.id === discount.id;
+
+                return (
+                  <li key={discount.id}>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSelectedDiscount?.(isSelected ? null : discount)
+                      }
+                      className={cn(
+                        "inline-block items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200 cursor-pointer",
+                        isSelected
+                          ? "border-primary bg-blue-50 font-medium text-primary shadow-sm"
+                          : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
+                      )}
+                    >
+                      <span className="mr-2">{discount.name}</span>
+                      <span
+                        className={
+                          isSelected
+                            ? "text-primary font-semibold"
+                            : "text-gray-500"
+                        }
+                      >
+                        {Number(discount.percentage).toFixed(0)}%
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : (
+          <div className="p-4 text-sm text-gray-500">
+            No discounts available.
+          </div>
+        )}
       </ScrollArea>
 
-      {/* DISCOUNTS */}
-      <Separator className=" bg-gray-300" />
-      {isDiscountLoading ? (
-        <div className="p-4 text-sm text-gray-500">Loading discounts...</div>
-      ) : discounts && discounts.length > 0 ? (
-        <div className="p-4 space-y-2">
-          <h3 className="text-sm font-semibold text-gray-700">Discounts</h3>
-          <ul className="space-y-2 grid grid-cols-2 gap-2">
-            {discounts.map((discount) => {
-              const isSelected = selectedDiscount?.id === discount.id;
-
-              return (
-                <li key={discount.id}>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setSelectedDiscount?.(isSelected ? null : discount)
-                    }
-                    className={cn(
-                      "inline-flex items-center gap-3 rounded-lg border px-3 py-1.5 text-sm transition-all duration-200 cursor-pointer",
-                      isSelected
-                        ? "border-primary bg-blue-50 font-medium text-primary shadow-sm"
-                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50",
-                    )}
-                  >
-                    <span>{discount.name}</span>
-                    <span
-                      className={
-                        isSelected
-                          ? "text-primary font-semibold"
-                          : "text-gray-500"
-                      }
-                    >
-                      {Number(discount.percentage).toFixed(0)}%
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ) : (
-        <div className="p-4 text-sm text-gray-500">No discounts available.</div>
-      )}
       <div className="p-5 bg-gray-50 border-t border-gray-200 space-y-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
         <div className="space-y-2 text-sm text-gray-600">
           <div className="flex justify-between font-medium">
